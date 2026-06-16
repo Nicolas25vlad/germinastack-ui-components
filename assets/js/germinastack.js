@@ -11,6 +11,15 @@
     return Array.from(root.querySelectorAll(sel));
   }
 
+  function escapeHtml(value) {
+    return String(value || "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
   function ensureToastRail() {
     if (state.toastRail && document.body.contains(state.toastRail)) return state.toastRail;
     let rail = document.querySelector("[data-gs-toast-rail]");
@@ -24,25 +33,24 @@
     return rail;
   }
 
-  function escapeHtml(value) {
-    return String(value || "")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
   function icon(name) {
     const paths = {
       close: '<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>',
-      more: '<circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle>',
       like: '<path d="M19.5 12.6 12 20l-7.5-7.4a5 5 0 0 1 7.1-7.1l.4.4.4-.4a5 5 0 0 1 7.1 7.1Z"></path>',
       comment: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"></path>',
       bookmark: '<path d="M6 4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18l-6-4-6 4Z"></path>',
     };
 
     return `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths[name] || ""}</svg>`;
+  }
+
+  function closeMenus() {
+    qsa(document, "[data-gs-menu-trigger]").forEach((trigger) => {
+      trigger.setAttribute("aria-expanded", "false");
+    });
+    qsa(document, "[data-gs-menu-panel]").forEach((panel) => {
+      panel.hidden = true;
+    });
   }
 
   function toggleMenu(trigger) {
@@ -55,15 +63,6 @@
       trigger.setAttribute("aria-expanded", "true");
       if (panel) panel.hidden = false;
     }
-  }
-
-  function closeMenus() {
-    qsa(document, "[data-gs-menu-trigger]").forEach((trigger) => {
-      trigger.setAttribute("aria-expanded", "false");
-    });
-    qsa(document, "[data-gs-menu-panel]").forEach((panel) => {
-      panel.hidden = true;
-    });
   }
 
   function activateTab(button, focusPanel) {
@@ -85,8 +84,7 @@
 
   function dismissNode(node) {
     const target = node.closest("[data-gs-dismissible]");
-    if (!target) return;
-    target.classList.add("gs-hidden");
+    if (target) target.classList.add("gs-hidden");
   }
 
   function showToast(opts) {
@@ -125,11 +123,19 @@
     const text = target.textContent || "";
     if (navigator.clipboard && window.isSecureContext) {
       navigator.clipboard.writeText(text).then(() => {
-        showToast({ title: "Snippet copiado", message: "O codigo foi enviado para a area de transferencia.", tone: "success" });
+        showToast({
+          title: "Snippet copiado",
+          message: "O codigo foi enviado para a area de transferencia.",
+          tone: "success",
+        });
       });
       return;
     }
-    showToast({ title: "Copia manual", message: "Seu navegador nao liberou a area de transferencia.", tone: "warning" });
+    showToast({
+      title: "Copia manual",
+      message: "Seu navegador nao liberou a area de transferencia.",
+      tone: "warning",
+    });
   }
 
   function nextCount(button, delta) {
@@ -137,6 +143,33 @@
     if (!countNode) return;
     const value = Number(countNode.textContent || "0") + delta;
     countNode.textContent = String(Math.max(0, value));
+  }
+
+  function openModal(id) {
+    const modal = document.querySelector(`[data-gs-modal="${id}"]`);
+    if (!modal) return;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    const focusTarget = qs(modal, "[data-gs-modal-close]") || qs(modal, "button");
+    if (focusTarget) focusTarget.focus();
+  }
+
+  function closeModal(node) {
+    const modal = node.closest("[data-gs-modal]");
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  function toggleAccordion(trigger) {
+    const item = trigger.closest("[data-gs-accordion-item]");
+    if (!item) return;
+    const panel = qs(item, "[data-gs-accordion-panel]");
+    const expanded = trigger.getAttribute("aria-expanded") === "true";
+    trigger.setAttribute("aria-expanded", String(!expanded));
+    if (panel) panel.hidden = expanded;
+    const iconNode = qs(trigger, "[data-gs-accordion-icon]");
+    if (iconNode) iconNode.textContent = expanded ? "+" : "−";
   }
 
   function bindComposer(root) {
@@ -170,10 +203,21 @@
             <button class="gs-action" type="button" data-gs-comment-toggle>${icon("comment")} <span data-gs-count>0</span></button>
             <button class="gs-action" type="button" data-gs-save>${icon("bookmark")} <span data-gs-save-label>Salvar</span></button>
           </div>
+          <div class="gs-post-comments gs-hidden">
+            <div class="gs-input-shell" data-gs-comment-form>
+              <input type="text" placeholder="Responder post" />
+              <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
+            </div>
+            <div></div>
+          </div>
         `;
         list.prepend(card);
         input.value = "";
-        showToast({ title: "Post criado", message: "O exemplo foi atualizado no playground.", tone: "success" });
+        showToast({
+          title: "Post criado",
+          message: "O exemplo foi atualizado no playground.",
+          tone: "success",
+        });
       });
     });
   }
@@ -213,6 +257,9 @@
   }
 
   function bindInteractions(root) {
+    if (root.dataset.gsInteractiveBound === "true") return;
+    root.dataset.gsInteractiveBound = "true";
+
     root.addEventListener("click", (event) => {
       const button = event.target.closest("button, [role='tab']");
       if (!button) return;
@@ -231,7 +278,7 @@
         showToast({
           title: button.getAttribute("data-gs-toast-title") || "Componente acionado",
           message: button.getAttribute("data-gs-toast-message") || "Exemplo executado com sucesso.",
-          tone: button.getAttribute("data-gs-toast-tone") || "",
+          tone: button.getAttribute("data-gs-toast-tone") || "info",
         });
         return;
       }
@@ -266,17 +313,41 @@
 
       if (button.hasAttribute("data-gs-tab")) {
         activateTab(button, false);
+        return;
+      }
+
+      if (button.hasAttribute("data-gs-modal-open")) {
+        openModal(button.getAttribute("data-gs-modal-open"));
+        return;
+      }
+
+      if (button.hasAttribute("data-gs-modal-close")) {
+        closeModal(button);
+        return;
+      }
+
+      if (button.hasAttribute("data-gs-accordion-trigger")) {
+        toggleAccordion(button);
       }
     });
 
     root.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         closeMenus();
+        qsa(document, "[data-gs-modal]").forEach((modal) => {
+          if (!modal.hidden) modal.hidden = true;
+        });
+        document.body.style.overflow = "";
       }
     });
 
     document.addEventListener("click", (event) => {
       if (!event.target.closest("[data-gs-menu]")) closeMenus();
+      const backdrop = event.target.closest("[data-gs-modal]");
+      if (backdrop && event.target === backdrop) {
+        backdrop.hidden = true;
+        document.body.style.overflow = "";
+      }
     });
   }
 
@@ -297,11 +368,20 @@
     });
   }
 
+  function initAccordions(root) {
+    qsa(root, "[data-gs-accordion-trigger]").forEach((trigger) => {
+      const expanded = trigger.getAttribute("aria-expanded") === "true";
+      const panel = trigger.closest("[data-gs-accordion-item]")?.querySelector("[data-gs-accordion-panel]");
+      if (panel) panel.hidden = !expanded;
+    });
+  }
+
   function init(root) {
-    const scope = root || document;
+    const scope = root || document.body;
     if (scope === document.body && scope.dataset.gsInit === "true") return;
     initSplash(scope);
     initTabs(scope);
+    initAccordions(scope);
     bindComposer(scope);
     bindFeed(scope);
     bindInteractions(scope);

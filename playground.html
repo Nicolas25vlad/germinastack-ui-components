@@ -8,7 +8,7 @@
     <script src="./assets/js/germinastack.js" defer></script>
   </head>
   <body>
-    <div class="gs-splash" data-gs-splash data-gs-splash-delay="2400">
+    <div class="gs-splash" data-gs-splash data-gs-splash-delay="2200">
       <div class="gs-splash-card">
         <span class="gs-brand-mark">GS</span>
         <span class="gs-splash-copy">
@@ -24,7 +24,7 @@
         <span>Playground</span>
       </a>
       <nav class="gs-nav" aria-label="Principal">
-        <a class="gs-nav-link is-active" href="#">Inicio</a>
+        <a class="gs-nav-link is-active" href="#">Início</a>
         <a class="gs-nav-link" href="./index.html">Docs</a>
       </nav>
     </header>
@@ -32,16 +32,20 @@
     <main class="gs-page gs-stack">
       <section class="gs-hero">
         <div>
-          <span class="gs-kicker">Composicao de tela</span>
-          <h1>Exemplo completo do feed com o kit.</h1>
+          <span class="gs-kicker">Composição de tela</span>
+          <h1>Exemplo completo do feed com blocos adicionais de produto.</h1>
           <p>
-            Esta pagina demonstra como os componentes se encaixam em um fluxo real:
-            hero, filtros, composer, feed, menu contextual e comentarios.
+            Esta página mostra o kit longe do formato de catálogo. A ideia aqui é provar encaixe:
+            hero, métricas, filtros, composer, feed, sidebar, modal, timeline e blocos de suporte.
           </p>
           <div class="gs-hero-stats">
-            <span><strong>5</strong> areas principais</span>
-            <span><strong>3</strong> estados interativos</span>
+            <span><strong>8</strong> áreas principais</span>
+            <span><strong>6</strong> interações prontas</span>
             <span><strong>100%</strong> vanilla</span>
+          </div>
+          <div class="gs-hero-actions">
+            <button class="gs-btn gs-btn-primary" type="button" data-gs-modal-open="release-note">Abrir release note</button>
+            <button class="gs-btn gs-btn-secondary" type="button" data-gs-toast data-gs-toast-title="Playground pronto" data-gs-toast-message="O ambiente já está com os comportamentos ativos." data-gs-toast-tone="info">Testar feedback</button>
           </div>
         </div>
         <div class="gs-hero-mockup" aria-hidden="true">
@@ -55,39 +59,112 @@
         </div>
       </section>
 
+      <section class="gs-metric-grid">
+        <article class="gs-metric-card gs-stack">
+          <span class="gs-metric-label">Comunidade</span>
+          <strong>1.284</strong>
+          <p class="gs-card-subtitle">Pessoas ativas no mês somando turmas e trilhas.</p>
+          <span class="gs-metric-foot">+12% desde a última semana</span>
+        </article>
+        <article class="gs-metric-card gs-stack">
+          <span class="gs-metric-label">Engajamento</span>
+          <strong>78%</strong>
+          <div class="gs-progress">
+            <div class="gs-progress-track"><div class="gs-progress-bar" style="--gs-progress:78%"></div></div>
+          </div>
+          <span class="gs-metric-foot">Meta do ciclo quase fechada</span>
+        </article>
+        <article class="gs-metric-card gs-stack">
+          <span class="gs-metric-label">Materiais</span>
+          <strong>96</strong>
+          <p class="gs-card-subtitle">Arquivos e resumos compartilhados nas últimas duas semanas.</p>
+          <span class="gs-metric-foot">Pico em IA e BD</span>
+        </article>
+        <article class="gs-metric-card gs-stack">
+          <span class="gs-metric-label">Resposta</span>
+          <strong>14 min</strong>
+          <p class="gs-card-subtitle">Tempo médio até o primeiro comentário em um post novo.</p>
+          <span class="gs-metric-foot">Melhor do que a meta</span>
+        </article>
+      </section>
+
       <div data-gs-tabs>
         <div class="gs-tabs" role="tablist" aria-label="Filtros do feed">
           <button class="gs-tab is-active" type="button" role="tab" data-gs-tab="geral">Geral</button>
-          <button class="gs-tab" type="button" role="tab" data-gs-tab="materia">Por materia</button>
+          <button class="gs-tab" type="button" role="tab" data-gs-tab="materia">Por matéria</button>
           <button class="gs-tab" type="button" role="tab" data-gs-tab="sala">Por sala</button>
-          <button class="gs-tab" type="button" role="tab" data-gs-tab="foryou">Para voce</button>
+          <button class="gs-tab" type="button" role="tab" data-gs-tab="foryou">Para você</button>
         </div>
         <div class="gs-banner gs-tab-panel" data-gs-panel="geral">
           <div>
             <strong>Feed geral</strong>
             <span>Tudo que a comunidade publicou recentemente.</span>
           </div>
-          <button class="gs-btn gs-btn-ghost" type="button" data-gs-toast data-gs-toast-title="Filtro limpo" data-gs-toast-message="Voce voltou para o feed geral.">Atualizar</button>
+          <button class="gs-btn gs-btn-ghost" type="button" data-gs-toast data-gs-toast-title="Filtro limpo" data-gs-toast-message="Você voltou para o feed geral." data-gs-toast-tone="info">Atualizar</button>
         </div>
         <div class="gs-banner gs-tab-panel" data-gs-panel="materia" hidden>
           <div>
-            <strong>Filtro por materia</strong>
+            <strong>Filtro por matéria</strong>
             <span>Combine o tab com chips para destacar uma disciplina.</span>
           </div>
         </div>
         <div class="gs-banner gs-tab-panel" data-gs-panel="sala" hidden>
           <div>
             <strong>Filtro por sala</strong>
-            <span>Ideal para recados especificos de cada turma.</span>
+            <span>Ideal para recados específicos de cada turma.</span>
           </div>
         </div>
         <div class="gs-banner gs-tab-panel" data-gs-panel="foryou" hidden>
           <div>
-            <strong>Para voce</strong>
-            <span>Use recomendacoes alinhadas a ano, sala ou historico.</span>
+            <strong>Para você</strong>
+            <span>Use recomendações alinhadas a ano, sala ou histórico.</span>
           </div>
         </div>
       </div>
+
+      <section class="gs-grid-2">
+        <article class="gs-showcase-card">
+          <div class="gs-card-head">
+            <div>
+              <span class="gs-card-eyebrow">Sprint do front</span>
+              <h2 class="gs-card-title">Status do rollout visual</h2>
+            </div>
+            <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>Saudável</span>
+          </div>
+          <div class="gs-progress">
+            <div class="gs-progress-meta"><span>Componentes integrados</span><strong>72%</strong></div>
+            <div class="gs-progress-track"><div class="gs-progress-bar" style="--gs-progress:72%"></div></div>
+          </div>
+          <div class="gs-kpi-strip">
+            <span class="gs-kpi-pill"><strong>14</strong> telas já migradas</span>
+            <span class="gs-kpi-pill"><strong>5</strong> em revisão</span>
+            <span class="gs-kpi-pill"><strong>2</strong> bloqueios</span>
+          </div>
+        </article>
+
+        <article class="gs-showcase-card">
+          <div class="gs-card-head">
+            <div>
+              <span class="gs-card-eyebrow">Roadmap</span>
+              <h2 class="gs-card-title">Próximos marcos</h2>
+            </div>
+          </div>
+          <div class="gs-timeline">
+            <div class="gs-timeline-item">
+              <span class="gs-timeline-dot"></span>
+              <div class="gs-timeline-copy"><strong>Fechar base do feed</strong><small>Hoje</small></div>
+            </div>
+            <div class="gs-timeline-item">
+              <span class="gs-timeline-dot"></span>
+              <div class="gs-timeline-copy"><strong>Aplicar kit na área de perfil</strong><small>Amanhã</small></div>
+            </div>
+            <div class="gs-timeline-item">
+              <span class="gs-timeline-dot"></span>
+              <div class="gs-timeline-copy"><strong>Validar responsividade completa</strong><small>Próxima revisão</small></div>
+            </div>
+          </div>
+        </article>
+      </section>
 
       <div class="gs-layout-demo">
         <div class="gs-stack">
@@ -95,13 +172,13 @@
             <div class="gs-post-head">
               <span class="gs-avatar" style="background:#ffb347">N</span>
               <div class="gs-post-user">
-                <textarea placeholder="Compartilhe uma atualizacao com a turma..."></textarea>
+                <textarea placeholder="Compartilhe uma atualização com a turma..."></textarea>
               </div>
             </div>
             <div class="gs-compose-foot">
               <div class="gs-cluster">
                 <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
-                <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2º Ano</span>
                 <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>Sala E</span>
               </div>
               <button class="gs-btn gs-btn-primary" type="button" data-gs-compose-submit>Publicar</button>
@@ -117,29 +194,29 @@
                     <div class="gs-meta">
                       <strong>Nicolas Souza</strong>
                       <span>2a Tec E</span>
-                      <span>ha 2 horas</span>
+                      <span>há 2 horas</span>
                     </div>
                     <div class="gs-cluster" style="margin-top:8px">
                       <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
-                      <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                      <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2º Ano</span>
                     </div>
                     <p class="gs-post-copy">
-                      Fechei a primeira versao do dataset de visao computacional e deixei o pipeline pronto para a turma validar.
+                      Fechei a primeira versão do dataset de visão computacional e deixei o pipeline pronto para a turma validar.
                     </p>
                   </div>
                   <div class="gs-menu" data-gs-menu>
                     <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false">...</button>
                     <div class="gs-menu-panel" data-gs-menu-panel hidden>
-                      <button class="gs-menu-item" type="button" data-gs-toast data-gs-toast-title="Texto copiado" data-gs-toast-message="O conteudo foi preparado para copia.">Copiar texto</button>
-                        <button class="gs-menu-item" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
-                      <button class="gs-menu-item is-danger" type="button" data-gs-toast data-gs-toast-title="Post ocultado" data-gs-toast-message="O item saiu do fluxo atual.">Ocultar</button>
+                      <button class="gs-menu-item" type="button" data-gs-toast data-gs-toast-title="Texto copiado" data-gs-toast-message="O conteúdo foi preparado para cópia." data-gs-toast-tone="success">Copiar texto</button>
+                      <button class="gs-menu-item" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
+                      <button class="gs-menu-item is-danger" type="button" data-gs-toast data-gs-toast-title="Post ocultado" data-gs-toast-message="O item saiu do fluxo atual." data-gs-toast-tone="warning">Ocultar</button>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="gs-post-foot">
                 <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>42</span></button>
-                <button class="gs-action" type="button" data-gs-comment-toggle>Comentarios <span data-gs-count>1</span></button>
+                <button class="gs-action" type="button" data-gs-comment-toggle>Comentários <span data-gs-count>1</span></button>
                 <button class="gs-action" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
               </div>
               <div class="gs-post-comments gs-hidden">
@@ -153,7 +230,7 @@
                       <span class="gs-avatar-xs" style="background:#4db8ff">M</span>
                       <div class="gs-comment-content">
                         <div class="gs-comment-bubble">
-                          <div class="gs-meta"><strong>Mariana Costa</strong><span>ha 1 hora</span></div>
+                          <div class="gs-meta"><strong>Mariana Costa</strong><span>há 1 hora</span></div>
                           <p>Manda o notebook depois, quero comparar com meu experimento.</p>
                         </div>
                         <div class="gs-comment-actions">
@@ -166,8 +243,8 @@
                         <span class="gs-avatar-xs" style="background:#ffb347">N</span>
                         <div class="gs-reply-content">
                           <div class="gs-reply-bubble">
-                            <div class="gs-meta"><strong>Nicolas Souza</strong><span>ha 45 min</span></div>
-                            <p>Fechado. Tambem vou subir a explicacao do treinamento.</p>
+                            <div class="gs-meta"><strong>Nicolas Souza</strong><span>há 45 min</span></div>
+                            <p>Fechado. Também vou subir a explicação do treinamento.</p>
                           </div>
                         </div>
                       </div>
@@ -185,7 +262,7 @@
                     <div class="gs-meta">
                       <strong>Pedro Almeida</strong>
                       <span>1a Tec A</span>
-                      <span>ha 4 horas</span>
+                      <span>há 4 horas</span>
                     </div>
                     <div class="gs-cluster" style="margin-top:8px">
                       <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>#DevOps</span>
@@ -198,7 +275,7 @@
               </div>
               <div class="gs-post-foot">
                 <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>31</span></button>
-                <button class="gs-action" type="button" data-gs-comment-toggle>Comentarios <span data-gs-count>0</span></button>
+                <button class="gs-action" type="button" data-gs-comment-toggle>Comentários <span data-gs-count>0</span></button>
                 <button class="gs-action" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
               </div>
               <div class="gs-post-comments gs-hidden">
@@ -209,12 +286,18 @@
                 <div></div>
               </div>
             </article>
+
+            <section class="gs-empty-state">
+              <strong>Fim da página de demonstração</strong>
+              <p>Quando a trilha acabar, use esse componente para orientar a próxima ação do usuário em vez de deixar a área morta.</p>
+              <button class="gs-btn gs-btn-primary" type="button" data-gs-toast data-gs-toast-title="Exploração retomada" data-gs-toast-message="Você pode abrir novos fluxos a partir daqui." data-gs-toast-tone="info">Explorar mais</button>
+            </section>
           </div>
         </div>
 
         <aside class="gs-stack">
           <section class="gs-side-card">
-            <h3 class="gs-side-title">Materias em alta</h3>
+            <h3 class="gs-side-title">Matérias em alta</h3>
             <div class="gs-side-list">
               <button class="gs-side-row" type="button"><span>#IA</span><span class="gs-badge">34</span></button>
               <button class="gs-side-row" type="button"><span>#DevOps</span><span class="gs-badge">28</span></button>
@@ -224,14 +307,121 @@
           </section>
 
           <section class="gs-side-card">
-            <h3 class="gs-side-title">Acoes rapidas</h3>
+            <h3 class="gs-side-title">Ações rápidas</h3>
             <div class="gs-stack">
-              <button class="gs-btn gs-btn-primary" type="button" data-gs-toast data-gs-toast-title="Recado publicado" data-gs-toast-message="A acao principal foi disparada com sucesso.">Criar recado</button>
-              <button class="gs-btn gs-btn-secondary" type="button" data-gs-toast data-gs-toast-title="Filtro aplicado" data-gs-toast-message="Somente a Sala E ficou visivel.">Filtrar Sala E</button>
+              <button class="gs-btn gs-btn-primary" type="button" data-gs-toast data-gs-toast-title="Recado publicado" data-gs-toast-message="A ação principal foi disparada com sucesso." data-gs-toast-tone="success">Criar recado</button>
+              <button class="gs-btn gs-btn-secondary" type="button" data-gs-toast data-gs-toast-title="Filtro aplicado" data-gs-toast-message="Somente a Sala E ficou visível." data-gs-toast-tone="info">Filtrar Sala E</button>
+            </div>
+          </section>
+
+          <section class="gs-side-card">
+            <h3 class="gs-side-title">FAQ rápido</h3>
+            <div class="gs-accordion">
+              <div class="gs-accordion-item" data-gs-accordion-item>
+                <button class="gs-accordion-trigger" type="button" data-gs-accordion-trigger aria-expanded="true">
+                  <span>Como abrir um modal?</span>
+                  <span data-gs-accordion-icon>−</span>
+                </button>
+                <div class="gs-accordion-panel" data-gs-accordion-panel>
+                  Use <span class="gs-doc-inline-code">data-gs-modal-open</span> no botão e um bloco com <span class="gs-doc-inline-code">data-gs-modal="id"</span>.
+                </div>
+              </div>
+              <div class="gs-accordion-item" data-gs-accordion-item>
+                <button class="gs-accordion-trigger" type="button" data-gs-accordion-trigger aria-expanded="false">
+                  <span>Como abrir toast via HTML?</span>
+                  <span data-gs-accordion-icon>+</span>
+                </button>
+                <div class="gs-accordion-panel" data-gs-accordion-panel hidden>
+                  Use <span class="gs-doc-inline-code">data-gs-toast</span> e passe título, mensagem e tom nos atributos.
+                </div>
+              </div>
             </div>
           </section>
         </aside>
       </div>
+
+      <section class="gs-grid-2">
+        <div class="gs-table-wrap">
+          <table class="gs-table">
+            <thead>
+              <tr>
+                <th>Turma</th>
+                <th>Status</th>
+                <th>Entrega</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2a Tec E</td>
+                <td><span class="gs-chip is-mint"><span class="gs-chip-dot"></span>Em dia</span></td>
+                <td>Kit aplicado no feed</td>
+              </tr>
+              <tr>
+                <td>1a Tec A</td>
+                <td><span class="gs-chip is-amber"><span class="gs-chip-dot"></span>Atenção</span></td>
+                <td>Faltam componentes de perfil</td>
+              </tr>
+              <tr>
+                <td>3a Tec B</td>
+                <td><span class="gs-chip is-blue"><span class="gs-chip-dot"></span>Revisão</span></td>
+                <td>Validação de responsividade</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="gs-pricing-grid">
+          <article class="gs-pricing-card">
+            <div>
+              <span class="gs-card-eyebrow">Starter</span>
+              <h3 class="gs-card-title">Tela simples</h3>
+            </div>
+            <div class="gs-pricing-price"><strong>3</strong><span>blocos base</span></div>
+            <ul class="gs-check-list">
+              <li>hero</li>
+              <li>cards</li>
+              <li>ações simples</li>
+            </ul>
+          </article>
+          <article class="gs-pricing-card is-featured">
+            <div>
+              <span class="gs-card-eyebrow">Core</span>
+              <h3 class="gs-card-title">Tela de produto</h3>
+            </div>
+            <div class="gs-pricing-price"><strong>8</strong><span>blocos combinados</span></div>
+            <ul class="gs-check-list">
+              <li>feed</li>
+              <li>sidebar</li>
+              <li>feedback</li>
+              <li>métricas</li>
+            </ul>
+          </article>
+        </div>
+      </section>
     </main>
+
+    <div class="gs-modal-backdrop" data-gs-modal="release-note" hidden>
+      <div class="gs-modal" role="dialog" aria-modal="true" aria-labelledby="release-note-title">
+        <div class="gs-modal-head">
+          <div>
+            <span class="gs-card-eyebrow">Release note</span>
+            <h3 id="release-note-title">O playground ficou mais próximo de uma tela real</h3>
+          </div>
+          <button class="gs-icon-button" type="button" data-gs-modal-close aria-label="Fechar modal">X</button>
+        </div>
+        <div class="gs-stack">
+          <p>Entraram métricas, timeline, accordion, empty state, tabela e blocos promocionais para provar que o kit aguenta mais do que só feed.</p>
+          <ul class="gs-check-list">
+            <li>melhoria de atmosfera visual com fundo e profundidade</li>
+            <li>mais blocos de produto para reduzir retrabalho do time</li>
+            <li>runtime com modal e accordion além do que já existia</li>
+          </ul>
+        </div>
+        <div class="gs-modal-foot">
+          <button class="gs-btn gs-btn-secondary" type="button" data-gs-modal-close>Fechar</button>
+          <a class="gs-btn gs-btn-primary" href="./index.html">Voltar para docs</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
