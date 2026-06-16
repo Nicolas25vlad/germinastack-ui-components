@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GerminaStack UI Kit Playground</title>
+    <link rel="stylesheet" href="./assets/css/germinastack.css" />
+    <script src="./assets/js/germinastack.js" defer></script>
+  </head>
+  <body>
+    <div class="gs-splash" data-gs-splash data-gs-splash-delay="2400">
+      <div class="gs-splash-card">
+        <span class="gs-brand-mark">GS</span>
+        <span class="gs-splash-copy">
+          <small>Powered by</small>
+          <strong>GerminaStack</strong>
+        </span>
+      </div>
+    </div>
+
+    <header class="gs-topbar">
+      <a class="gs-brand" href="./index.html">
+        <span class="gs-brand-mark">GS</span>
+        <span>Playground</span>
+      </a>
+      <nav class="gs-nav" aria-label="Principal">
+        <a class="gs-nav-link is-active" href="#">Inicio</a>
+        <a class="gs-nav-link" href="./index.html">Docs</a>
+      </nav>
+    </header>
+
+    <main class="gs-page gs-stack">
+      <section class="gs-hero">
+        <div>
+          <span class="gs-kicker">Composicao de tela</span>
+          <h1>Exemplo completo do feed com o kit.</h1>
+          <p>
+            Esta pagina demonstra como os componentes se encaixam em um fluxo real:
+            hero, filtros, composer, feed, menu contextual e comentarios.
+          </p>
+          <div class="gs-hero-stats">
+            <span><strong>5</strong> areas principais</span>
+            <span><strong>3</strong> estados interativos</span>
+            <span><strong>100%</strong> vanilla</span>
+          </div>
+        </div>
+        <div class="gs-hero-mockup" aria-hidden="true">
+          <div class="gs-mockup-toolbar"><span></span><span></span><span></span></div>
+          <div class="gs-mockup-grid">
+            <div class="gs-mockup-note is-sky"><strong>IA</strong><small>34 posts</small></div>
+            <div class="gs-mockup-note is-peach"><strong>DS</strong><small>19 posts</small></div>
+            <div class="gs-mockup-note is-mint"><strong>Mobile</strong><small>22 posts</small></div>
+            <div class="gs-mockup-note is-lavender"><strong>BD</strong><small>17 posts</small></div>
+          </div>
+        </div>
+      </section>
+
+      <div data-gs-tabs>
+        <div class="gs-tabs" role="tablist" aria-label="Filtros do feed">
+          <button class="gs-tab is-active" type="button" role="tab" data-gs-tab="geral">Geral</button>
+          <button class="gs-tab" type="button" role="tab" data-gs-tab="materia">Por materia</button>
+          <button class="gs-tab" type="button" role="tab" data-gs-tab="sala">Por sala</button>
+          <button class="gs-tab" type="button" role="tab" data-gs-tab="foryou">Para voce</button>
+        </div>
+        <div class="gs-banner gs-tab-panel" data-gs-panel="geral">
+          <div>
+            <strong>Feed geral</strong>
+            <span>Tudo que a comunidade publicou recentemente.</span>
+          </div>
+          <button class="gs-btn gs-btn-ghost" type="button" data-gs-toast data-gs-toast-title="Filtro limpo" data-gs-toast-message="Voce voltou para o feed geral.">Atualizar</button>
+        </div>
+        <div class="gs-banner gs-tab-panel" data-gs-panel="materia" hidden>
+          <div>
+            <strong>Filtro por materia</strong>
+            <span>Combine o tab com chips para destacar uma disciplina.</span>
+          </div>
+        </div>
+        <div class="gs-banner gs-tab-panel" data-gs-panel="sala" hidden>
+          <div>
+            <strong>Filtro por sala</strong>
+            <span>Ideal para recados especificos de cada turma.</span>
+          </div>
+        </div>
+        <div class="gs-banner gs-tab-panel" data-gs-panel="foryou" hidden>
+          <div>
+            <strong>Para voce</strong>
+            <span>Use recomendacoes alinhadas a ano, sala ou historico.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="gs-layout-demo">
+        <div class="gs-stack">
+          <section class="gs-card gs-compose" data-gs-compose data-gs-target="#playground-feed">
+            <div class="gs-post-head">
+              <span class="gs-avatar" style="background:#ffb347">N</span>
+              <div class="gs-post-user">
+                <textarea placeholder="Compartilhe uma atualizacao com a turma..."></textarea>
+              </div>
+            </div>
+            <div class="gs-compose-foot">
+              <div class="gs-cluster">
+                <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
+                <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>Sala E</span>
+              </div>
+              <button class="gs-btn gs-btn-primary" type="button" data-gs-compose-submit>Publicar</button>
+            </div>
+          </section>
+
+          <div id="playground-feed" class="gs-stack">
+            <article class="gs-post">
+              <div class="gs-post-body">
+                <div class="gs-post-head">
+                  <span class="gs-avatar" style="background:#ffb347">N</span>
+                  <div class="gs-post-user">
+                    <div class="gs-meta">
+                      <strong>Nicolas Souza</strong>
+                      <span>2a Tec E</span>
+                      <span>ha 2 horas</span>
+                    </div>
+                    <div class="gs-cluster" style="margin-top:8px">
+                      <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
+                      <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                    </div>
+                    <p class="gs-post-copy">
+                      Fechei a primeira versao do dataset de visao computacional e deixei o pipeline pronto para a turma validar.
+                    </p>
+                  </div>
+                  <div class="gs-menu" data-gs-menu>
+                    <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false">...</button>
+                    <div class="gs-menu-panel" data-gs-menu-panel hidden>
+                      <button class="gs-menu-item" type="button" data-gs-toast data-gs-toast-title="Texto copiado" data-gs-toast-message="O conteudo foi preparado para copia.">Copiar texto</button>
+                        <button class="gs-menu-item" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
+                      <button class="gs-menu-item is-danger" type="button" data-gs-toast data-gs-toast-title="Post ocultado" data-gs-toast-message="O item saiu do fluxo atual.">Ocultar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="gs-post-foot">
+                <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>42</span></button>
+                <button class="gs-action" type="button" data-gs-comment-toggle>Comentarios <span data-gs-count>1</span></button>
+                <button class="gs-action" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
+              </div>
+              <div class="gs-post-comments gs-hidden">
+                <div class="gs-input-shell" data-gs-comment-form>
+                  <input type="text" placeholder="Responder post" />
+                  <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
+                </div>
+                <div>
+                  <div class="gs-comment">
+                    <div class="gs-comment-row">
+                      <span class="gs-avatar-xs" style="background:#4db8ff">M</span>
+                      <div class="gs-comment-content">
+                        <div class="gs-comment-bubble">
+                          <div class="gs-meta"><strong>Mariana Costa</strong><span>ha 1 hora</span></div>
+                          <p>Manda o notebook depois, quero comparar com meu experimento.</p>
+                        </div>
+                        <div class="gs-comment-actions">
+                          <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>8</span></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="gs-reply">
+                      <div class="gs-reply-row">
+                        <span class="gs-avatar-xs" style="background:#ffb347">N</span>
+                        <div class="gs-reply-content">
+                          <div class="gs-reply-bubble">
+                            <div class="gs-meta"><strong>Nicolas Souza</strong><span>ha 45 min</span></div>
+                            <p>Fechado. Tambem vou subir a explicacao do treinamento.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="gs-post">
+              <div class="gs-post-body">
+                <div class="gs-post-head">
+                  <span class="gs-avatar" style="background:#66bb6a">P</span>
+                  <div class="gs-post-user">
+                    <div class="gs-meta">
+                      <strong>Pedro Almeida</strong>
+                      <span>1a Tec A</span>
+                      <span>ha 4 horas</span>
+                    </div>
+                    <div class="gs-cluster" style="margin-top:8px">
+                      <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>#DevOps</span>
+                    </div>
+                    <p class="gs-post-copy">
+                      Template novo de ambiente com Node.js e PostgreSQL usando Docker Compose. Se quiserem, eu transformo isso em base oficial da turma.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="gs-post-foot">
+                <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>31</span></button>
+                <button class="gs-action" type="button" data-gs-comment-toggle>Comentarios <span data-gs-count>0</span></button>
+                <button class="gs-action" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
+              </div>
+              <div class="gs-post-comments gs-hidden">
+                <div class="gs-input-shell" data-gs-comment-form>
+                  <input type="text" placeholder="Responder post" />
+                  <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
+                </div>
+                <div></div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <aside class="gs-stack">
+          <section class="gs-side-card">
+            <h3 class="gs-side-title">Materias em alta</h3>
+            <div class="gs-side-list">
+              <button class="gs-side-row" type="button"><span>#IA</span><span class="gs-badge">34</span></button>
+              <button class="gs-side-row" type="button"><span>#DevOps</span><span class="gs-badge">28</span></button>
+              <button class="gs-side-row" type="button"><span>#Mobile</span><span class="gs-badge">22</span></button>
+              <button class="gs-side-row" type="button"><span>#BD</span><span class="gs-badge">17</span></button>
+            </div>
+          </section>
+
+          <section class="gs-side-card">
+            <h3 class="gs-side-title">Acoes rapidas</h3>
+            <div class="gs-stack">
+              <button class="gs-btn gs-btn-primary" type="button" data-gs-toast data-gs-toast-title="Recado publicado" data-gs-toast-message="A acao principal foi disparada com sucesso.">Criar recado</button>
+              <button class="gs-btn gs-btn-secondary" type="button" data-gs-toast data-gs-toast-title="Filtro aplicado" data-gs-toast-message="Somente a Sala E ficou visivel.">Filtrar Sala E</button>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GerminaStack UI Kit</title>
+    <meta
+      name="description"
+      content="Kit de componentes vanilla derivado do prototipo GerminaStack, com documentacao, exemplos vivos e padroes de integracao."
+    />
+    <link rel="stylesheet" href="./assets/css/germinastack.css" />
+    <script src="./assets/js/germinastack.js" defer></script>
+    <script src="./assets/js/docs.js" defer></script>
+  </head>
+  <body>
+    <header class="gs-topbar">
+      <a class="gs-brand" href="#top">
+        <span class="gs-brand-mark">GS</span>
+        <span>GerminaStack UI Kit</span>
+      </a>
+      <nav class="gs-nav" aria-label="Atalhos">
+        <a class="gs-nav-link is-active" href="#visao-geral">Docs</a>
+        <a class="gs-nav-link" href="./playground.html">Playground</a>
+      </nav>
+    </header>
+
+    <main id="top" class="gs-page">
+      <section class="gs-hero">
+        <div>
+          <span class="gs-kicker">HTML + CSS + JS vanilla</span>
+          <h1>Documentacao operacional do kit visual do GerminaStack.</h1>
+          <p>
+            O objetivo deste pacote e permitir que qualquer dev monte telas consistentes com o
+            prototipo original sem depender de framework, plugin ou etapa de build.
+          </p>
+          <div class="gs-hero-stats">
+            <span><strong>1</strong> CSS distribuivel</span>
+            <span><strong>1</strong> JS com comportamentos por data-attr</span>
+            <span><strong>0</strong> dependencias externas</span>
+          </div>
+        </div>
+        <div class="gs-hero-mockup" aria-hidden="true">
+          <div class="gs-mockup-toolbar"><span></span><span></span><span></span></div>
+          <div class="gs-mockup-grid">
+            <div class="gs-mockup-note is-sky"><strong>Tabs</strong><small>Navegacao</small></div>
+            <div class="gs-mockup-note is-peach"><strong>Posts</strong><small>Feed</small></div>
+            <div class="gs-mockup-note is-mint"><strong>Forms</strong><small>Composer</small></div>
+            <div class="gs-mockup-note is-lavender"><strong>Feedback</strong><small>Toast e banner</small></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="gs-doc-shell">
+        <aside class="gs-doc-sidebar">
+          <section class="gs-doc-panel">
+            <strong>Mapa</strong>
+            <nav>
+              <a data-gs-doc-link href="#visao-geral">Visao geral</a>
+              <a data-gs-doc-link href="#instalacao">Instalacao</a>
+              <a data-gs-doc-link href="#tokens">Tokens</a>
+              <a data-gs-doc-link href="#acoes">Acoes</a>
+              <a data-gs-doc-link href="#navegacao">Navegacao</a>
+              <a data-gs-doc-link href="#formularios">Formularios</a>
+              <a data-gs-doc-link href="#feedback">Feedback</a>
+              <a data-gs-doc-link href="#feed">Feed</a>
+              <a data-gs-doc-link href="#javascript">JavaScript</a>
+              <a data-gs-doc-link href="#boas-praticas">Boas praticas</a>
+            </nav>
+          </section>
+          <section class="gs-doc-panel">
+            <strong>Arquivos de entrada</strong>
+            <p><span class="gs-doc-inline-code">assets/css/germinastack.css</span></p>
+            <p><span class="gs-doc-inline-code">assets/js/germinastack.js</span></p>
+            <a class="gs-btn gs-btn-secondary" href="./playground.html">Abrir playground</a>
+          </section>
+        </aside>
+
+        <div class="gs-doc-content">
+          <section id="visao-geral" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Visao geral</h2>
+              <p>
+                O kit foi extraido do prototipo e reorganizado em fundacoes reutilizaveis:
+                tokens, layout, navegacao, cards, formularios, feedback visual e um conjunto
+                pequeno de comportamentos acessiveis ativados via atributos <span class="gs-doc-inline-code">data-gs-*</span>.
+              </p>
+            </div>
+            <div class="gs-grid-3">
+              <div class="gs-feature-card is-sky"><strong>Visual</strong><span>Azul-marinho, laranja, superficies claras e cantos arredondados.</span></div>
+              <div class="gs-feature-card is-peach"><strong>Comportamento</strong><span>Tabs, menus, toasts, dismiss e interacoes simples sem framework.</span></div>
+              <div class="gs-feature-card is-mint"><strong>Entrega</strong><span>Uso direto no navegador, com HTML declarativo e baixa friccao para novos devs.</span></div>
+            </div>
+          </section>
+
+          <section id="instalacao" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Instalacao</h2>
+              <p>Inclua os arquivos abaixo e comece a montar a tela com as classes do kit.</p>
+            </div>
+            <div class="gs-code-block">
+              <div class="gs-doc-toolbar">
+                <strong>Bootstrap minimo</strong>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-install">Copiar</button>
+              </div>
+              <pre><code id="code-install">&lt;link rel="stylesheet" href="./assets/css/germinastack.css" /&gt;
+&lt;script src="./assets/js/germinastack.js" defer&gt;&lt;/script&gt;
+
+&lt;main class="gs-page"&gt;
+  &lt;section class="gs-card"&gt;Seu conteudo&lt;/section&gt;
+&lt;/main&gt;</code></pre>
+            </div>
+          </section>
+
+          <section id="tokens" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Tokens</h2>
+              <p>
+                Os tokens ficam em <span class="gs-doc-inline-code">:root</span>. A regra para
+                customizacao e sobrescrever somente variaveis, sem alterar classes base.
+              </p>
+            </div>
+            <div class="gs-doc-demo">
+              <div class="gs-cluster">
+                <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>--gs-navy</span>
+                <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>--gs-orange</span>
+                <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>--gs-surface-soft</span>
+              </div>
+              <div class="gs-code-block">
+                <div class="gs-doc-toolbar">
+                  <strong>Override recomendado</strong>
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-tokens">Copiar</button>
+                </div>
+                <pre><code id="code-tokens">:root {
+  --gs-navy: #00284f;
+  --gs-orange: #ffba52;
+  --gs-page: #f0f2f5;
+}</code></pre>
+              </div>
+            </div>
+          </section>
+
+          <section id="acoes" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Acoes</h2>
+              <p>Botoes, chips e acoes curtas seguem a mesma base de peso visual do prototipo.</p>
+            </div>
+            <div class="gs-doc-demo">
+              <div class="gs-cluster">
+                <button class="gs-btn gs-btn-primary" type="button">Publicar</button>
+                <button class="gs-btn gs-btn-secondary" type="button">Salvar rascunho</button>
+                <button class="gs-btn gs-btn-ghost" type="button">Filtrar</button>
+                <button class="gs-btn gs-btn-danger" type="button">Remover</button>
+              </div>
+              <div class="gs-cluster">
+                <span class="gs-chip">#DS</span>
+                <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
+                <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>Sala E</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="navegacao" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Navegacao</h2>
+              <p>Tabs e menus funcionam so com HTML declarativo. O JS apenas liga os gatilhos.</p>
+            </div>
+            <div class="gs-doc-demo">
+              <div data-gs-tabs>
+                <div class="gs-tabs" role="tablist" aria-label="Exemplo de tabs">
+                  <button class="gs-tab is-active" type="button" role="tab" data-gs-tab="geral">Geral</button>
+                  <button class="gs-tab" type="button" role="tab" data-gs-tab="materia">Materia</button>
+                  <button class="gs-tab" type="button" role="tab" data-gs-tab="sala">Sala</button>
+                </div>
+                <div class="gs-card gs-tab-panel" tabindex="-1" data-gs-panel="geral">Feed padrao</div>
+                <div class="gs-card gs-tab-panel" tabindex="-1" data-gs-panel="materia" hidden>Filtros por materia</div>
+                <div class="gs-card gs-tab-panel" tabindex="-1" data-gs-panel="sala" hidden>Filtros por sala</div>
+              </div>
+              <div class="gs-menu" data-gs-menu>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-menu-trigger aria-expanded="false">
+                  Abrir menu
+                </button>
+                <div class="gs-menu-panel" data-gs-menu-panel hidden>
+                  <button class="gs-menu-item" type="button">Editar</button>
+                  <button class="gs-menu-item" type="button">Duplicar</button>
+                  <button class="gs-menu-item is-danger" type="button">Ocultar</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="formularios" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Formularios</h2>
+              <p>Campos usam borda suave, foco azul e composicao pronta para composer e comentarios.</p>
+            </div>
+            <div class="gs-doc-demo">
+              <div class="gs-grid-2">
+                <label class="gs-form-group">
+                  <span class="gs-label">Titulo</span>
+                  <input class="gs-input" type="text" placeholder="Ex.: Resumo de IA" />
+                </label>
+                <label class="gs-form-group">
+                  <span class="gs-label">Turma</span>
+                  <select class="gs-select">
+                    <option>2a Tec E</option>
+                    <option>1a Tec A</option>
+                  </select>
+                </label>
+              </div>
+              <label class="gs-form-group">
+                <span class="gs-label">Conteudo</span>
+                <textarea class="gs-textarea" placeholder="Escreva algo para o feed..."></textarea>
+              </label>
+              <div class="gs-input-shell">
+                <input type="text" placeholder="Adicionar comentario rapido" />
+                <button class="gs-btn gs-btn-ghost" type="button">Enviar</button>
+              </div>
+            </div>
+          </section>
+
+          <section id="feedback" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Feedback</h2>
+              <p>Use banner para contexto persistente e toast para resposta instantanea de acao.</p>
+            </div>
+            <div class="gs-doc-demo">
+              <div class="gs-banner" data-gs-dismissible>
+                <div>
+                  <strong>Filtro ativo</strong>
+                  <span>Mostrando apenas posts da Sala E.</span>
+                </div>
+                <button class="gs-dismiss" type="button" data-gs-dismiss aria-label="Fechar banner">X</button>
+              </div>
+              <div class="gs-alert" data-gs-dismissible>
+                <div>
+                  <strong>Aviso de moderacao</strong>
+                  <span>Conteudos ocultos podem ser restaurados pelo painel do feed.</span>
+                </div>
+                <button class="gs-dismiss" type="button" data-gs-dismiss aria-label="Fechar alerta">X</button>
+              </div>
+              <div class="gs-cluster">
+                <button
+                  class="gs-btn gs-btn-primary"
+                  type="button"
+                  data-gs-toast
+                  data-gs-toast-title="Post salvo"
+                  data-gs-toast-message="O item foi enviado para sua lista de leitura."
+                  data-gs-toast-tone="success"
+                >
+                  Testar toast de sucesso
+                </button>
+                <button
+                  class="gs-btn gs-btn-secondary"
+                  type="button"
+                  data-gs-toast
+                  data-gs-toast-title="Atencao"
+                  data-gs-toast-message="O navegador bloqueou a copia automatica."
+                  data-gs-toast-tone="warning"
+                >
+                  Testar toast de aviso
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section id="feed" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Feed</h2>
+              <p>
+                O componente mais importante do kit combina hero, composer, post, comentarios e sidebar.
+                Use o playground para ver a montagem completa.
+              </p>
+            </div>
+            <div class="gs-layout-demo">
+              <div class="gs-stack">
+                <article class="gs-post">
+                  <div class="gs-post-body">
+                    <div class="gs-post-head">
+                      <span class="gs-avatar" style="background:#ffb347">N</span>
+                      <div class="gs-post-user">
+                        <div class="gs-meta">
+                          <strong>Nicolas Souza</strong>
+                          <span>2a Tec E</span>
+                          <span>ha 2 horas</span>
+                        </div>
+                        <div class="gs-cluster" style="margin-top:8px">
+                          <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>#IA</span>
+                          <span class="gs-chip is-amber"><span class="gs-chip-dot"></span>2o Ano</span>
+                        </div>
+                        <p class="gs-post-copy">
+                          Acabei de fechar um fluxo de classificacao de imagens e documentei o pipeline para a turma.
+                        </p>
+                      </div>
+                      <div class="gs-menu" data-gs-menu>
+                        <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false">...</button>
+                        <div class="gs-menu-panel" data-gs-menu-panel hidden>
+                          <button class="gs-menu-item" type="button">Copiar texto</button>
+                          <button class="gs-menu-item" type="button">Salvar</button>
+                          <button class="gs-menu-item is-danger" type="button">Ocultar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="gs-post-foot">
+                    <button class="gs-action" type="button" data-gs-like>Curtir <span data-gs-count>42</span></button>
+                    <button class="gs-action" type="button" data-gs-comment-toggle>Comentarios <span data-gs-count>1</span></button>
+                    <button class="gs-action" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
+                  </div>
+                  <div class="gs-post-comments gs-hidden">
+                    <div class="gs-input-shell" data-gs-comment-form>
+                      <input type="text" placeholder="Responder post" />
+                      <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
+                    </div>
+                    <div>
+                      <div class="gs-comment">
+                        <div class="gs-comment-row">
+                          <span class="gs-avatar-xs" style="background:#4db8ff">M</span>
+                          <div class="gs-comment-content">
+                            <div class="gs-comment-bubble">
+                              <div class="gs-meta"><strong>Mariana Costa</strong><span>ha 1 hora</span></div>
+                              <p>Depois me manda esse notebook.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <aside class="gs-stack">
+                <section class="gs-side-card">
+                  <h3 class="gs-side-title">Materias em alta</h3>
+                  <div class="gs-side-list">
+                    <button class="gs-side-row" type="button"><span>#IA</span><span class="gs-badge">34</span></button>
+                    <button class="gs-side-row" type="button"><span>#DevOps</span><span class="gs-badge">28</span></button>
+                    <button class="gs-side-row" type="button"><span>#BD</span><span class="gs-badge">17</span></button>
+                  </div>
+                </section>
+              </aside>
+            </div>
+          </section>
+
+          <section id="javascript" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>JavaScript</h2>
+              <p>O arquivo JS expone uma API pequena e previsivel em <span class="gs-doc-inline-code">window.GerminaStackUI</span>.</p>
+            </div>
+            <ul class="gs-list">
+              <li><span class="gs-doc-inline-code">GerminaStackUI.init(root)</span>: inicializa tabs, menus, toasts, dismiss e demos.</li>
+              <li><span class="gs-doc-inline-code">GerminaStackUI.showToast({ title, message, tone })</span>: cria toast programaticamente.</li>
+              <li><span class="gs-doc-inline-code">data-gs-tabs</span>: agrupa tabs e paines.</li>
+              <li><span class="gs-doc-inline-code">data-gs-menu</span>: agrupa trigger e painel de menu.</li>
+              <li><span class="gs-doc-inline-code">data-gs-dismiss</span>: esconde banners e alerts.</li>
+              <li><span class="gs-doc-inline-code">data-gs-copy</span>: copia blocos de codigo da documentacao.</li>
+            </ul>
+            <div class="gs-code-block">
+              <div class="gs-doc-toolbar">
+                <strong>Toast manual</strong>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-js">Copiar</button>
+              </div>
+              <pre><code id="code-js">window.GerminaStackUI.showToast({
+  title: "Deploy concluido",
+  message: "A pagina de perfil foi atualizada com o kit.",
+  tone: "success"
+});</code></pre>
+            </div>
+          </section>
+
+          <section id="boas-praticas" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Boas praticas</h2>
+              <p>Estas regras evitam degradacao visual e mantem a coerencia com o prototipo.</p>
+            </div>
+            <ul class="gs-list">
+              <li>Sempre prefira sobrescrever tokens antes de criar novas cores soltas.</li>
+              <li>Use <span class="gs-doc-inline-code">gs-card</span>, <span class="gs-doc-inline-code">gs-post</span> e <span class="gs-doc-inline-code">gs-side-card</span> como blocos de composicao.</li>
+              <li>Mantenha botoes primarios reservados para acao principal da area.</li>
+              <li>Para novas interacoes, reaproveite o padrao <span class="gs-doc-inline-code">data-gs-*</span> em vez de amarrar seletores fragis.</li>
+              <li>Em mobile, reduza quantidade de colunas antes de mexer em espacamento e tipografia.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
