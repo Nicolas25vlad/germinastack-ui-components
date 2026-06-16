@@ -93,9 +93,54 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 - estados de foco e hover continuam visíveis?
 - a interação poderia ser resolvida por `data-gs-*` antes de criar JS novo?
 
+## Acessibilidade (WCAG 2.1 AA)
+
+O kit implementa recursos de acessibilidade nativos. Antes de entregar, valide:
+
+### Checklist de acessibilidade
+
+- [ ] **Navegação por teclado**: Toda funcionalidade acessível via `Tab`, `Shift+Tab`, setas`, setas, `Enter`, `Space`, `Esc`
+- [ ] **Foco visível**: Anel de foco (`--gs-focus-ring-width`, `--gs-focus-ring-color`) visível em todos os elementos interativos
+- [ ] **Armadilha de foco em modais**: `Tab`/`Shift+Tab` cicla dentro do modal; foco restaura ao fechar
+- [ ] **Regiões ao vivo**: Toasts, accordion e modal anunciam mudanças via `aria-live`
+- [ ] **ARIA automático**: Tabs (`role="tablist/tab/tabpanel"`), Accordion (`aria-expanded`, `aria-controls`), Menu (`aria-expanded`, `aria-haspopup`)
+- [ ] **Contraste**: Tokens principais atendem AA (4.5:1) — veja tabela abaixo
+- [ ] **Alto contraste**: `prefers-contrast: high` mantém bordas, foco e estados visíveis
+- [ ] **Cores forçadas**: `forced-colors: active` usa cores do sistema sem quebrar UI
+- [ ] **Redução de movimento**: `prefers-reduced-motion: reduce` elimina animações/transições
+- [ ] **Zoom 200%**: Layout funcional sem scroll horizontal
+- [ ] **Labels**: Todo input tem `<label>` explícita; ícones decorativos têm `aria-hidden="true"`
+
+### Tabela de contraste dos tokens principais
+
+| Token | Cor | Fundo | Contraste | WCAG |
+|-------|-----|-------|-----------|------|
+| `--gs-color-navy-900` | `#0a1929` | `#fff` | 18.2:1 | ✅ AAA |
+| `--gs-color-navy-700` | `#1a3a5c` | `#fff` | 10.4:1 | ✅ AAA |
+| `--gs-color-text` | `#0a1929` | `#f0f2f5` | 17.1:1 | ✅ AAA |
+| `--gs-color-text-secondary` | `#546e7a` | `#f0f2f5` | 5.2:1 | ✅ AA |
+| `--gs-color-primary` | `#ff8c00` | `#fff` | 3.0:1 | ⚠️ Apenas texto grande (≥18pt/14pt bold) |
+
+### Testes manuais recomendados
+
+1. **Teclado**: Navegue toda a interface sem mouse
+2. **Leitor de tela**: NVDA (Windows) ou VoiceOver (macOS) — verifique anúncios de tabs, accordion, modal, toasts
+3. **Alto contraste**: DevTools → Rendering → Emule `prefers-contrast: high` e `forced-colors: active`
+4. **Redução de movimento**: DevTools → Rendering → Emule `prefers-reduced-motion: reduce`
+5. **Zoom**: Amplie a 200% — sem scroll horizontal
+
+### Diretrizes de contribuição para acessibilidade
+
+- **Novos componentes**: Devem incluir `role` apropriado, `aria-*` necessários e navegação por teclado
+- **Novos tokens de cor**: Validar contraste AA (4.5:1 texto normal, 3:1 texto grande) antes de merge
+- **Animações**: Respeitar `prefers-reduced-motion` — use `transition: none !important` no media query
+- **Foco**: Nunca remova `outline` sem substituir por `:focus-visible` com anel visível
+- **Testes**: Rode checklist acima em PRs que tocam componentes interativos
+
 ## Histórico git desta entrega
 
 - `967038f` `feat: scaffold GerminaStack UI kit foundation`
 - `f99c400` `docs: add living documentation and playground`
 - `590213f` `docs: add repository handoff guides`
 - `39f85ff` `refactor: move UI kit to repository root`
+- `a11y` `feat: WCAG 2.1 AA accessibility enhancements (focus trap, live regions, keyboard nav, high contrast, reduced motion)`

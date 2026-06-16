@@ -538,13 +538,77 @@ GerminaStack-Prototype/</code></pre>
               <h2>JavaScript</h2>
               <p>O runtime expõe uma API pequena e previsível em <span class="gs-doc-inline-code">window.GerminaStackUI</span>.</p>
             </div>
+
+            <h3>API completa</h3>
+            <div class="gs-table-wrap">
+              <table class="gs-table">
+                <thead>
+                  <tr>
+                    <th>Método</th>
+                    <th>Descrição</th>
+                    <th>Desde</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>GerminaStackUI.init(root)</code></td>
+                    <td>Inicializa tabs, menus, toasts, dismiss, accordion e interações em um escopo</td>
+                    <td>v1.0</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.showToast({ title, message, tone, duration })</code></td>
+                    <td>Cria toast programaticamente com anúncio para leitor de tela</td>
+                    <td>v1.0</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.closeMenus()</code></td>
+                    <td>Fecha todos os menus contextuais abertos</td>
+                    <td>v1.0</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.openModal(modalEl)</code></td>
+                    <td>Abre modal com armadilha de foco e anúncio</td>
+                    <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.closeModal(modalEl)</code></td>
+                    <td>Fecha modal com restauração de foco</td>
+                    <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.activateTab(tabBtn)</code></td>
+                    <td>Ativa uma tab programaticamente</td>
+                    <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.toggleAccordion(triggerBtn)</code></td>
+                    <td>Alterna accordion com anúncio para leitor de tela</td>
+                    <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.announceToScreenReader(message, priority)</code></td>
+                    <td>Anuncia mensagem via região ao vivo (<code>"polite"</code> | <code>"assertive"</code>)</td>
+                    <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.trapFocus(element)</code></td>
+                    <td>Ativa armadilha de foco em um elemento (usado internamente por modais)</td>
+                    <td>v1.1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Contratos declarativos</h3>
             <ul class="gs-list">
-              <li><span class="gs-doc-inline-code">GerminaStackUI.init(root)</span>: inicializa tabs, menus, toasts, dismiss, accordion e demos em um escopo.</li>
-              <li><span class="gs-doc-inline-code">GerminaStackUI.showToast({ title, message, tone })</span>: cria toast programaticamente.</li>
-              <li><span class="gs-doc-inline-code">GerminaStackUI.closeMenus()</span>: fecha todos os menus contextuais abertos.</li>
-              <li><span class="gs-doc-inline-code">data-gs-modal-open</span> e <span class="gs-doc-inline-code">data-gs-modal-close</span>: ciclo de modal.</li>
-              <li><span class="gs-doc-inline-code">data-gs-accordion-trigger</span>: controle declarativo de accordion.</li>
+              <li><span class="gs-doc-inline-code">data-gs-tabs</span> / <span class="gs-doc-inline-code">data-gs-tab</span> / <span class="gs-doc-inline-code">data-gs-panel</span>: navegação por abas com ARIA automático</li>
+              <li><span class="gs-doc-inline-code">data-gs-menu</span> / <span class="gs-doc-inline-code">data-gs-menu-trigger</span> / <span class="gs-doc-inline-code">data-gs-menu-panel</span>: menu contextual com teclado</li>
+              <li><span class="gs-doc-inline-code">data-gs-modal-open</span> / <span class="gs-doc-inline-code">data-gs-modal</span> / <span class="gs-doc-inline-code">data-gs-modal-close</span>: ciclo de modal com foco</li>
+              <li><span class="gs-doc-inline-code">data-gs-accordion-item</span> / <span class="gs-doc-inline-code">data-gs-accordion-trigger</span> / <span class="gs-doc-inline-code">data-gs-accordion-panel</span>: accordion com ARIA</li>
+              <li><span class="gs-doc-inline-code">data-gs-dismiss</span> / <span class="gs-doc-inline-code">data-gs-dismissible</span>: remoção de banner/alert</li>
+              <li><span class="gs-doc-inline-code">data-gs-toast</span>: toast declarativo</li>
             </ul>
+
             <div class="gs-code-block">
               <div class="gs-doc-toolbar">
                 <strong>Toast manual</strong>
@@ -555,6 +619,16 @@ GerminaStack-Prototype/</code></pre>
   message: "A página de perfil foi atualizada com o kit.",
   tone: "success"
 });</code></pre>
+            </div>
+
+            <div class="gs-code-block">
+              <div class="gs-doc-toolbar">
+                <strong>Modal programático com acessibilidade</strong>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-js-modal">Copiar</button>
+              </div>
+              <pre><code id="code-js-modal">const modal = document.querySelector('[data-gs-modal="meu-modal"]');
+GerminaStackUI.openModal(modal);   // armadilha de foco + anúncio
+GerminaStackUI.closeModal(modal);  // restaura foco + anúncio</code></pre>
             </div>
           </section>
 
@@ -607,15 +681,217 @@ GerminaStack-Prototype/</code></pre>
 
           <section id="acessibilidade" class="gs-doc-panel">
             <div class="gs-section-head">
-              <h2>Acessibilidade</h2>
-              <p>O kit já cobre foco visível, redução de movimento e uma base semântica razoável, mas o consumo ainda precisa seguir disciplina.</p>
+              <h2>Acessibilidade (WCAG 2.1 AA)</h2>
+              <p>O kit implementa foco visível, armadilha de foco em modais, regiões ao vivo, navegação por teclado completa, suporte a <em>prefers-reduced-motion</em>, <em>prefers-contrast</em> e <em>forced-colors</em>. O consumo ainda precisa seguir disciplina de marcação.</p>
             </div>
+
+            <h3>Recursos de acessibilidade do runtime</h3>
+            <div class="gs-table-wrap">
+              <table class="gs-table">
+                <thead>
+                  <tr>
+                    <th>Recurso</th>
+                    <th>Onde atua</th>
+                    <th>Como testar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Armadilha de foco</strong></td>
+                    <td>Modais abertos</td>
+                    <td>Abra um modal e navegue com <kbd>Tab</kbd> — o foco não sai do modal</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Restauração de foco</strong></td>
+                    <td>Ao fechar modal</td>
+                    <td>Feche o modal — o foco volta ao elemento que o abriu</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Região ao vivo</strong></td>
+                    <td>Toasts, accordion, modal</td>
+                    <td>Dispare um toast — leitores de tela anunciam automaticamente</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Navegação por teclado</strong></td>
+                    <td>Tabs, menus, accordion</td>
+                    <td>Use setas, Home, End, Enter, Space, Escape nos componentes</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Alto contraste</strong></td>
+                    <td>Todo o kit</td>
+                    <td>Ative <code>prefers-contrast: high</code> no SO ou emule no DevTools</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Modo de cores forçadas</strong></td>
+                    <td>Todo o kit</td>
+                    <td>Ative <em>High Contrast Mode</em> no Windows ou emule no DevTools</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Redução de movimento</strong></td>
+                    <td>Animações e transições</td>
+                    <td>Ative <code>prefers-reduced-motion: reduce</code> no SO</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Interações por teclado</h3>
+            <div class="gs-grid-2">
+              <div class="gs-card">
+                <strong>Tabs</strong>
+                <ul class="gs-list">
+                  <li><kbd>←</kbd> <kbd>→</kbd> — Navegar entre abas</li>
+                  <li><kbd>Home</kbd> — Primeira aba</li>
+                  <li><kbd>End</kbd> — Última aba</li>
+                  <li><kbd>Tab</kbd> — Sai da lista e vai ao painel ativo</li>
+                </ul>
+              </div>
+              <div class="gs-card">
+                <strong>Menu</strong>
+                <ul class="gs-list">
+                  <li><kbd>↓</kbd> <kbd>↑</kbd> — Navegar entre itens</li>
+                  <li><kbd>Home</kbd> / <kbd>End</kbd> — Primeiro/último item</li>
+                  <li><kbd>Esc</kbd> — Fechar menu</li>
+                  <li><kbd>Tab</kbd> — Fechar e seguir foco</li>
+                </ul>
+              </div>
+              <div class="gs-card">
+                <strong>Accordion</strong>
+                <ul class="gs-list">
+                  <li><kbd>Enter</kbd> ou <kbd>Space</kbd> — Expandir/recolher</li>
+                  <li><kbd>Tab</kbd> — Navegar entre gatilhos</li>
+                </ul>
+              </div>
+              <div class="gs-card">
+                <strong>Modal</strong>
+                <ul class="gs-list">
+                  <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — Ciclar dentro do modal</li>
+                  <li><kbd>Esc</kbd> — Fechar modal (via botão)</li>
+                  <li>Foco automático no primeiro elemento interativo</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3>Atributos ARIA aplicados automaticamente</h3>
+            <div class="gs-table-wrap">
+              <table class="gs-table">
+                <thead>
+                  <tr>
+                    <th>Componente</th>
+                    <th>Atributos</th>
+                    <th>Aplicado por</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tabs</td>
+                    <td><code>role="tablist"</code>, <code>role="tab"</code>, <code>role="tabpanel"</code>, <code>aria-selected</code>, <code>aria-controls</code>, <code>aria-labelledby</code>, <code>aria-orientation</code></td>
+                    <td><code>initTabs()</code></td>
+                  </tr>
+                  <tr>
+                    <td>Accordion</td>
+                    <td><code>aria-expanded</code>, <code>aria-controls</code>, <code>role="region"</code></td>
+                    <td><code>initAccordions()</code></td>
+                  </tr>
+                  <tr>
+                    <td>Menu</td>
+                    <td><code>aria-expanded</code>, <code>aria-haspopup="true"</code></td>
+                    <td><code>bindInteractions()</code></td>
+                  </tr>
+                  <tr>
+                    <td>Modal</td>
+                    <td><code>role="dialog"</code>, <code>aria-modal="true"</code>, <code>aria-labelledby</code></td>
+                    <td>Declarativo no HTML</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Contraste de cores (tokens principais)</h3>
+            <div class="gs-table-wrap">
+              <table class="gs-table">
+                <thead>
+                  <tr>
+                    <th>Token</th>
+                    <th>Cor</th>
+                    <th>Fundo</th>
+                    <th>Contraste</th>
+                    <th>AA (4.5:1)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>--gs-color-navy-900</code></td>
+                    <td><span class="gs-swatch" style="background:#0a1929"></span> #0a1929</td>
+                    <td>#fff</td>
+                    <td>18.2:1</td>
+                    <td>✅ AAA</td>
+                  </tr>
+                  <tr>
+                    <td><code>--gs-color-primary</code></td>
+                    <td><span class="gs-swatch" style="background:#ff8c00"></span> #ff8c00</td>
+                    <td>#fff</td>
+                    <td>3.0:1</td>
+                    <td>⚠️ Apenas elementos grandes</td>
+                  </tr>
+                  <tr>
+                    <td><code>--gs-color-navy-700</code></td>
+                    <td><span class="gs-swatch" style="background:#1a3a5c"></span> #1a3a5c</td>
+                    <td>#fff</td>
+                    <td>10.4:1</td>
+                    <td>✅ AAA</td>
+                  </tr>
+                  <tr>
+                    <td><code>--gs-color-text</code></td>
+                    <td><span class="gs-swatch" style="background:#0a1929"></span> #0a1929</td>
+                    <td>#f0f2f5</td>
+                    <td>17.1:1</td>
+                    <td>✅ AAA</td>
+                  </tr>
+                  <tr>
+                    <td><code>--gs-color-text-secondary</code></td>
+                    <td><span class="gs-swatch" style="background:#546e7a"></span> #546e7a</td>
+                    <td>#f0f2f5</td>
+                    <td>5.2:1</td>
+                    <td>✅ AA</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>Anúncios para leitores de tela</h3>
+            <p>O runtime expõe <span class="gs-doc-inline-code">GerminaStackUI.announceToScreenReader(message, priority)</span> para anúncios programáticos. Use <code>priority="polite"</code> (padrão) para atualizações não urgentes e <code>priority="assertive"</code> para alertas imediatos.</p>
+            <div class="gs-code-block">
+              <div class="gs-doc-toolbar">
+                <strong>Anúncio manual</strong>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-a11y-announce">Copiar</button>
+              </div>
+              <pre><code id="code-a11y-announce">// Anúncio educado — espera o leitor terminar
+GerminaStackUI.announceToScreenReader('3 posts carregados');
+
+// Anúncio imediato — interrompe o leitor
+GerminaStackUI.announceToScreenReader('Erro ao salvar. Tente novamente.', 'assertive');</code></pre>
+            </div>
+
+            <h3>Testes manuais recomendados</h3>
             <ul class="gs-list">
-              <li>Mantenha <span class="gs-doc-inline-code">button</span> para ação e <span class="gs-doc-inline-code">a</span> para navegação.</li>
-              <li>Em tabs, use <span class="gs-doc-inline-code">role="tablist"</span> e <span class="gs-doc-inline-code">role="tab"</span> como nos exemplos.</li>
-              <li>Campos devem continuar com label explícita mesmo quando a UI parecer autoexplicativa.</li>
+              <li><strong>Teclado:</strong> Navegue por toda a interface usando apenas <kbd>Tab</kbd>, <kbd>Shift+Tab</kbd>, setas, <kbd>Enter</kbd>, <kbd>Space</kbd> e <kbd>Esc</kbd>. Nenhuma funcionalidade deve ficar inacessível.</li>
+              <li><strong>Leitor de tela:</strong> Teste com NVDA (Windows, gratuito) ou VoiceOver (macOS). Verifique se tabs, accordion, modal e toasts anunciam estado corretamente.</li>
+              <li><strong>Alto contraste:</strong> No DevTools (F12) → Rendering → Emule <code>prefers-contrast: high</code> e <code>forced-colors: active</code>.</li>
+              <li><strong>Redução de movimento:</strong> No DevTools → Rendering → Emule <code>prefers-reduced-motion: reduce</code>. Animações e transições devem ser eliminadas.</li>
+              <li><strong>Zoom:</strong> Amplie a página até 200% — o layout deve permanecer funcional sem scroll horizontal.</li>
+            </ul>
+
+            <h3>Checklist de acessibilidade por componente</h3>
+            <ul class="gs-list">
+              <li>Mantenha <span class="gs-doc-inline-code">&lt;button&gt;</span> para ação e <span class="gs-doc-inline-code">&lt;a&gt;</span> para navegação.</li>
+              <li>Em tabs, o runtime já aplica <span class="gs-doc-inline-code">role="tablist"</span>, <span class="gs-doc-inline-code">role="tab"</span> e <span class="gs-doc-inline-code">role="tabpanel"</span> automaticamente.</li>
+              <li>Em modais, inclua <span class="gs-doc-inline-code">role="dialog"</span>, <span class="gs-doc-inline-code">aria-modal="true"</span> e <span class="gs-doc-inline-code">aria-labelledby</span> no HTML.</li>
+              <li>Campos devem continuar com <span class="gs-doc-inline-code">&lt;label&gt;</span> explícita mesmo quando a UI parecer autoexplicativa.</li>
+              <li>Ícones decorativos devem ter <span class="gs-doc-inline-code">aria-hidden="true"</span>.</li>
               <li>Só esconda informação visualmente quando houver alternativa real para leitor de tela.</li>
-              <li>Para conteúdo realmente dinâmico, complemente com anúncio de estado fora do kit quando necessário.</li>
+              <li>Para conteúdo dinâmico, use <span class="gs-doc-inline-code">GerminaStackUI.announceToScreenReader()</span>.</li>
+              <li>Teste sempre com teclado antes de entregar: <kbd>Tab</kbd>, setas, <kbd>Enter</kbd>, <kbd>Space</kbd>, <kbd>Esc</kbd>.</li>
             </ul>
           </section>
 

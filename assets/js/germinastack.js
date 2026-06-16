@@ -1,6 +1,8 @@
 (function () {
   const state = {
     toastRail: null,
+    lastFocusedElement: null,
+    focusTrapStack: [],
   };
 
   function qs(root, sel) {
@@ -27,6 +29,9 @@
       rail = document.createElement("div");
       rail.className = "gs-toast-rail";
       rail.setAttribute("data-gs-toast-rail", "");
+      rail.setAttribute("role", "region");
+      rail.setAttribute("aria-live", "polite");
+      rail.setAttribute("aria-label", "Notificações");
       document.body.appendChild(rail);
     }
     state.toastRail = rail;
@@ -62,6 +67,9 @@
     if (!expanded) {
       trigger.setAttribute("aria-expanded", "true");
       if (panel) panel.hidden = false;
+      // Focus first menu item
+      const firstItem = qs(panel, "[role='menuitem'], button, a");
+      if (firstItem) firstItem.focus();
     }
   }
 
@@ -87,6 +95,26 @@
     if (target) target.classList.add("gs-hidden");
   }
 
+  function announceToScreenReader(message, priority = "polite") {
+    const liveRegion = document.getElementById("gs-live-region") || createLiveRegion();
+    liveRegion.setAttribute("aria-live", priority);
+    liveRegion.textContent = message;
+    // Clear after announcement to allow repeated messages
+    setTimeout(() => {
+      liveRegion.textContent = "";
+    }, 1000);
+  }
+
+  function createLiveRegion() {
+    const region = document.createElement("div");
+    region.id = "gs-live-region";
+    region.className = "gs-sr-only";
+    region.setAttribute("aria-live", "polite");
+    region.setAttribute("aria-atomic", "true");
+    document.body.appendChild(region);
+    return region;
+  }
+
   function showToast(opts) {
     const cfg = Object.assign(
       {
@@ -100,6 +128,9 @@
     const rail = ensureToastRail();
     const item = document.createElement("div");
     item.className = `gs-toast ${cfg.tone ? `is-${cfg.tone}` : ""}`.trim();
+    item.setAttribute("role", cfg.tone === "danger" || cfg.tone === "error" ? "alert" : "status");
+    item.setAttribute("aria-live", cfg.tone === "danger" || cfg.tone === "error" ? "assertive" : "polite");
+    item.setAttribute("aria-atomic", "true");
     item.innerHTML = `
       <div>
         <strong>${escapeHtml(cfg.title)}</strong>
@@ -108,6 +139,8 @@
       <button class="gs-dismiss" type="button" aria-label="Fechar aviso">${icon("close")}</button>
     `;
     rail.appendChild(item);
+    // Announce to screen readers
+    announceToScreenReader(`${cfg.title}: ${cfg.message}`, cfg.tone === "danger" || cfg.tone === "error" ? "assertive" : "polite");
     const remove = () => {
       if (item.parentNode) item.parentNode.removeChild(item);
     };
@@ -145,13 +178,49 @@
     countNode.textContent = String(Math.max(0, value));
   }
 
+  function trapFocus(element) {
+    const focusableElements = element.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), [role="button"], [role="tab"], [role="menuitem"]'
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    function handleTabKey(e) {
+      if (e.key !== "Tab") return;
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      }
+    }
+
+    element.addEventListener("keydown", handleTabKey);
+    return () => element.removeEventListener("keydown", handleTabKey);
+  }
+
   function openModal(id) {
     const modal = document.querySelector(`[data-gs-modal="${id}"]`);
     if (!modal) return;
+    // Store last focused element for restoration
+    state.lastFocusedElement = document.activeElement;
     modal.hidden = false;
     document.body.style.overflow = "hidden";
-    const focusTarget = qs(modal, "[data-gs-modal-close]") || qs(modal, "button");
+    // Add to focus trap stack
+    const cleanup = trapFocus(modal);
+    state.focusTrapStack.push({ modal, cleanup });
+    const focusTarget = qs(modal, "[data-gs-modal-close]") || qs(modal, "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])");
     if (focusTarget) focusTarget.focus();
+    // Announce modal opening
+    const modalTitle = qs(modal, "[aria-labelledby]") || qs(modal, "h1, h2, h3, h4");
+    if (modalTitle) {
+      announceToScreenReader(`Diálogo aberto: ${modalTitle.textContent}`, "polite");
+    }
   }
 
   function closeModal(node) {
@@ -159,6 +228,16 @@
     if (!modal) return;
     modal.hidden = true;
     document.body.style.overflow = "";
+    // Remove from focus trap stack and cleanup
+    const trapIndex = state.focusTrapStack.findIndex((t) => t.modal === modal);
+    if (trapIndex !== -1) {
+      state.focusTrapStack[trapIndex].cleanup();
+      state.focusTrapStack.splice(trapIndex, 1);
+    }
+    // Restore focus to trigger element
+    if (state.lastFocusedElement && document.body.contains(state.lastFocusedElement)) {
+      state.lastFocusedElement.focus();
+    }
   }
 
   function toggleAccordion(trigger) {
@@ -170,6 +249,8 @@
     if (panel) panel.hidden = expanded;
     const iconNode = qs(trigger, "[data-gs-accordion-icon]");
     if (iconNode) iconNode.textContent = expanded ? "+" : "−";
+    // Announce state change
+    announceToScreenReader(expanded ? "Seção recolhida" : "Seção expandida", "polite");
   }
 
   function bindComposer(root) {
@@ -331,13 +412,127 @@
       }
     });
 
+    // Keyboard navigation for tabs, menus, accordions
     root.addEventListener("keydown", (event) => {
+      const target = event.target;
+
+      // Escape key handling
       if (event.key === "Escape") {
         closeMenus();
         qsa(document, "[data-gs-modal]").forEach((modal) => {
           if (!modal.hidden) modal.hidden = true;
         });
         document.body.style.overflow = "";
+        return;
+      }
+
+      // Tab keyboard navigation (Arrow keys, Home, End)
+      if (target.hasAttribute("data-gs-tab")) {
+        const tabs = qsa(target.closest("[data-gs-tabs]"), "[data-gs-tab]");
+        const currentIndex = tabs.indexOf(target);
+        let newIndex = currentIndex;
+
+        switch (event.key) {
+          case "ArrowRight":
+            event.preventDefault();
+            newIndex = (currentIndex + 1) % tabs.length;
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            break;
+          case "Home":
+            event.preventDefault();
+            newIndex = 0;
+            break;
+          case "End":
+            event.preventDefault();
+            newIndex = tabs.length - 1;
+            break;
+          default:
+            return;
+        }
+        activateTab(tabs[newIndex], true);
+        return;
+      }
+
+      // Menu keyboard navigation
+      if (target.hasAttribute("data-gs-menu-trigger")) {
+        const menu = target.closest("[data-gs-menu]");
+        const panel = qs(menu, "[data-gs-menu-panel]");
+        const expanded = target.getAttribute("aria-expanded") === "true";
+
+        if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          if (!expanded) {
+            toggleMenu(target);
+          } else {
+            const firstItem = qs(panel, "[role='menuitem'], button, a");
+            if (firstItem) firstItem.focus();
+          }
+          return;
+        }
+
+        if (event.key === "ArrowUp" && expanded) {
+          event.preventDefault();
+          const items = qsa(panel, "[role='menuitem'], button, a");
+          const lastItem = items[items.length - 1];
+          if (lastItem) lastItem.focus();
+          return;
+        }
+      }
+
+      // Menu panel keyboard navigation
+      if (target.closest("[data-gs-menu-panel]") && (target.hasAttribute("role") === "menuitem" || target.tagName === "BUTTON" || target.tagName === "A")) {
+        const panel = target.closest("[data-gs-menu-panel]");
+        const items = qsa(panel, "[role='menuitem'], button, a");
+        const currentIndex = items.indexOf(target);
+
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          const nextIndex = (currentIndex + 1) % items.length;
+          items[nextIndex].focus();
+          return;
+        }
+
+        if (event.key === "ArrowUp") {
+          event.preventDefault();
+          const prevIndex = (currentIndex - 1 + items.length) % items.length;
+          items[prevIndex].focus();
+          return;
+        }
+
+        if (event.key === "Escape" || event.key === "Tab") {
+          event.preventDefault();
+          const trigger = qs(panel.closest("[data-gs-menu]"), "[data-gs-menu-trigger]");
+          if (trigger) {
+            trigger.setAttribute("aria-expanded", "false");
+            panel.hidden = true;
+            trigger.focus();
+          }
+          return;
+        }
+
+        if (event.key === "Home") {
+          event.preventDefault();
+          items[0].focus();
+          return;
+        }
+
+        if (event.key === "End") {
+          event.preventDefault();
+          items[items.length - 1].focus();
+          return;
+        }
+      }
+
+      // Accordion keyboard navigation
+      if (target.hasAttribute("data-gs-accordion-trigger")) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleAccordion(target);
+          return;
+        }
       }
     });
 
@@ -363,6 +558,19 @@
 
   function initTabs(root) {
     qsa(root, "[data-gs-tabs]").forEach((tabs) => {
+      // Set up ARIA roles
+      tabs.setAttribute("role", "tablist");
+      qsa(tabs, "[data-gs-tab]").forEach((tab) => {
+        tab.setAttribute("role", "tab");
+        const panelId = tab.getAttribute("data-gs-tab");
+        const panel = qs(tabs, `[data-gs-panel="${panelId}"]`);
+        if (panel) {
+          tab.setAttribute("aria-controls", panelId);
+          panel.setAttribute("role", "tabpanel");
+          panel.setAttribute("aria-labelledby", tab.id || `tab-${panelId}`);
+          if (!tab.id) tab.id = `tab-${panelId}`;
+        }
+      });
       const active = qs(tabs, "[data-gs-tab].is-active") || qs(tabs, "[data-gs-tab]");
       if (active) activateTab(active, false);
     });
@@ -373,6 +581,28 @@
       const expanded = trigger.getAttribute("aria-expanded") === "true";
       const panel = trigger.closest("[data-gs-accordion-item]")?.querySelector("[data-gs-accordion-panel]");
       if (panel) panel.hidden = !expanded;
+      // Set up ARIA attributes
+      trigger.setAttribute("aria-controls", panel?.id || "");
+      if (panel && !panel.id) {
+        panel.id = `accordion-panel-${Math.random().toString(36).substr(2, 9)}`;
+        trigger.setAttribute("aria-controls", panel.id);
+      }
+    });
+  }
+
+  function initMenus(root) {
+    qsa(root, "[data-gs-menu]").forEach((menu) => {
+      const trigger = qs(menu, "[data-gs-menu-trigger]");
+      const panel = qs(menu, "[data-gs-menu-panel]");
+      if (trigger && panel) {
+        trigger.setAttribute("aria-haspopup", "true");
+        trigger.setAttribute("aria-expanded", "false");
+        panel.setAttribute("role", "menu");
+        panel.hidden = true;
+        qsa(panel, "button, a").forEach((item) => {
+          item.setAttribute("role", "menuitem");
+        });
+      }
     });
   }
 
@@ -382,6 +612,7 @@
     initSplash(scope);
     initTabs(scope);
     initAccordions(scope);
+    initMenus(scope);
     bindComposer(scope);
     bindFeed(scope);
     bindInteractions(scope);
@@ -392,6 +623,12 @@
     init,
     showToast,
     closeMenus,
+    announceToScreenReader: (message, priority) => {
+      const liveRegion = document.getElementById("gs-live-region") || createLiveRegion();
+      liveRegion.setAttribute("aria-live", priority || "polite");
+      liveRegion.textContent = message;
+      setTimeout(() => { liveRegion.textContent = ""; }, 1000);
+    },
   };
 
   if (document.readyState === "loading") {

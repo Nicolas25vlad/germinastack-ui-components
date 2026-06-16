@@ -56,8 +56,160 @@
   --gs-duration-fast: 140ms;
   --gs-duration-base: 220ms;
   --gs-duration-slow: 420ms;
+  /* Accessibility tokens */
+  --gs-focus-ring: 3px solid var(--gs-orange);
+  --gs-focus-ring-offset: 3px;
+  --gs-focus-ring-high-contrast: 3px solid #000;
+  --gs-focus-ring-offset-high-contrast: 3px;
+  --gs-skip-link-bg: var(--gs-navy);
+  --gs-skip-link-color: #fff;
+  --gs-skip-link-focus-bg: var(--gs-orange);
+  --gs-skip-link-focus-color: var(--gs-navy);
   color-scheme: light;
   font-family: "Segoe UI", Inter, Arial, sans-serif;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --gs-orange: #cc8400;
+    --gs-orange-pressed: #996300;
+    --gs-orange-soft: #ffd9a3;
+    --gs-ink: #000;
+    --gs-charcoal: #1a1a1a;
+    --gs-slate: #333;
+    --gs-steel: #444;
+    --gs-muted: #555;
+    --gs-hairline: #000;
+    --gs-hairline-soft: #333;
+    --gs-hairline-strong: #000;
+    --gs-danger: #b00000;
+    --gs-success: #006000;
+    --gs-info: #0033cc;
+    --gs-page: #fff;
+    --gs-canvas: #fff;
+    --gs-surface: #f0f0f0;
+    --gs-surface-soft: #f5f5f5;
+    --gs-surface-strong: #e0e0e0;
+    --gs-blue-bg: #d0e0ff;
+    --gs-blue-text: #0033cc;
+    --gs-amber-bg: #fff0c0;
+    --gs-amber-text: #805000;
+    --gs-rose-bg: #ffe0ec;
+    --gs-rose-text: #800030;
+    --gs-mint-bg: #d0f0e0;
+    --gs-mint-text: #005030;
+    --gs-sky-bg: #d0e8ff;
+    --gs-sky-text: #004060;
+    --gs-lavender-bg: #e0d8ff;
+    --gs-lavender-text: #403080;
+  }
+}
+
+/* Forced colors mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  :root {
+    --gs-orange: ButtonText;
+    --gs-orange-pressed: ButtonText;
+    --gs-orange-soft: ButtonFace;
+    --gs-ink: ButtonText;
+    --gs-charcoal: ButtonText;
+    --gs-slate: GrayText;
+    --gs-steel: GrayText;
+    --gs-muted: GrayText;
+    --gs-hairline: ButtonBorder;
+    --gs-hairline-soft: ButtonBorder;
+    --gs-hairline-strong: ButtonBorder;
+    --gs-danger: #ff0000;
+    --gs-success: #008000;
+    --gs-info: #0000ff;
+    --gs-page: Canvas;
+    --gs-canvas: Canvas;
+    --gs-surface: Canvas;
+    --gs-surface-soft: Canvas;
+    --gs-surface-strong: Canvas;
+    --gs-blue-bg: Canvas;
+    --gs-blue-text: LinkText;
+    --gs-amber-bg: Canvas;
+    --gs-amber-text: ButtonText;
+    --gs-rose-bg: Canvas;
+    --gs-rose-text: ButtonText;
+    --gs-mint-bg: Canvas;
+    --gs-mint-text: ButtonText;
+    --gs-sky-bg: Canvas;
+    --gs-sky-text: ButtonText;
+    --gs-lavender-bg: Canvas;
+    --gs-lavender-text: ButtonText;
+    --gs-shadow-subtle: none;
+    --gs-shadow-card: none;
+    --gs-shadow-float: none;
+    --gs-shadow-glow: none;
+  }
+  
+  .gs-btn,
+  .gs-btn-primary,
+  .gs-btn-secondary,
+  .gs-btn-ghost,
+  .gs-btn-danger,
+  .gs-icon-button,
+  .gs-nav-link,
+  .gs-tab,
+  .gs-accordion-trigger,
+  .gs-menu-trigger,
+  .gs-chip {
+    forced-color-adjust: none;
+    border-color: currentColor;
+  }
+  
+  .gs-btn-primary {
+    background: ButtonFace;
+    color: ButtonText;
+  }
+  
+  .gs-btn-primary:hover,
+  .gs-btn-primary:focus {
+    background: Highlight;
+    color: HighlightText;
+  }
+  
+  .gs-card,
+  .gs-post,
+  .gs-side-card,
+  .gs-feature-card,
+  .gs-showcase-card {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+  }
+  
+  .gs-input,
+  .gs-textarea,
+  .gs-select {
+    border-color: ButtonBorder;
+    background: Canvas;
+    color: ButtonText;
+  }
+  
+  .gs-input:focus,
+  .gs-textarea:focus,
+  .gs-select:focus {
+    border-color: Highlight;
+    box-shadow: 0 0 0 2px Highlight;
+  }
+  
+  .gs-modal {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+  }
+  
+  .gs-toast {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+    color: ButtonText;
+  }
+  
+  .gs-badge {
+    border: 1px solid currentColor;
+  }
 }
 
 * {
@@ -121,10 +273,80 @@ select,
 }
 
 :focus-visible {
-  outline: 3px solid var(--gs-orange);
-  outline-offset: 3px;
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
 }
 
+/* Enhanced focus styles for specific interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="option"]:focus-visible,
+.gs-btn:focus-visible,
+.gs-icon-button:focus-visible,
+.gs-nav-link:focus-visible,
+.gs-tab:focus-visible,
+.gs-accordion-trigger:focus-visible,
+.gs-menu-trigger:focus-visible,
+.gs-chip:focus-visible,
+.gs-input:focus-visible,
+.gs-textarea:focus-visible,
+.gs-select:focus-visible,
+.gs-card:focus-visible,
+.gs-post:focus-visible,
+.gs-side-card:focus-visible,
+.gs-feature-card:focus-visible,
+.gs-showcase-card:focus-visible {
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
+}
+
+/* Focus styles for high contrast mode */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline: var(--gs-focus-ring-high-contrast);
+    outline-offset: var(--gs-focus-ring-offset-high-contrast);
+  }
+}
+
+/* Skip link for keyboard navigation */
+.gs-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  padding: var(--gs-space-3) var(--gs-space-6);
+  background: var(--gs-skip-link-bg);
+  color: var(--gs-skip-link-color);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: var(--gs-radius-pill);
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--gs-shadow-card);
+  transition: top var(--gs-duration-fast) var(--gs-ease-out);
+}
+
+.gs-skip-link:focus {
+  top: var(--gs-space-4);
+  outline: none;
+}
+
+.gs-skip-link:focus-visible {
+  top: var(--gs-space-4);
+  background: var(--gs-skip-link-focus-bg);
+  color: var(--gs-skip-link-focus-color);
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
+}
+
+/* Screen reader only utility */
 .gs-sr-only {
   position: absolute;
   width: 1px;
@@ -135,6 +357,115 @@ select,
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* ARIA state styles for accessibility */
+[aria-expanded="true"] {
+  /* Expanded state for accordions, menus, dropdowns */
+}
+
+[aria-expanded="false"] {
+  /* Collapsed state */
+}
+
+[aria-selected="true"] {
+  /* Selected state for tabs, options */
+}
+
+[aria-pressed="true"] {
+  /* Pressed state for toggle buttons */
+}
+
+[aria-disabled="true"],
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+[aria-current="page"],
+[aria-current="step"],
+[aria-current="location"],
+[aria-current="date"],
+[aria-current="time"] {
+  /* Current item in navigation, breadcrumbs, pagination */
+  font-weight: 700;
+}
+
+[aria-live="polite"],
+[aria-live="assertive"] {
+  /* Live regions for announcements */
+}
+
+[aria-hidden="true"] {
+  /* Hidden from screen readers but visible */
+}
+
+[aria-invalid="true"] {
+  /* Invalid form field */
+  border-color: var(--gs-danger) !important;
+  box-shadow: 0 0 0 3px rgba(214, 56, 56, 0.2) !important;
+}
+
+[aria-required="true"] {
+  /* Required field indicator */
+}
+
+[aria-busy="true"] {
+  /* Loading state */
+  cursor: progress;
+}
+
+/* Focus trap indicator for modals */
+.gs-modal:focus-within {
+  /* Modal has focus - focus trap active */
+}
+
+/* Keyboard navigation indicators */
+.gs-nav-link[aria-current="page"] {
+  color: var(--gs-navy);
+  font-weight: 700;
+}
+
+.gs-tab[aria-selected="true"] {
+  color: var(--gs-navy);
+  border-bottom-color: var(--gs-navy);
+}
+
+.gs-accordion-trigger[aria-expanded="true"] {
+  color: var(--gs-navy);
+}
+
+.gs-accordion-trigger[aria-expanded="true"] span:last-child {
+  transform: rotate(180deg);
+  transition: transform var(--gs-duration-fast) var(--gs-ease-standard);
+}
+
+.gs-menu-trigger[aria-expanded="true"] {
+  color: var(--gs-navy);
+}
+
+.gs-chip[aria-pressed="true"] {
+  background: var(--gs-navy);
+  color: #fff;
+  border-color: var(--gs-navy);
+}
+
+.gs-btn[aria-pressed="true"] {
+  background: var(--gs-navy);
+  color: #fff;
+  border-color: var(--gs-navy);
+}
+
+/* Toast live region */
+.gs-toast[role="alert"],
+.gs-toast[role="status"] {
+  /* Toast announcements handled by JS */
+}
+
+/* Modal focus trap */
+.gs-modal-backdrop:not([hidden]) .gs-modal {
+  /* Modal is open - focus should be trapped */
 }
 
 .gs-hidden {
@@ -1195,6 +1526,31 @@ select,
   font-size: 12px;
 }
 
+/* Keyboard key styling for documentation */
+kbd {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: 4px;
+  background: var(--gs-surface);
+  color: var(--gs-ink);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 1px 0 var(--gs-hairline);
+}
+
+/* Color swatch for contrast tables */
+.gs-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--gs-hairline);
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
 .gs-feature-card {
   min-height: 126px;
   padding: 18px;
@@ -1781,5 +2137,79 @@ select,
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+  }
+  
+  /* Disable parallax and complex animations */
+  .gs-hero,
+  .gs-showcase-card,
+  .gs-feature-card {
+    transform: none !important;
+  }
+  
+  /* Ensure instant transitions for interactive elements */
+  .gs-btn,
+  .gs-nav-link,
+  .gs-tab,
+  .gs-accordion-trigger,
+  .gs-menu-trigger,
+  .gs-chip,
+  .gs-card,
+  .gs-post,
+  .gs-side-card,
+  .gs-feature-card,
+  .gs-showcase-card {
+    transition-duration: 0.01ms !important;
+  }
+  
+  /* Disable splash animation */
+  .gs-splash {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Disable modal/toast animations */
+  .gs-modal-backdrop,
+  .gs-modal,
+  .gs-toast {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Disable menu animations */
+  .gs-menu {
+    animation: none !important;
+  }
+}
+
+/* Additional accessibility: ensure sufficient contrast for focus indicators */
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline-width: 4px;
+    outline-offset: 4px;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .gs-skip-link,
+  .gs-topbar,
+  .gs-modal-backdrop,
+  .gs-toast-rail,
+  .gs-splash {
+    display: none !important;
+  }
+  
+  .gs-page {
+    padding: 0;
+  }
+  
+  .gs-card,
+  .gs-post,
+  .gs-side-card,
+  .gs-feature-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
 }
