@@ -6,7 +6,7 @@
     <title>GerminaStack UI Kit</title>
     <meta
       name="description"
-      content="Kit de componentes vanilla derivado do prototipo GerminaStack, com documentacao, exemplos vivos e padroes de integracao."
+      content="Kit de componentes vanilla derivado do prototipo GerminaStack, com documentacao forte, exemplos vivos e padroes de integracao."
     />
     <link rel="stylesheet" href="./assets/css/germinastack.css" />
     <script src="./assets/js/germinastack.js" defer></script>
@@ -28,15 +28,15 @@
       <section class="gs-hero">
         <div>
           <span class="gs-kicker">HTML + CSS + JS vanilla</span>
-          <h1>Documentacao operacional do kit visual do GerminaStack.</h1>
+          <h1>Base operacional para construir o front do GerminaStack sem framework.</h1>
           <p>
-            O objetivo deste pacote e permitir que qualquer dev monte telas consistentes com o
-            prototipo original sem depender de framework, plugin ou etapa de build.
+            Esta documentação existe para tirar ambiguidade de implementação. O objetivo não é só
+            mostrar componente bonito, e sim definir como o time consome, estende e mantém o kit.
           </p>
           <div class="gs-hero-stats">
-            <span><strong>1</strong> CSS distribuivel</span>
-            <span><strong>1</strong> JS com comportamentos por data-attr</span>
-            <span><strong>0</strong> dependencias externas</span>
+            <span><strong>1</strong> CSS distribuível</span>
+            <span><strong>1</strong> runtime JS</span>
+            <span><strong>0</strong> dependências externas</span>
           </div>
         </div>
         <div class="gs-hero-mockup" aria-hidden="true">
@@ -57,6 +57,7 @@
             <nav>
               <a data-gs-doc-link href="#visao-geral">Visao geral</a>
               <a data-gs-doc-link href="#instalacao">Instalacao</a>
+              <a data-gs-doc-link href="#estrutura">Estrutura</a>
               <a data-gs-doc-link href="#tokens">Tokens</a>
               <a data-gs-doc-link href="#acoes">Acoes</a>
               <a data-gs-doc-link href="#navegacao">Navegacao</a>
@@ -64,11 +65,13 @@
               <a data-gs-doc-link href="#feedback">Feedback</a>
               <a data-gs-doc-link href="#feed">Feed</a>
               <a data-gs-doc-link href="#javascript">JavaScript</a>
+              <a data-gs-doc-link href="#receitas">Receitas</a>
+              <a data-gs-doc-link href="#acessibilidade">Acessibilidade</a>
               <a data-gs-doc-link href="#boas-praticas">Boas praticas</a>
             </nav>
           </section>
           <section class="gs-doc-panel">
-            <strong>Arquivos de entrada</strong>
+            <strong>Entradas do kit</strong>
             <p><span class="gs-doc-inline-code">assets/css/germinastack.css</span></p>
             <p><span class="gs-doc-inline-code">assets/js/germinastack.js</span></p>
             <a class="gs-btn gs-btn-secondary" href="./playground.html">Abrir playground</a>
@@ -80,22 +83,27 @@
             <div class="gs-section-head">
               <h2>Visao geral</h2>
               <p>
-                O kit foi extraido do prototipo e reorganizado em fundacoes reutilizaveis:
-                tokens, layout, navegacao, cards, formularios, feedback visual e um conjunto
-                pequeno de comportamentos acessiveis ativados via atributos <span class="gs-doc-inline-code">data-gs-*</span>.
+                O kit foi extraído do protótipo e reorganizado em fundações reutilizáveis:
+                tokens, layout, navegação, cards, formulários, feedback visual e um runtime mínimo
+                acionado por <span class="gs-doc-inline-code">data-gs-*</span>.
               </p>
             </div>
             <div class="gs-grid-3">
-              <div class="gs-feature-card is-sky"><strong>Visual</strong><span>Azul-marinho, laranja, superficies claras e cantos arredondados.</span></div>
-              <div class="gs-feature-card is-peach"><strong>Comportamento</strong><span>Tabs, menus, toasts, dismiss e interacoes simples sem framework.</span></div>
-              <div class="gs-feature-card is-mint"><strong>Entrega</strong><span>Uso direto no navegador, com HTML declarativo e baixa friccao para novos devs.</span></div>
+              <div class="gs-feature-card is-sky"><strong>Visual</strong><span>Azul-marinho, laranja, superfícies claras, cards arredondados e hierarquia limpa.</span></div>
+              <div class="gs-feature-card is-peach"><strong>Comportamento</strong><span>Tabs, menus, toasts, dismiss e interações pequenas sem depender de plugin.</span></div>
+              <div class="gs-feature-card is-mint"><strong>Entrega</strong><span>HTML declarativo e consumo direto no navegador com baixa fricção para o time.</span></div>
+            </div>
+            <div class="gs-grid-3">
+              <div class="gs-card"><strong>Quando usar</strong><p>Use o kit como base de qualquer tela nova que precise herdar a linguagem do protótipo.</p></div>
+              <div class="gs-card"><strong>Quando nao usar</strong><p>Não coloque regra de negócio ou estados de produto complexos no runtime base.</p></div>
+              <div class="gs-card"><strong>Contrato central</strong><p>Classes controlam a forma visual. <span class="gs-doc-inline-code">data-gs-*</span> controla comportamento genérico.</p></div>
             </div>
           </section>
 
           <section id="instalacao" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Instalacao</h2>
-              <p>Inclua os arquivos abaixo e comece a montar a tela com as classes do kit.</p>
+              <p>Inclua os arquivos abaixo e comece a compor a tela com classes do kit.</p>
             </div>
             <div class="gs-code-block">
               <div class="gs-doc-toolbar">
@@ -111,12 +119,50 @@
             </div>
           </section>
 
+          <section id="estrutura" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Estrutura</h2>
+              <p>A raiz do repositório agora concentra tudo que o time consome. A pasta do protótipo ficou isolada apenas como referência.</p>
+            </div>
+            <div class="gs-grid-2">
+              <div class="gs-code-block">
+                <div class="gs-doc-toolbar">
+                  <strong>Mapa de arquivos</strong>
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-structure">Copiar</button>
+                </div>
+                <pre><code id="code-structure">assets/
+  css/
+    germinastack.css
+  js/
+    germinastack.js
+    docs.js
+index.html
+playground.html
+GerminaStack-Prototype/</code></pre>
+              </div>
+              <div class="gs-stack">
+                <div class="gs-card">
+                  <strong>index.html</strong>
+                  <p>Documentação viva com exemplos, contratos e snippets prontos para copiar.</p>
+                </div>
+                <div class="gs-card">
+                  <strong>playground.html</strong>
+                  <p>Área de validação visual e funcional para encaixe de componentes antes de levar para tela real.</p>
+                </div>
+                <div class="gs-card">
+                  <strong>GerminaStack-Prototype</strong>
+                  <p>Fonte da linguagem visual e funcional. Não deve ser usado como base reutilizável do time.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <section id="tokens" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Tokens</h2>
               <p>
-                Os tokens ficam em <span class="gs-doc-inline-code">:root</span>. A regra para
-                customizacao e sobrescrever somente variaveis, sem alterar classes base.
+                Os tokens ficam em <span class="gs-doc-inline-code">:root</span>. A regra segura
+                para customização é sobrescrever variáveis, não alterar classes base.
               </p>
             </div>
             <div class="gs-doc-demo">
@@ -142,7 +188,7 @@
           <section id="acoes" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Acoes</h2>
-              <p>Botoes, chips e acoes curtas seguem a mesma base de peso visual do prototipo.</p>
+              <p>Botões, chips e ações curtas seguem a mesma base de peso visual do protótipo.</p>
             </div>
             <div class="gs-doc-demo">
               <div class="gs-cluster">
@@ -163,7 +209,7 @@
           <section id="navegacao" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Navegacao</h2>
-              <p>Tabs e menus funcionam so com HTML declarativo. O JS apenas liga os gatilhos.</p>
+              <p>Tabs e menus funcionam com HTML declarativo. O JS só liga os gatilhos e mantém o estado básico.</p>
             </div>
             <div class="gs-doc-demo">
               <div data-gs-tabs>
@@ -192,7 +238,7 @@
           <section id="formularios" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Formularios</h2>
-              <p>Campos usam borda suave, foco azul e composicao pronta para composer e comentarios.</p>
+              <p>Campos usam borda suave, foco azul e composição pronta para composer, filtros e comentários.</p>
             </div>
             <div class="gs-doc-demo">
               <div class="gs-grid-2">
@@ -222,7 +268,7 @@
           <section id="feedback" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Feedback</h2>
-              <p>Use banner para contexto persistente e toast para resposta instantanea de acao.</p>
+              <p>Use banner para contexto persistente e toast para resposta imediata de ação.</p>
             </div>
             <div class="gs-doc-demo">
               <div class="gs-banner" data-gs-dismissible>
@@ -235,7 +281,7 @@
               <div class="gs-alert" data-gs-dismissible>
                 <div>
                   <strong>Aviso de moderacao</strong>
-                  <span>Conteudos ocultos podem ser restaurados pelo painel do feed.</span>
+                  <span>Conteúdos ocultos podem ser restaurados pelo painel do feed.</span>
                 </div>
                 <button class="gs-dismiss" type="button" data-gs-dismiss aria-label="Fechar alerta">X</button>
               </div>
@@ -268,8 +314,8 @@
             <div class="gs-section-head">
               <h2>Feed</h2>
               <p>
-                O componente mais importante do kit combina hero, composer, post, comentarios e sidebar.
-                Use o playground para ver a montagem completa.
+                Este é o bloco de composição mais importante do kit. Hero, composer, post, comentários
+                e sidebar foram pensados para montar páginas de comunidade sem reescrever tudo do zero.
               </p>
             </div>
             <div class="gs-layout-demo">
@@ -344,15 +390,16 @@
           <section id="javascript" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>JavaScript</h2>
-              <p>O arquivo JS expone uma API pequena e previsivel em <span class="gs-doc-inline-code">window.GerminaStackUI</span>.</p>
+              <p>O runtime expõe uma API pequena e previsível em <span class="gs-doc-inline-code">window.GerminaStackUI</span>.</p>
             </div>
             <ul class="gs-list">
-              <li><span class="gs-doc-inline-code">GerminaStackUI.init(root)</span>: inicializa tabs, menus, toasts, dismiss e demos.</li>
+              <li><span class="gs-doc-inline-code">GerminaStackUI.init(root)</span>: inicializa tabs, menus, toasts, dismiss e demos em um escopo.</li>
               <li><span class="gs-doc-inline-code">GerminaStackUI.showToast({ title, message, tone })</span>: cria toast programaticamente.</li>
-              <li><span class="gs-doc-inline-code">data-gs-tabs</span>: agrupa tabs e paines.</li>
+              <li><span class="gs-doc-inline-code">GerminaStackUI.closeMenus()</span>: fecha todos os menus contextuais abertos.</li>
+              <li><span class="gs-doc-inline-code">data-gs-tabs</span>: agrupa tabs e painéis.</li>
               <li><span class="gs-doc-inline-code">data-gs-menu</span>: agrupa trigger e painel de menu.</li>
               <li><span class="gs-doc-inline-code">data-gs-dismiss</span>: esconde banners e alerts.</li>
-              <li><span class="gs-doc-inline-code">data-gs-copy</span>: copia blocos de codigo da documentacao.</li>
+              <li><span class="gs-doc-inline-code">data-gs-copy</span>: copia blocos de código da documentação.</li>
             </ul>
             <div class="gs-code-block">
               <div class="gs-doc-toolbar">
@@ -367,17 +414,79 @@
             </div>
           </section>
 
+          <section id="receitas" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Receitas</h2>
+              <p>Blocos objetivos para acelerar implementação sem obrigar o time a redescobrir a estrutura correta.</p>
+            </div>
+            <div class="gs-grid-3">
+              <div class="gs-card">
+                <strong>Tela nova</strong>
+                <ul class="gs-list">
+                  <li>Comece com <span class="gs-doc-inline-code">gs-page</span>.</li>
+                  <li>Escolha <span class="gs-doc-inline-code">gs-stack</span> ou grids.</li>
+                  <li>Encapsule seções com <span class="gs-doc-inline-code">gs-card</span>.</li>
+                </ul>
+              </div>
+              <div class="gs-card">
+                <strong>Feed novo</strong>
+                <ul class="gs-list">
+                  <li>Use <span class="gs-doc-inline-code">gs-post</span> para cada item.</li>
+                  <li>Reserve <span class="gs-doc-inline-code">gs-post-comments</span> para detalhe expandido.</li>
+                  <li>Use sidebar só quando houver filtro ou contexto relevante.</li>
+                </ul>
+              </div>
+              <div class="gs-card">
+                <strong>Interacao nova</strong>
+                <ul class="gs-list">
+                  <li>Tente reaproveitar <span class="gs-doc-inline-code">data-gs-*</span>.</li>
+                  <li>Se não couber, deixe o JS novo fora do runtime base.</li>
+                  <li>Não misture regra de negócio no kit.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="gs-code-block">
+              <div class="gs-doc-toolbar">
+                <strong>Scaffold de pagina</strong>
+                <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-page">Copiar</button>
+              </div>
+              <pre><code id="code-page">&lt;main class="gs-page gs-stack"&gt;
+  &lt;section class="gs-hero"&gt;...&lt;/section&gt;
+  &lt;section class="gs-card"&gt;...&lt;/section&gt;
+  &lt;section class="gs-grid-2"&gt;
+    &lt;article class="gs-post"&gt;...&lt;/article&gt;
+    &lt;aside class="gs-side-card"&gt;...&lt;/aside&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</code></pre>
+            </div>
+          </section>
+
+          <section id="acessibilidade" class="gs-doc-panel">
+            <div class="gs-section-head">
+              <h2>Acessibilidade</h2>
+              <p>O kit já cobre foco visível, redução de movimento e uma base semântica razoável, mas o consumo ainda precisa seguir disciplina.</p>
+            </div>
+            <ul class="gs-list">
+              <li>Mantenha <span class="gs-doc-inline-code">button</span> para ação e <span class="gs-doc-inline-code">a</span> para navegação.</li>
+              <li>Em tabs, use <span class="gs-doc-inline-code">role="tablist"</span> e <span class="gs-doc-inline-code">role="tab"</span> como nos exemplos.</li>
+              <li>Campos devem continuar com label explícita mesmo quando a UI parecer autoexplicativa.</li>
+              <li>Só esconda informação visualmente quando houver alternativa real para leitor de tela.</li>
+              <li>Para conteúdo realmente dinâmico, complemente com anúncio de estado fora do kit quando necessário.</li>
+            </ul>
+          </section>
+
           <section id="boas-praticas" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Boas praticas</h2>
-              <p>Estas regras evitam degradacao visual e mantem a coerencia com o prototipo.</p>
+              <p>Estas regras evitam degradação visual e mantêm a coerência com o protótipo.</p>
             </div>
             <ul class="gs-list">
               <li>Sempre prefira sobrescrever tokens antes de criar novas cores soltas.</li>
-              <li>Use <span class="gs-doc-inline-code">gs-card</span>, <span class="gs-doc-inline-code">gs-post</span> e <span class="gs-doc-inline-code">gs-side-card</span> como blocos de composicao.</li>
-              <li>Mantenha botoes primarios reservados para acao principal da area.</li>
-              <li>Para novas interacoes, reaproveite o padrao <span class="gs-doc-inline-code">data-gs-*</span> em vez de amarrar seletores fragis.</li>
-              <li>Em mobile, reduza quantidade de colunas antes de mexer em espacamento e tipografia.</li>
+              <li>Use <span class="gs-doc-inline-code">gs-card</span>, <span class="gs-doc-inline-code">gs-post</span> e <span class="gs-doc-inline-code">gs-side-card</span> como blocos de composição.</li>
+              <li>Mantenha botões primários reservados para a ação principal da área.</li>
+              <li>Para novas interações, reaproveite o padrão <span class="gs-doc-inline-code">data-gs-*</span> em vez de amarrar seletores frágeis.</li>
+              <li>Em mobile, reduza quantidade de colunas antes de mexer em espaçamento e tipografia.</li>
+              <li>Antes de criar componente novo, valide se ele não é apenas variante de um bloco existente.</li>
             </ul>
           </section>
         </div>
