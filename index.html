@@ -352,7 +352,7 @@ GerminaStack-Prototype/</code></pre>
           <section id="novos" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Novos componentes</h2>
-              <p>Entraram blocos mais próximos de tela real: métricas, progresso, tabela, timeline, accordion, empty state e pricing.</p>
+              <p>Entraram blocos mais próximos de tela real: métricas, progresso, tabela, timeline, accordion, empty state, pricing, select/combobox, date picker, data table e tooltip/popover.</p>
             </div>
             <div class="gs-showcase-grid">
               <article class="gs-showcase-card">
@@ -425,6 +425,192 @@ GerminaStack-Prototype/</code></pre>
                   <button class="gs-btn gs-btn-primary" type="button">Explorar conteúdos</button>
                 </div>
               </article>
+
+              <article class="gs-showcase-card">
+                <span class="gs-card-eyebrow">Select / Combobox</span>
+                <h3 class="gs-card-title">Seleção com busca e grupos</h3>
+                <div class="gs-select" data-gs-select data-gs-select-search data-gs-select-placeholder="Selecione uma turma...">
+                  <button class="gs-select-trigger" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-options-1">
+                    <span class="gs-select-value">Selecione uma turma...</span>
+                    <span class="gs-select-icon" aria-hidden="true">▼</span>
+                  </button>
+                  <div class="gs-select-panel" id="select-options-1" role="listbox" hidden>
+                    <div class="gs-select-search">
+                      <input type="text" placeholder="Buscar..." aria-label="Filtrar opções" />
+                    </div>
+                    <div class="gs-select-group">
+                      <span class="gs-select-group-label">2º Ano</span>
+                      <div class="gs-select-option" role="option" data-value="2a-tec-e" aria-selected="false">2a Tec E</div>
+                      <div class="gs-select-option" role="option" data-value="2a-tec-a" aria-selected="false">2a Tec A</div>
+                    </div>
+                    <div class="gs-select-group">
+                      <span class="gs-select-group-label">1º Ano</span>
+                      <div class="gs-select-option" role="option" data-value="1a-tec-a" aria-selected="false">1a Tec A</div>
+                      <div class="gs-select-option" role="option" data-value="1a-tec-b" aria-selected="false">1a Tec B</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="gs-doc-meta">
+                  <kbd>Enter</kbd>/<kbd>Space</kbd> abre · <kbd>↑↓</kbd> navega · <kbd>Esc</kbd> fecha · Digita para filtrar
+                </div>
+              </article>
+
+              <article class="gs-showcase-card">
+                <span class="gs-card-eyebrow">Date Picker</span>
+                <h3 class="gs-card-title">Calendário acessível</h3>
+                <div class="gs-datepicker" data-gs-datepicker data-gs-datepicker-placeholder="Selecione uma data">
+                  <button class="gs-datepicker-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="datepicker-panel-1">
+                    <span class="gs-datepicker-value">Selecione uma data</span>
+                    <span class="gs-datepicker-icon" aria-hidden="true">📅</span>
+                  </button>
+                  <div class="gs-datepicker-panel" id="datepicker-panel-1" role="dialog" aria-modal="true" aria-label="Selecionar data" hidden>
+                    <div class="gs-datepicker-header">
+                      <button class="gs-datepicker-nav" type="button" aria-label="Mês anterior">‹</button>
+                      <span class="gs-datepicker-title">Janeiro 2025</span>
+                      <button class="gs-datepicker-nav" type="button" aria-label="Próximo mês">›</button>
+                    </div>
+                    <div class="gs-datepicker-grid" role="grid" aria-label="Dias do mês">
+                      <div class="gs-datepicker-weekday" role="columnheader">Dom</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Seg</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Ter</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Qua</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Qui</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Sex</div>
+                      <div class="gs-datepicker-weekday" role="columnheader">Sáb</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">1</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">2</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">3</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">4</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">5</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">6</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">7</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">8</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">9</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">10</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">11</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">12</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">13</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">14</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">15</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">16</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">17</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">18</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">19</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">20</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">21</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">22</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">23</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">24</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">25</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">26</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">27</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">28</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">29</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">30</div>
+                      <div class="gs-datepicker-day" role="gridcell" aria-selected="false" tabindex="-1">31</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="gs-doc-meta">
+                  <kbd>Enter</kbd> abre · <kbd>Setas</kbd> navegam dias · <kbd>PgUp/PgDn</kbd> muda mês · <kbd>Esc</kbd> fecha
+                </div>
+              </article>
+
+              <article class="gs-showcase-card">
+                <span class="gs-card-eyebrow">Data Table</span>
+                <h3 class="gs-card-title">Tabela com ordenação e paginação</h3>
+                <div class="gs-datatable" data-gs-datatable data-gs-datatable-sort data-gs-datatable-filter data-gs-datatable-paginate data-gs-datatable-page-size="5">
+                  <div class="gs-datatable-toolbar">
+                    <input type="text" class="gs-datatable-filter-input" placeholder="Filtrar..." aria-label="Filtrar linhas" />
+                    <div class="gs-datatable-info" aria-live="polite"></div>
+                  </div>
+                  <div class="gs-datatable-wrap">
+                    <table class="gs-table">
+                      <thead>
+                        <tr>
+                          <th scope="col" data-gs-sort="string">Nome</th>
+                          <th scope="col" data-gs-sort="string">Turma</th>
+                          <th scope="col" data-gs-sort="number">Nota</th>
+                          <th scope="col" data-gs-sort="date">Entrega</th>
+                          <th scope="col"><input type="checkbox" class="gs-datatable-select-all" aria-label="Selecionar todas" /></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-gs-row>
+                          <td>Ana Silva</td>
+                          <td>2a Tec E</td>
+                          <td>9.5</td>
+                          <td>2025-01-15</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                        <tr data-gs-row>
+                          <td>Bruno Costa</td>
+                          <td>2a Tec A</td>
+                          <td>8.0</td>
+                          <td>2025-01-14</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                        <tr data-gs-row>
+                          <td>Carla Mendes</td>
+                          <td>1a Tec A</td>
+                          <td>7.5</td>
+                          <td>2025-01-13</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                        <tr data-gs-row>
+                          <td>Diego Alves</td>
+                          <td>2a Tec E</td>
+                          <td>9.0</td>
+                          <td>2025-01-12</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                        <tr data-gs-row>
+                          <td>Eduarda Lima</td>
+                          <td>1a Tec B</td>
+                          <td>8.5</td>
+                          <td>2025-01-11</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                        <tr data-gs-row>
+                          <td>Felipe Rocha</td>
+                          <td>2a Tec A</td>
+                          <td>6.5</td>
+                          <td>2025-01-10</td>
+                          <td><input type="checkbox" class="gs-datatable-row-select" /></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="gs-datatable-pagination" aria-label="Paginação">
+                    <button class="gs-datatable-page-btn" type="button" aria-label="Primeira página" disabled>««</button>
+                    <button class="gs-datatable-page-btn" type="button" aria-label="Página anterior" disabled>«</button>
+                    <span class="gs-datatable-page-info">Página 1 de 2</span>
+                    <button class="gs-datatable-page-btn" type="button" aria-label="Próxima página">»</button>
+                    <button class="gs-datatable-page-btn" type="button" aria-label="Última página">»»</button>
+                  </div>
+                </div>
+                <div class="gs-doc-meta">
+                  Clique no cabeçalho para ordenar · Digite para filtrar · <kbd>Tab</kbd> navega linhas · <kbd>Space</kbd> seleciona
+                </div>
+              </article>
+
+              <article class="gs-showcase-card">
+                <span class="gs-card-eyebrow">Tooltip / Popover</span>
+                <h3 class="gs-card-title">Dicas contextuais e painéis flutuantes</h3>
+                <div class="gs-cluster">
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-tooltip data-gs-tooltip-content="Esta é uma dica contextual simples" data-gs-tooltip-placement="top">Tooltip topo</button>
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-tooltip data-gs-tooltip-content="Dica à direita do elemento" data-gs-tooltip-placement="right">Tooltip direita</button>
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-tooltip data-gs-tooltip-content="Dica abaixo do elemento" data-gs-tooltip-placement="bottom">Tooltip base</button>
+                  <button class="gs-btn gs-btn-secondary" type="button" data-gs-tooltip data-gs-tooltip-content="Dica à esquerda do elemento" data-gs-tooltip-placement="left">Tooltip esquerda</button>
+                </div>
+                <div class="gs-cluster" style="margin-top:12px">
+                  <button class="gs-btn gs-btn-primary" type="button" data-gs-popover data-gs-popover-trigger="click" data-gs-popover-title="Ações rápidas" data-gs-popover-content="&lt;button class='gs-btn gs-btn-secondary gs-btn-sm' type='button'&gt;Editar&lt;/button&gt;&lt;button class='gs-btn gs-btn-danger gs-btn-sm' type='button'&gt;Excluir&lt;/button&gt;">Popover clique</button>
+                  <button class="gs-btn gs-btn-ghost" type="button" data-gs-popover data-gs-popover-trigger="hover" data-gs-popover-title="Info" data-gs-popover-content="Conteúdo rico com <strong>HTML</strong> suportado">Popover hover</button>
+                </div>
+                <div class="gs-doc-meta">
+                  Tooltip: hover/foco · Popover: clique ou hover · <kbd>Esc</kbd> fecha · Posicionamento automático
+                </div>
+              </article>
             </div>
             <div class="gs-table-wrap">
               <table class="gs-table">
@@ -433,6 +619,7 @@ GerminaStack-Prototype/</code></pre>
                     <th>Componente</th>
                     <th>Uso</th>
                     <th>Classe principal</th>
+                    <th>Atributos data-gs-*</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -440,21 +627,49 @@ GerminaStack-Prototype/</code></pre>
                     <td>Métrica</td>
                     <td>Painel, dashboard, resumo</td>
                     <td><span class="gs-doc-inline-code">gs-metric-card</span></td>
+                    <td>—</td>
                   </tr>
                   <tr>
                     <td>Timeline</td>
                     <td>Lançamento, histórico, jornada</td>
                     <td><span class="gs-doc-inline-code">gs-timeline</span></td>
+                    <td>—</td>
                   </tr>
                   <tr>
                     <td>Accordion</td>
                     <td>FAQ, ajuda, detalhes colapsáveis</td>
                     <td><span class="gs-doc-inline-code">gs-accordion</span></td>
+                    <td><code>data-gs-accordion-item</code>, <code>data-gs-accordion-trigger</code>, <code>data-gs-accordion-panel</code></td>
                   </tr>
                   <tr>
                     <td>Pricing</td>
                     <td>Planos, pacotes, tiers</td>
                     <td><span class="gs-doc-inline-code">gs-pricing-card</span></td>
+                    <td>—</td>
+                  </tr>
+                  <tr>
+                    <td>Select / Combobox</td>
+                    <td>Seleção única com busca, grupos, teclado</td>
+                    <td><span class="gs-doc-inline-code">gs-select</span></td>
+                    <td><code>data-gs-select</code>, <code>data-gs-select-search</code>, <code>data-gs-select-placeholder</code>, <code>data-gs-select-multiple</code></td>
+                  </tr>
+                  <tr>
+                    <td>Date Picker / Range</td>
+                    <td>Calendário acessível, seleção de intervalo</td>
+                    <td><span class="gs-doc-inline-code">gs-datepicker</span></td>
+                    <td><code>data-gs-datepicker</code>, <code>data-gs-datepicker-range</code>, <code>data-gs-datepicker-placeholder</code></td>
+                  </tr>
+                  <tr>
+                    <td>Data Table</td>
+                    <td>Tabela com ordenação, filtro, paginação, seleção</td>
+                    <td><span class="gs-doc-inline-code">gs-datatable</span></td>
+                    <td><code>data-gs-datatable</code>, <code>data-gs-datatable-sort</code>, <code>data-gs-datatable-filter</code>, <code>data-gs-datatable-paginate</code>, <code>data-gs-datatable-page-size</code></td>
+                  </tr>
+                  <tr>
+                    <td>Tooltip / Popover</td>
+                    <td>Dicas contextuais, painéis flutuantes ricos</td>
+                    <td><span class="gs-doc-inline-code">gs-tooltip</span>, <span class="gs-doc-inline-code">gs-popover</span></td>
+                    <td><code>data-gs-tooltip</code>, <code>data-gs-tooltip-content</code>, <code>data-gs-tooltip-placement</code>, <code>data-gs-popover</code>, <code>data-gs-popover-trigger</code>, <code>data-gs-popover-title</code>, <code>data-gs-popover-content</code></td>
                   </tr>
                 </tbody>
               </table>
@@ -552,7 +767,7 @@ GerminaStack-Prototype/</code></pre>
                 <tbody>
                   <tr>
                     <td><code>GerminaStackUI.init(root)</code></td>
-                    <td>Inicializa tabs, menus, toasts, dismiss, accordion e interações em um escopo</td>
+                    <td>Inicializa tabs, menus, toasts, dismiss, accordion, selects, datepickers, datatables, tooltips e interações em um escopo</td>
                     <td>v1.0</td>
                   </tr>
                   <tr>
@@ -594,6 +809,26 @@ GerminaStack-Prototype/</code></pre>
                     <td><code>GerminaStackUI.trapFocus(element)</code></td>
                     <td>Ativa armadilha de foco em um elemento (usado internamente por modais)</td>
                     <td>v1.1</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.initSelects(root)</code></td>
+                    <td>Inicializa selects/combobox com busca, grupos e navegação por teclado</td>
+                    <td>v1.2</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.initDatePickers(root)</code></td>
+                    <td>Inicializa date pickers e range pickers com calendário acessível</td>
+                    <td>v1.2</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.initDataTables(root)</code></td>
+                    <td>Inicializa data tables com ordenação, filtro, paginação e seleção</td>
+                    <td>v1.2</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.initTooltips(root)</code></td>
+                    <td>Inicializa tooltips e popovers com posicionamento automático</td>
+                    <td>v1.2</td>
                   </tr>
                 </tbody>
               </table>

@@ -606,6 +606,651 @@
     });
   }
 
+  function initSelects(root) {
+    qsa(root, "[data-gs-select]").forEach((select) => {
+      const trigger = qs(select, "[data-gs-select-trigger]");
+      const panel = qs(select, "[data-gs-select-panel]");
+      const search = qs(select, "[data-gs-select-search] input");
+      const options = qsa(panel, "[data-gs-select-option]");
+      
+      if (!trigger || !panel) return;
+      
+      // Set up ARIA attributes
+      trigger.setAttribute("aria-haspopup", "listbox");
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("aria-controls", panel.id || `select-panel-${Math.random().toString(36).substr(2, 9)}`);
+      if (!panel.id) panel.id = trigger.getAttribute("aria-controls");
+      panel.setAttribute("role", "listbox");
+      panel.setAttribute("aria-labelledby", trigger.id || `select-trigger-${Math.random().toString(36).substr(2, 9)}`);
+      if (!trigger.id) trigger.id = panel.getAttribute("aria-labelledby");
+      
+      options.forEach((option) => {
+        option.setAttribute("role", "option");
+        option.setAttribute("aria-selected", option.getAttribute("aria-selected") || "false");
+      });
+      
+      // Search functionality
+      if (search) {
+        search.addEventListener("input", () => {
+          const query = search.value.toLowerCase();
+          options.forEach((option) => {
+            const text = option.textContent.toLowerCase();
+            option.hidden = !text.includes(query) && option.getAttribute("role") !== "separator";
+          });
+        });
+      }
+    });
+  }
+
+  function initDatePickers(root) {
+    qsa(root, "[data-gs-datepicker]").forEach((datepicker) => {
+      const trigger = qs(datepicker, "[data-gs-datepicker-trigger]");
+      const panel = qs(datepicker, "[data-gs-datepicker-panel]");
+      const grid = qs(panel, "[data-gs-datepicker-grid]");
+      const prevBtn = qs(panel, "[data-gs-datepicker-prev]");
+      const nextBtn = qs(panel, "[data-gs-datepicker-next]");
+      const title = qs(panel, "[data-gs-datepicker-title]");
+      const foot = qs(panel, "[data-gs-datepicker-foot]");
+      const isRange = datepicker.hasAttribute("data-gs-datepicker-range");
+      
+      if (!trigger || !panel || !grid) return;
+      
+      let currentDate = new Date();
+      let selectedDate = null;
+      let rangeStart = null;
+      let rangeEnd = null;
+      let selectingStart = true;
+      
+      // Parse initial value
+      const inputValue = trigger.getAttribute("data-gs-value");
+      if (inputValue) {
+        if (isRange) {
+          const [start, end] = inputValue.split(" to ");
+          if (start) rangeStart = new Date(start);
+          if (end) rangeEnd = new Date(end);
+          currentDate = rangeStart || new Date();
+        } else {
+          selectedDate = new Date(inputValue);
+          currentDate = selectedDate || new Date();
+        }
+      }
+      
+      // Set up ARIA attributes
+      trigger.setAttribute("aria-haspopup", "dialog");
+      trigger.setAttribute("aria-expanded", "false");
+      trigger.setAttribute("aria-controls", panel.id || `datepicker-panel-${Math.random().toString(36).substr(2, 9)}`);
+      if (!panel.id) panel.id = trigger.getAttribute("aria-controls");
+      panel.setAttribute("role", "dialog");
+      panel.setAttribute("aria-labelledby", trigger.id || `datepicker-trigger-${Math.random().toString(36).substr(2, 9)}`);
+      if (!trigger.id) trigger.id = panel.getAttribute("aria-labelledby");
+      
+      function renderCalendar() {
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        
+        // Update title
+        if (title) {
+          title.textContent = currentDate.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+        }
+        
+        // Update nav buttons
+        if (prevBtn) prevBtn.disabled = false;
+        if (nextBtn) nextBtn.disabled = false;
+        
+        // Generate calendar days
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const startDay = firstDay.getDay(); // 0 = Sunday
+        const daysInMonth = lastDay.getDate();
+        const prevMonthDays = new Date(year, month, 0).getDate();
+        
+        let html = "";
+        
+        // Weekday headers
+        const weekdays = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+        weekdays.forEach((day) => {
+          html += `<button type="button" class="gs-datepicker-weekday" aria-label="${day}">${day}</button>`;
+        });
+        
+        // Previous month days
+        for (let i = startDay - 1; i >= 0; i--) {
+          const day = prevMonthDays - i;
+          const date = new Date(year, month - 1, day);
+          html += `<button type="button" class="gs-datepicker-day is-outside is-disabled" data-date="${date.toISOString().split("T")[0]}" aria-label="${date.toLocaleDateString("pt-BR")}" tabindex="-1">${day}</button>`;
+        }
+        
+        // Current month days
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+          const date = new Date(year, month, day);
+          date.setHours(0, 0, 0, 0);
+          
+          let classes = "gs-datepicker-day";
+          let attrs = `data-date="${date.toISOString().split("T")[0]}" aria-label="${date.toLocaleDateString("pt-BR")}"`;
+          
+          if (date.getTime() === today.getTime()) {
+            classes += " is-today";
+          }
+          
+          if (isRange) {
+            if (rangeStart && date.getTime() === rangeStart.getTime()) {
+              classes += " is-range-start";
+              attrs += ' aria-selected="true"';
+            }
+            if (rangeEnd && date.getTime() === rangeEnd.getTime()) {
+              classes += " is-range-end";
+              attrs += ' aria-selected="true"';
+            }
+            if (rangeStart && rangeEnd && date > rangeStart && date < rangeEnd) {
+              classes += " is-in-range";
+            }
+          } else if (selectedDate && date.getTime() === selectedDate.getTime()) {
+            classes += " is-selected";
+            attrs += ' aria-selected="true"';
+          }
+          
+          html += `<button type="button" class="${classes}" ${attrs}>${day}</button>`;
+        }
+        
+        // Next month days
+        const totalCells = startDay + daysInMonth;
+        const nextMonthCells = Math.ceil(totalCells / 7) * 7 - totalCells;
+        for (let day = 1; day <= nextMonthCells; day++) {
+          const date = new Date(year, month + 1, day);
+          html += `<button type="button" class="gs-datepicker-day is-outside is-disabled" data-date="${date.toISOString().split("T")[0]}" aria-label="${date.toLocaleDateString("pt-BR")}" tabindex="-1">${day}</button>`;
+        }
+        
+        grid.innerHTML = html;
+        
+        // Add click handlers to day buttons
+        qsa(grid, ".gs-datepicker-day:not(.is-disabled)").forEach((dayBtn) => {
+          dayBtn.addEventListener("click", () => {
+            const dateStr = dayBtn.getAttribute("data-date");
+            const date = new Date(dateStr + "T00:00:00");
+            
+            if (isRange) {
+              if (selectingStart || rangeEnd) {
+                rangeStart = date;
+                rangeEnd = null;
+                selectingStart = false;
+              } else if (date < rangeStart) {
+                rangeStart = date;
+              } else {
+                rangeEnd = date;
+                selectingStart = true;
+              }
+            } else {
+              selectedDate = date;
+              closeDatePicker();
+            }
+            
+            renderCalendar();
+            updateTriggerValue();
+          });
+          
+          // Keyboard navigation
+          dayBtn.addEventListener("keydown", (e) => {
+            handleDatePickerKeydown(e, dayBtn, grid);
+          });
+        });
+      }
+      
+      function updateTriggerValue() {
+        if (isRange) {
+          if (rangeStart && rangeEnd) {
+            trigger.setAttribute("data-gs-value", `${rangeStart.toISOString().split("T")[0]} to ${rangeEnd.toISOString().split("T")[0]}`);
+            const startStr = rangeStart.toLocaleDateString("pt-BR");
+            const endStr = rangeEnd.toLocaleDateString("pt-BR");
+            trigger.querySelector("[data-gs-datepicker-value]").textContent = `${startStr} – ${endStr}`;
+            trigger.querySelector("[data-gs-datepicker-value]").classList.remove("gs-select-placeholder");
+          } else if (rangeStart) {
+            trigger.setAttribute("data-gs-value", rangeStart.toISOString().split("T")[0]);
+            trigger.querySelector("[data-gs-datepicker-value]").textContent = rangeStart.toLocaleDateString("pt-BR");
+            trigger.querySelector("[data-gs-datepicker-value]").classList.remove("gs-select-placeholder");
+          } else {
+            trigger.removeAttribute("data-gs-value");
+            trigger.querySelector("[data-gs-datepicker-value]").textContent = "Selecionar período";
+            trigger.querySelector("[data-gs-datepicker-value]").classList.add("gs-select-placeholder");
+          }
+        } else {
+          if (selectedDate) {
+            trigger.setAttribute("data-gs-value", selectedDate.toISOString().split("T")[0]);
+            trigger.querySelector("[data-gs-datepicker-value]").textContent = selectedDate.toLocaleDateString("pt-BR");
+            trigger.querySelector("[data-gs-datepicker-value]").classList.remove("gs-select-placeholder");
+          } else {
+            trigger.removeAttribute("data-gs-value");
+            trigger.querySelector("[data-gs-datepicker-value]").textContent = "Selecionar data";
+            trigger.querySelector("[data-gs-datepicker-value]").classList.add("gs-select-placeholder");
+          }
+        }
+      }
+      
+      function openDatePicker() {
+        trigger.setAttribute("aria-expanded", "true");
+        panel.hidden = false;
+        renderCalendar();
+        // Focus first non-disabled day
+        const firstDay = qs(grid, ".gs-datepicker-day:not(.is-disabled):not(.is-outside)");
+        if (firstDay) firstDay.focus();
+      }
+      
+      function closeDatePicker() {
+        trigger.setAttribute("aria-expanded", "false");
+        panel.hidden = true;
+        trigger.focus();
+      }
+      
+      function handleDatePickerKeydown(e, target, grid) {
+        const days = qsa(grid, ".gs-datepicker-day:not(.is-disabled):not(.is-outside)");
+        const currentIndex = days.indexOf(target);
+        
+        switch (e.key) {
+          case "ArrowRight":
+            e.preventDefault();
+            if (currentIndex < days.length - 1) days[currentIndex + 1].focus();
+            break;
+          case "ArrowLeft":
+            e.preventDefault();
+            if (currentIndex > 0) days[currentIndex - 1].focus();
+            break;
+          case "ArrowDown":
+            e.preventDefault();
+            if (currentIndex + 7 < days.length) days[currentIndex + 7].focus();
+            break;
+          case "ArrowUp":
+            e.preventDefault();
+            if (currentIndex - 7 >= 0) days[currentIndex - 7].focus();
+            break;
+          case "Home":
+            e.preventDefault();
+            const weekStart = currentIndex - (currentIndex % 7);
+            if (days[weekStart]) days[weekStart].focus();
+            break;
+          case "End":
+            e.preventDefault();
+            const weekEnd = Math.min(currentIndex + (6 - (currentIndex % 7)), days.length - 1);
+            if (days[weekEnd]) days[weekEnd].focus();
+            break;
+          case "Enter":
+          case " ":
+            e.preventDefault();
+            target.click();
+            break;
+          case "Escape":
+            e.preventDefault();
+            closeDatePicker();
+            break;
+          case "PageUp":
+            e.preventDefault();
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+            break;
+          case "PageDown":
+            e.preventDefault();
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+            break;
+        }
+      }
+      
+      // Trigger click
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const expanded = trigger.getAttribute("aria-expanded") === "true";
+        if (expanded) {
+          closeDatePicker();
+        } else {
+          openDatePicker();
+        }
+      });
+      
+      // Nav buttons
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          currentDate.setMonth(currentDate.getMonth() - 1);
+          renderCalendar();
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          currentDate.setMonth(currentDate.getMonth() + 1);
+          renderCalendar();
+        });
+      }
+      
+      // Close on outside click
+      document.addEventListener("click", (e) => {
+        if (!datepicker.contains(e.target)) {
+          closeDatePicker();
+        }
+      });
+      
+      // Escape key
+      trigger.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeDatePicker();
+        }
+      });
+      
+      // Initial render
+      updateTriggerValue();
+    });
+  }
+
+  function initDataTables(root) {
+    qsa(root, "[data-gs-datatable]").forEach((datatable) => {
+      const table = qs(datatable, "table");
+      const toolbar = qs(datatable, "[data-gs-datatable-toolbar]");
+      const search = qs(toolbar, "[data-gs-datatable-search] input");
+      const pagination = qs(datatable, "[data-gs-datatable-pagination]");
+      const prevBtn = qs(pagination, "[data-gs-datatable-prev]");
+      const nextBtn = qs(pagination, "[data-gs-datatable-next]");
+      const pageInfo = qs(pagination, "[data-gs-datatable-page-info]");
+      const rowsPerPage = Number(datatable.getAttribute("data-gs-datatable-page-size") || "10");
+      
+      if (!table) return;
+      
+      const tbody = qs(table, "tbody");
+      const headers = qsa(table, "th[aria-sort]");
+      let allRows = Array.from(qsa(tbody, "tr"));
+      let filteredRows = [...allRows];
+      let currentPage = 1;
+      let sortColumn = null;
+      let sortDirection = "none";
+      
+      function renderRows() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const pageRows = filteredRows.slice(start, end);
+        
+        allRows.forEach((row) => row.hidden = true);
+        pageRows.forEach((row) => row.hidden = false);
+        
+        // Update pagination
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        if (prevBtn) prevBtn.disabled = currentPage <= 1;
+        if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+        if (pageInfo) pageInfo.textContent = `Página ${currentPage} de ${totalPages || 1}`;
+        
+        // Update row selection
+        qsa(tbody, "tr").forEach((row) => {
+          row.classList.remove("is-selected");
+        });
+      }
+      
+      function filterRows() {
+        if (!search) return;
+        const query = search.value.toLowerCase();
+        filteredRows = allRows.filter((row) => {
+          const text = row.textContent.toLowerCase();
+          return text.includes(query);
+        });
+        currentPage = 1;
+        renderRows();
+      }
+      
+      function sortRows(columnIndex, direction) {
+        filteredRows.sort((a, b) => {
+          const aText = a.cells[columnIndex]?.textContent.trim() || "";
+          const bText = b.cells[columnIndex]?.textContent.trim() || "";
+          
+          // Try numeric comparison
+          const aNum = parseFloat(aText.replace(/[^\d.-]/g, ""));
+          const bNum = parseFloat(bText.replace(/[^\d.-]/g, ""));
+          
+          let result = 0;
+          if (!isNaN(aNum) && !isNaN(bNum)) {
+            result = aNum - bNum;
+          } else {
+            result = aText.localeCompare(bText, "pt-BR");
+          }
+          
+          return direction === "ascending" ? result : -result;
+        });
+        renderRows();
+      }
+      
+      // Sort headers
+      headers.forEach((header, index) => {
+        header.addEventListener("click", () => {
+          const currentSort = header.getAttribute("aria-sort");
+          let newDirection = "ascending";
+          
+          if (currentSort === "ascending") {
+            newDirection = "descending";
+          } else if (currentSort === "descending") {
+            newDirection = "none";
+          }
+          
+          headers.forEach((h) => h.setAttribute("aria-sort", "none"));
+          header.setAttribute("aria-sort", newDirection);
+          
+          sortColumn = index;
+          sortDirection = newDirection;
+          
+          if (newDirection === "none") {
+            filteredRows = [...allRows];
+            if (search) filterRows();
+          } else {
+            sortRows(index, newDirection);
+          }
+        });
+        
+        header.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            header.click();
+          }
+        });
+      });
+      
+      // Search
+      if (search) {
+        search.addEventListener("input", filterRows);
+      }
+      
+      // Pagination
+      if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderRows();
+          }
+        });
+      }
+      
+      if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+          const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderRows();
+          }
+        });
+      }
+      
+      // Row selection
+      qsa(tbody, "tr").forEach((row) => {
+        row.addEventListener("click", () => {
+          qsa(tbody, "tr").forEach((r) => r.classList.remove("is-selected"));
+          row.classList.add("is-selected");
+        });
+        
+        row.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            row.click();
+          }
+        });
+      });
+      
+      // Initial render
+      renderRows();
+    });
+  }
+
+  function initTooltips(root) {
+    qsa(root, "[data-gs-tooltip], [data-gs-popover]").forEach((trigger) => {
+      const isPopover = trigger.hasAttribute("data-gs-popover");
+      const content = trigger.getAttribute("data-gs-tooltip") || trigger.getAttribute("data-gs-popover");
+      const placement = trigger.getAttribute("data-gs-placement") || "top";
+      const popoverTitle = trigger.getAttribute("data-gs-popover-title");
+      const popoverContent = trigger.getAttribute("data-gs-popover-content");
+      const popoverFoot = trigger.getAttribute("data-gs-popover-foot");
+      
+      if (!content && !popoverContent) return;
+      
+      let tooltip = null;
+      let hideTimeout = null;
+      let showTimeout = null;
+      
+      function createTooltip() {
+        tooltip = document.createElement("div");
+        tooltip.className = isPopover ? "gs-popover" : "gs-tooltip";
+        tooltip.setAttribute("role", isPopover ? "dialog" : "tooltip");
+        tooltip.setAttribute("data-placement", placement);
+        tooltip.hidden = true;
+        
+        if (isPopover) {
+          let html = "";
+          if (popoverTitle) {
+            html += `
+              <div class="gs-popover-header">
+                <h4>${escapeHtml(popoverTitle)}</h4>
+                <button type="button" class="gs-popover-close" aria-label="Fechar">${icon("close")}</button>
+              </div>
+            `;
+          }
+          html += `<div class="gs-popover-body">${escapeHtml(popoverContent || content)}</div>`;
+          if (popoverFoot) {
+            html += `<div class="gs-popover-foot">${popoverFoot}</div>`;
+          }
+          tooltip.innerHTML = html;
+          
+          // Close button
+          const closeBtn = qs(tooltip, ".gs-popover-close");
+          if (closeBtn) {
+            closeBtn.addEventListener("click", hideTooltip);
+          }
+        } else {
+          tooltip.textContent = content;
+        }
+        
+        document.body.appendChild(tooltip);
+      }
+      
+      function positionTooltip() {
+        if (!tooltip) return;
+        
+        const triggerRect = trigger.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const gap = 8;
+        
+        let top = 0;
+        let left = 0;
+        
+        switch (placement) {
+          case "top":
+            top = triggerRect.top - tooltipRect.height - gap;
+            left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+            break;
+          case "bottom":
+            top = triggerRect.bottom + gap;
+            left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+            break;
+          case "left":
+            top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+            left = triggerRect.left - tooltipRect.width - gap;
+            break;
+          case "right":
+            top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+            left = triggerRect.right + gap;
+            break;
+        }
+        
+        // Keep within viewport
+        const viewportPadding = 8;
+        if (left < viewportPadding) left = viewportPadding;
+        if (left + tooltipRect.width > window.innerWidth - viewportPadding) {
+          left = window.innerWidth - tooltipRect.width - viewportPadding;
+        }
+        if (top < viewportPadding) top = viewportPadding;
+        if (top + tooltipRect.height > window.innerHeight - viewportPadding) {
+          top = window.innerHeight - tooltipRect.height - viewportPadding;
+        }
+        
+        tooltip.style.top = `${top}px`;
+        tooltip.style.left = `${left}px`;
+      }
+      
+      function showTooltip() {
+        if (!tooltip) createTooltip();
+        clearTimeout(hideTimeout);
+        
+        showTimeout = setTimeout(() => {
+          tooltip.hidden = false;
+          positionTooltip();
+          requestAnimationFrame(() => {
+            tooltip.classList.add("is-visible");
+          });
+          
+          if (isPopover) {
+            const closeBtn = qs(tooltip, ".gs-popover-close");
+            if (closeBtn) closeBtn.focus();
+          }
+        }, isPopover ? 0 : 150);
+      }
+      
+      function hideTooltip() {
+        clearTimeout(showTimeout);
+        
+        if (tooltip) {
+          tooltip.classList.remove("is-visible");
+          hideTimeout = setTimeout(() => {
+            tooltip.hidden = true;
+          }, 150);
+        }
+      }
+      
+      // Event listeners
+      if (isPopover) {
+        trigger.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isVisible = tooltip && tooltip.classList.contains("is-visible");
+          if (isVisible) {
+            hideTooltip();
+          } else {
+            showTooltip();
+          }
+        });
+        
+        document.addEventListener("click", (e) => {
+          if (tooltip && !tooltip.contains(e.target) && e.target !== trigger) {
+            hideTooltip();
+          }
+        });
+        
+        trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            hideTooltip();
+          }
+        });
+      } else {
+        trigger.addEventListener("mouseenter", showTooltip);
+        trigger.addEventListener("mouseleave", hideTooltip);
+        trigger.addEventListener("focus", showTooltip);
+        trigger.addEventListener("blur", hideTooltip);
+      }
+      
+      // Reposition on scroll/resize
+      window.addEventListener("scroll", positionTooltip, { passive: true });
+      window.addEventListener("resize", positionTooltip);
+    });
+  }
+
   function init(root) {
     const scope = root || document.body;
     if (scope === document.body && scope.dataset.gsInit === "true") return;
@@ -613,6 +1258,10 @@
     initTabs(scope);
     initAccordions(scope);
     initMenus(scope);
+    initSelects(scope);
+    initDatePickers(scope);
+    initDataTables(scope);
+    initTooltips(scope);
     bindComposer(scope);
     bindFeed(scope);
     bindInteractions(scope);
@@ -623,6 +1272,10 @@
     init,
     showToast,
     closeMenus,
+    initSelects,
+    initDatePickers,
+    initDataTables,
+    initTooltips,
     announceToScreenReader: (message, priority) => {
       const liveRegion = document.getElementById("gs-live-region") || createLiveRegion();
       liveRegion.setAttribute("aria-live", priority || "polite");

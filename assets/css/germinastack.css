@@ -2033,6 +2033,878 @@ kbd {
   padding-left: 18px;
 }
 
+/* ==========================================================================
+   SELECT / COMBOBOX
+   ========================================================================== */
+.gs-select {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.gs-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-md);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--gs-ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--gs-fast) ease, box-shadow var(--gs-fast) ease, background var(--gs-fast) ease;
+}
+
+.gs-select-trigger:hover {
+  border-color: var(--gs-border);
+  background: rgba(255, 255, 255, 1);
+}
+
+.gs-select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--gs-focus-ring-color);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-select-trigger[aria-expanded="true"] {
+  border-color: var(--gs-primary);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-select-trigger.is-disabled,
+.gs-select-trigger[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gs-select-value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gs-select-placeholder {
+  color: var(--gs-steel);
+}
+
+.gs-select-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: var(--gs-steel);
+  transition: transform var(--gs-fast) ease;
+}
+
+.gs-select-trigger[aria-expanded="true"] .gs-select-icon {
+  transform: rotate(180deg);
+}
+
+.gs-select-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-md);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--gs-shadow-float);
+  backdrop-filter: blur(8px);
+}
+
+.gs-select-panel[hidden] {
+  display: none;
+}
+
+.gs-select-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  color: var(--gs-ink);
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--gs-fast) ease;
+}
+
+.gs-select-option:hover,
+.gs-select-option:focus,
+.gs-select-option[aria-selected="true"] {
+  background: rgba(11, 31, 58, 0.06);
+}
+
+.gs-select-option:focus-visible {
+  outline: none;
+  background: rgba(11, 31, 58, 0.06);
+}
+
+.gs-select-option[aria-selected="true"] {
+  font-weight: 600;
+  color: var(--gs-primary);
+}
+
+.gs-select-option.is-disabled,
+.gs-select-option[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gs-select-option[role="separator"] {
+  height: 1px;
+  margin: 4px 0;
+  padding: 0;
+  background: var(--gs-hairline);
+  cursor: default;
+}
+
+.gs-select-option[role="separator"]:hover,
+.gs-select-option[role="separator"]:focus {
+  background: var(--gs-hairline);
+}
+
+.gs-select-search {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--gs-hairline);
+}
+
+.gs-select-search input {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--gs-ink);
+  font-size: 13px;
+  transition: border-color var(--gs-fast) ease, box-shadow var(--gs-fast) ease;
+}
+
+.gs-select-search input:focus-visible {
+  outline: none;
+  border-color: var(--gs-focus-ring-color);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-select-empty {
+  padding: 16px;
+  text-align: center;
+  color: var(--gs-steel);
+  font-size: 13px;
+}
+
+/* ==========================================================================
+   DATE PICKER / DATE RANGE PICKER
+   ========================================================================== */
+.gs-datepicker {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gs-datepicker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-md);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--gs-ink);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--gs-fast) ease, box-shadow var(--gs-fast) ease, background var(--gs-fast) ease;
+}
+
+.gs-datepicker-trigger:hover {
+  border-color: var(--gs-border);
+  background: rgba(255, 255, 255, 1);
+}
+
+.gs-datepicker-trigger:focus-visible {
+  outline: none;
+  border-color: var(--gs-focus-ring-color);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datepicker-trigger[aria-expanded="true"] {
+  border-color: var(--gs-primary);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datepicker-trigger.is-disabled,
+.gs-datepicker-trigger[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gs-datepicker-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  color: var(--gs-steel);
+}
+
+.gs-datepicker-panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  padding: 12px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-md);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--gs-shadow-float);
+  backdrop-filter: blur(8px);
+}
+
+.gs-datepicker-panel[hidden] {
+  display: none;
+}
+
+.gs-datepicker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.gs-datepicker-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  border: none;
+  border-radius: var(--gs-radius-sm);
+  background: transparent;
+  color: var(--gs-ink);
+  font-size: 16px;
+  cursor: pointer;
+  transition: background var(--gs-fast) ease, color var(--gs-fast) ease;
+}
+
+.gs-datepicker-nav:hover {
+  background: rgba(11, 31, 58, 0.06);
+  color: var(--gs-primary);
+}
+
+.gs-datepicker-nav:focus-visible {
+  outline: none;
+  background: rgba(11, 31, 58, 0.06);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datepicker-nav.is-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.gs-datepicker-title {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--gs-ink);
+}
+
+.gs-datepicker-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.gs-datepicker-weekday {
+  padding: 6px 0;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gs-steel);
+}
+
+.gs-datepicker-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  min-height: 36px;
+  border: none;
+  border-radius: var(--gs-radius-sm);
+  background: transparent;
+  color: var(--gs-ink);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--gs-fast) ease, color var(--gs-fast) ease;
+}
+
+.gs-datepicker-day:hover:not(.is-disabled):not(.is-outside):not(.is-selected):not(.is-range-start):not(.is-range-end):not(.is-in-range) {
+  background: rgba(11, 31, 58, 0.06);
+}
+
+.gs-datepicker-day:focus-visible {
+  outline: none;
+  background: rgba(11, 31, 58, 0.06);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datepicker-day.is-today {
+  color: var(--gs-primary);
+  font-weight: 700;
+}
+
+.gs-datepicker-day.is-selected {
+  background: var(--gs-primary);
+  color: #fff;
+}
+
+.gs-datepicker-day.is-range-start,
+.gs-datepicker-day.is-range-end {
+  background: var(--gs-primary);
+  color: #fff;
+  border-radius: var(--gs-radius-sm) 0 0 var(--gs-radius-sm);
+}
+
+.gs-datepicker-day.is-range-end {
+  border-radius: 0 var(--gs-radius-sm) var(--gs-radius-sm) 0;
+}
+
+.gs-datepicker-day.is-in-range {
+  background: rgba(255, 179, 71, 0.18);
+  color: var(--gs-primary);
+  border-radius: 0;
+}
+
+.gs-datepicker-day.is-outside {
+  color: var(--gs-steel);
+  opacity: 0.4;
+}
+
+.gs-datepicker-day.is-disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.gs-datepicker-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gs-hairline);
+}
+
+.gs-datepicker-range {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.gs-datepicker-range .gs-input {
+  width: auto;
+  min-width: 140px;
+}
+
+/* ==========================================================================
+   DATA TABLE
+   ========================================================================== */
+.gs-datatable {
+  overflow-x: auto;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-md);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.gs-datatable table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gs-datatable th,
+.gs-datatable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gs-hairline-soft);
+  text-align: left;
+  font-size: 13px;
+}
+
+.gs-datatable th {
+  color: var(--gs-slate);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(244, 248, 253, 0.8);
+  white-space: nowrap;
+  cursor: default;
+}
+
+.gs-datatable th[aria-sort] {
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--gs-fast) ease, color var(--gs-fast) ease;
+}
+
+.gs-datatable th[aria-sort]:hover {
+  background: rgba(244, 248, 253, 1);
+  color: var(--gs-primary);
+}
+
+.gs-datatable th[aria-sort]:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datatable th[aria-sort="ascending"]::after,
+.gs-datatable th[aria-sort="descending"]::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+.gs-datatable th[aria-sort="ascending"]::after {
+  border-bottom: 5px solid var(--gs-primary);
+}
+
+.gs-datatable th[aria-sort="descending"]::after {
+  border-top: 5px solid var(--gs-primary);
+}
+
+.gs-datatable th[aria-sort="none"]::after {
+  border-bottom: 5px solid var(--gs-steel);
+  opacity: 0.3;
+}
+
+.gs-datatable tbody tr {
+  transition: background var(--gs-fast) ease;
+}
+
+.gs-datatable tbody tr:hover {
+  background: rgba(244, 248, 253, 0.8);
+}
+
+.gs-datatable tbody tr.is-selected {
+  background: rgba(255, 179, 71, 0.12);
+}
+
+.gs-datatable td {
+  color: var(--gs-ink);
+}
+
+.gs-datatable .gs-datatable-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.gs-datatable .gs-datatable-actions button {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.gs-datatable-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gs-hairline);
+  background: rgba(244, 248, 253, 0.6);
+  border-radius: var(--gs-radius-md) var(--gs-radius-md) 0 0;
+}
+
+.gs-datatable-search {
+  flex: 1;
+  max-width: 300px;
+}
+
+.gs-datatable-search .gs-input {
+  width: 100%;
+}
+
+.gs-datatable-pagination {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--gs-hairline);
+  background: rgba(244, 248, 253, 0.6);
+  border-radius: 0 0 var(--gs-radius-md) var(--gs-radius-md);
+}
+
+.gs-datatable-pagination button {
+  min-height: 32px;
+  min-width: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-sm);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--gs-ink);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--gs-fast) ease, background var(--gs-fast) ease, color var(--gs-fast) ease;
+}
+
+.gs-datatable-pagination button:hover:not(:disabled) {
+  border-color: var(--gs-border);
+  background: rgba(255, 255, 255, 1);
+}
+
+.gs-datatable-pagination button:focus-visible {
+  outline: none;
+  border-color: var(--gs-focus-ring-color);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-datatable-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gs-datatable-pagination .gs-page-info {
+  margin-left: auto;
+  color: var(--gs-steel);
+  font-size: 13px;
+}
+
+.gs-datatable-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--gs-steel);
+}
+
+/* ==========================================================================
+   TOOLTIP / POPOVER
+   ========================================================================== */
+.gs-tooltip,
+.gs-popover {
+  position: absolute;
+  z-index: 60;
+  max-width: 280px;
+  padding: 8px 12px;
+  border: 1px solid var(--gs-hairline);
+  border-radius: var(--gs-radius-sm);
+  background: rgba(11, 31, 58, 0.96);
+  color: var(--gs-white);
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: var(--gs-shadow-float);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity var(--gs-fast) ease, visibility var(--gs-fast) ease, transform var(--gs-fast) ease;
+}
+
+.gs-tooltip[hidden],
+.gs-popover[hidden] {
+  display: none;
+}
+
+.gs-tooltip.is-visible,
+.gs-popover.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.gs-tooltip::before,
+.gs-popover::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+}
+
+.gs-tooltip[data-placement^="top"]::before,
+.gs-popover[data-placement^="top"]::before {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--gs-hairline);
+}
+
+.gs-tooltip[data-placement^="bottom"]::before,
+.gs-popover[data-placement^="bottom"]::before {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--gs-hairline);
+}
+
+.gs-tooltip[data-placement^="left"]::before,
+.gs-popover[data-placement^="left"]::before {
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: var(--gs-hairline);
+}
+
+.gs-tooltip[data-placement^="right"]::before,
+.gs-popover[data-placement^="right"]::before {
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: var(--gs-hairline);
+}
+
+.gs-tooltip::after,
+.gs-popover::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+}
+
+.gs-tooltip[data-placement^="top"]::after,
+.gs-popover[data-placement^="top"]::after {
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: rgba(11, 31, 58, 0.96);
+}
+
+.gs-tooltip[data-placement^="bottom"]::after,
+.gs-popover[data-placement^="bottom"]::after {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: rgba(11, 31, 58, 0.96);
+}
+
+.gs-tooltip[data-placement^="left"]::after,
+.gs-popover[data-placement^="left"]::after {
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left-color: rgba(11, 31, 58, 0.96);
+}
+
+.gs-tooltip[data-placement^="right"]::after,
+.gs-popover[data-placement^="right"]::after {
+  left: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-right-color: rgba(11, 31, 58, 0.96);
+}
+
+.gs-popover {
+  max-width: 360px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--gs-ink);
+}
+
+.gs-popover::after {
+  border-top-color: rgba(255, 255, 255, 0.98);
+  border-bottom-color: rgba(255, 255, 255, 0.98);
+  border-left-color: rgba(255, 255, 255, 0.98);
+  border-right-color: rgba(255, 255, 255, 0.98);
+}
+
+.gs-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gs-hairline);
+}
+
+.gs-popover-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gs-ink);
+}
+
+.gs-popover-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--gs-radius-sm);
+  background: transparent;
+  color: var(--gs-steel);
+  cursor: pointer;
+  transition: background var(--gs-fast) ease, color var(--gs-fast) ease;
+}
+
+.gs-popover-close:hover {
+  background: rgba(11, 31, 58, 0.06);
+  color: var(--gs-ink);
+}
+
+.gs-popover-close:focus-visible {
+  outline: none;
+  background: rgba(11, 31, 58, 0.06);
+  box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-popover-body {
+  padding: 12px 16px;
+}
+
+.gs-popover-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--gs-hairline);
+}
+
+.gs-popover-foot .gs-btn {
+  min-height: 32px;
+  padding: 0 14px;
+  font-size: 13px;
+}
+
+/* High contrast mode support for new components */
+@media (prefers-contrast: high) {
+  .gs-select-trigger,
+  .gs-datepicker-trigger,
+  .gs-datatable th,
+  .gs-datatable td,
+  .gs-popover {
+    border-color: currentColor;
+  }
+  
+  .gs-select-option[aria-selected="true"],
+  .gs-datepicker-day.is-selected,
+  .gs-datepicker-day.is-range-start,
+  .gs-datepicker-day.is-range-end {
+    background: CanvasText;
+    color: Canvas;
+  }
+  
+  .gs-tooltip,
+  .gs-popover {
+    border-color: currentColor;
+    background: Canvas;
+    color: CanvasText;
+  }
+  
+  .gs-popover::after {
+    border-top-color: Canvas;
+    border-bottom-color: Canvas;
+    border-left-color: Canvas;
+    border-right-color: Canvas;
+  }
+}
+
+/* Forced colors mode support for new components */
+@media (forced-colors: active) {
+  .gs-select-trigger,
+  .gs-datepicker-trigger,
+  .gs-select-panel,
+  .gs-datepicker-panel,
+  .gs-datatable,
+  .gs-popover {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background: Canvas;
+  }
+  
+  .gs-select-option,
+  .gs-datepicker-day {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+  }
+  
+  .gs-select-option[aria-selected="true"],
+  .gs-select-option:hover,
+  .gs-select-option:focus,
+  .gs-datepicker-day.is-selected,
+  .gs-datepicker-day:hover:not(.is-disabled),
+  .gs-datepicker-day:focus-visible {
+    background: Highlight;
+    color: HighlightText;
+  }
+  
+  .gs-tooltip {
+    forced-color-adjust: none;
+    background: InfoBackground;
+    color: InfoText;
+    border-color: InfoText;
+  }
+  
+  .gs-tooltip::after {
+    border-top-color: InfoBackground;
+    border-bottom-color: InfoBackground;
+    border-left-color: InfoBackground;
+    border-right-color: InfoBackground;
+  }
+  
+  .gs-popover {
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+  
+  .gs-popover::after {
+    border-top-color: Canvas;
+    border-bottom-color: Canvas;
+    border-left-color: Canvas;
+    border-right-color: Canvas;
+  }
+  
+  .gs-datatable th[aria-sort="ascending"]::after,
+  .gs-datatable th[aria-sort="descending"]::after {
+    border-color: CanvasText;
+  }
+}
+
+/* Reduced motion support for new components */
+@media (prefers-reduced-motion: reduce) {
+  .gs-select-trigger,
+  .gs-select-icon,
+  .gs-select-option,
+  .gs-datepicker-trigger,
+  .gs-datepicker-nav,
+  .gs-datepicker-day,
+  .gs-datatable th[aria-sort],
+  .gs-datatable tbody tr,
+  .gs-tooltip,
+  .gs-popover,
+  .gs-popover-close {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
 @keyframes gs-menu-in {
   from {
     opacity: 0;
