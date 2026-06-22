@@ -56,6 +56,13 @@
   --gs-duration-fast: 140ms;
   --gs-duration-base: 220ms;
   --gs-duration-slow: 420ms;
+  --gs-primary: var(--gs-orange);
+  --gs-primary-strong: var(--gs-orange-pressed);
+  --gs-border: var(--gs-hairline-strong);
+  --gs-white: #ffffff;
+  --gs-fast: var(--gs-duration-fast);
+  --gs-focus-ring-color: rgba(255, 179, 71, 0.24);
+  --gs-focus-ring-width: 3px;
   /* Accessibility tokens */
   --gs-focus-ring: 3px solid var(--gs-orange);
   --gs-focus-ring-offset: 3px;
@@ -1032,6 +1039,21 @@ select:focus-visible,
   gap: 8px;
 }
 
+.gs-form-hint,
+.gs-form-error {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.gs-form-hint {
+  color: var(--gs-steel);
+}
+
+.gs-form-error {
+  color: var(--gs-danger);
+  font-weight: 700;
+}
+
 .gs-label {
   color: var(--gs-charcoal);
   font-size: 13px;
@@ -1040,19 +1062,25 @@ select:focus-visible,
 
 .gs-input,
 .gs-textarea,
-.gs-select,
-.gs-input-shell {
+.gs-input-shell,
+.gs-select-native select {
   border: 1px solid var(--gs-hairline-strong);
   border-radius: var(--gs-radius-sm);
   background: rgba(255, 255, 255, 0.92);
 }
 
 .gs-input,
-.gs-select {
+.gs-select-native select {
   width: 100%;
   min-height: 46px;
   padding: 0 14px;
   color: var(--gs-ink);
+}
+
+.gs-input::placeholder,
+.gs-textarea::placeholder,
+.gs-select-native select:invalid {
+  color: var(--gs-steel);
 }
 
 .gs-textarea {
@@ -1071,12 +1099,64 @@ select:focus-visible,
   padding: 8px 12px;
 }
 
+.gs-select-native {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gs-select-native::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--gs-steel);
+  border-bottom: 2px solid var(--gs-steel);
+  transform: rotate(45deg) translateY(-2px);
+  pointer-events: none;
+}
+
+.gs-select-native select {
+  appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(247, 250, 254, 0.96));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.gs-select-native select:hover {
+  border-color: rgba(11, 31, 58, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 1), rgba(244, 248, 253, 1));
+}
+
+.gs-select-native select::-ms-expand {
+  display: none;
+}
+
 .gs-input-shell:focus-within,
 .gs-input:focus,
 .gs-textarea:focus,
-.gs-select:focus {
+.gs-select-native select:focus {
   border-color: rgba(11, 31, 58, 0.24);
   box-shadow: 0 0 0 3px rgba(17, 87, 184, 0.08);
+}
+
+.gs-input:disabled,
+.gs-textarea:disabled,
+.gs-select-native select:disabled {
+  background: linear-gradient(180deg, rgba(236, 241, 247, 0.95), rgba(229, 236, 244, 0.95));
+  color: var(--gs-muted);
+  cursor: not-allowed;
+}
+
+.gs-input[aria-invalid="true"],
+.gs-textarea[aria-invalid="true"],
+.gs-select-native select[aria-invalid="true"] {
+  border-color: var(--gs-danger);
+  background: linear-gradient(180deg, rgba(255, 250, 250, 0.98), rgba(255, 240, 240, 0.98));
 }
 
 .gs-input-shell input {
@@ -2157,6 +2237,11 @@ kbd {
 .gs-select-option[aria-selected="true"] {
   font-weight: 600;
   color: var(--gs-primary);
+  background: rgba(255, 179, 71, 0.14);
+}
+
+.gs-select-option[aria-current="true"] {
+  box-shadow: inset 0 0 0 2px rgba(11, 31, 58, 0.12);
 }
 
 .gs-select-option.is-disabled,
@@ -2199,6 +2284,24 @@ kbd {
   outline: none;
   border-color: var(--gs-focus-ring-color);
   box-shadow: 0 0 0 var(--gs-focus-ring-width) var(--gs-focus-ring-color);
+}
+
+.gs-select-group {
+  padding: 8px 0;
+}
+
+.gs-select-group + .gs-select-group {
+  border-top: 1px solid var(--gs-hairline-soft);
+}
+
+.gs-select-group-label {
+  display: block;
+  padding: 0 14px 6px;
+  color: var(--gs-steel);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .gs-select-empty {
@@ -2512,6 +2615,10 @@ kbd {
   background: rgba(255, 179, 71, 0.12);
 }
 
+.gs-datatable tbody tr:focus-within {
+  box-shadow: inset 0 0 0 2px rgba(255, 179, 71, 0.22);
+}
+
 .gs-datatable td {
   color: var(--gs-ink);
 }
@@ -2543,7 +2650,8 @@ kbd {
   max-width: 300px;
 }
 
-.gs-datatable-search .gs-input {
+.gs-datatable-search .gs-input,
+.gs-datatable-filter-input {
   width: 100%;
 }
 
@@ -2722,6 +2830,7 @@ kbd {
   padding: 0;
   background: rgba(255, 255, 255, 0.98);
   color: var(--gs-ink);
+  pointer-events: auto;
 }
 
 .gs-popover::after {

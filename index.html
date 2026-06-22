@@ -13,6 +13,7 @@
     <script src="./assets/js/docs.js" defer></script>
   </head>
   <body>
+    <a class="gs-skip-link" href="#conteudo-principal">Pular para o conteudo principal</a>
     <header class="gs-topbar">
       <a class="gs-brand" href="#top">
         <span class="gs-brand-mark">GS</span>
@@ -24,7 +25,7 @@
       </nav>
     </header>
 
-    <main id="top" class="gs-page gs-stack">
+    <main id="conteudo-principal" class="gs-page gs-stack" tabindex="-1">
       <section class="gs-hero">
         <div>
           <span class="gs-kicker">HTML + CSS + JS vanilla</span>
@@ -283,19 +284,44 @@ GerminaStack-Prototype/</code></pre>
               <div class="gs-grid-2">
                 <label class="gs-form-group">
                   <span class="gs-label">Título</span>
-                  <input class="gs-input" type="text" placeholder="Ex.: Resumo de IA" />
+                  <input class="gs-input" type="text" placeholder="Ex.: Resumo de IA" aria-describedby="hint-titulo" />
+                  <span id="hint-titulo" class="gs-form-hint">Use um titulo curto e objetivo.</span>
                 </label>
                 <label class="gs-form-group">
                   <span class="gs-label">Turma</span>
-                  <select class="gs-select">
-                    <option>2a Tec E</option>
-                    <option>1a Tec A</option>
-                  </select>
+                  <span class="gs-select-native">
+                    <select aria-label="Selecionar turma">
+                      <option>2a Tec E</option>
+                      <option>1a Tec A</option>
+                      <option>1a Tec B</option>
+                    </select>
+                  </span>
+                </label>
+              </div>
+              <div class="gs-grid-2">
+                <label class="gs-form-group">
+                  <span class="gs-label">Categoria</span>
+                  <span class="gs-select-native">
+                    <select aria-label="Selecionar categoria">
+                      <option>Projetos</option>
+                      <option>Avisos</option>
+                      <option>Materiais</option>
+                    </select>
+                  </span>
+                </label>
+                <label class="gs-form-group">
+                  <span class="gs-label">Estado</span>
+                  <span class="gs-select-native">
+                    <select aria-label="Selecionar estado" disabled>
+                      <option>Aguardando permissao</option>
+                    </select>
+                  </span>
                 </label>
               </div>
               <label class="gs-form-group">
                 <span class="gs-label">Conteúdo</span>
-                <textarea class="gs-textarea" placeholder="Escreva algo para o feed..."></textarea>
+                <textarea class="gs-textarea" placeholder="Escreva algo para o feed..." aria-describedby="erro-conteudo" aria-invalid="true"></textarea>
+                <span id="erro-conteudo" class="gs-form-error">Exemplo de estado invalido com mensagem associada.</span>
               </label>
               <div class="gs-inline-form">
                 <input class="gs-input" type="email" placeholder="Email para atualização" />
