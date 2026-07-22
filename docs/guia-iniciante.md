@@ -96,7 +96,54 @@ Quando adicionar HTML depois que a página já carregou, inicialize apenas o tre
 window.GerminaStackUI.init(document.querySelector("#conteudo-novo"));
 ```
 
-## 6. Ajuste cores sem copiar componentes
+## 6. Carregue dados de uma API
+
+Use o helper do kit para chamadas JSON. Ele transforma um objeto em JSON, aceita headers normais e lança erro quando a API responde com status de erro.
+
+```js
+async function carregarPosts() {
+  const lista = document.querySelector("#posts");
+  lista.setAttribute("aria-busy", "true");
+
+  try {
+    const posts = await window.GerminaStackUI.request("/api/posts", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    lista.replaceChildren(...posts.map((post) => {
+      const item = document.createElement("article");
+      const titulo = document.createElement("strong");
+      const resumo = document.createElement("p");
+      item.className = "gs-card";
+      titulo.textContent = post.title;
+      resumo.textContent = post.summary;
+      item.append(titulo, resumo);
+      return item;
+    }));
+  } catch (error) {
+    window.GerminaStackUI.showToast({
+      title: "Não foi possível carregar os posts",
+      message: error.message,
+      tone: "danger",
+    });
+  } finally {
+    lista.removeAttribute("aria-busy");
+  }
+}
+```
+
+Use `textContent`, como no exemplo, para dados vindos de API. Não coloque texto externo direto em `innerHTML`.
+
+Para enviar dados:
+
+```js
+const post = await window.GerminaStackUI.request("/api/posts", {
+  method: "POST",
+  body: { title: "Novo post", summary: "Conteúdo enviado pelo formulário" },
+});
+```
+
+## 7. Ajuste cores sem copiar componentes
 
 Coloque seus ajustes depois do stylesheet do kit:
 
@@ -110,12 +157,38 @@ Coloque seus ajustes depois do stylesheet do kit:
 
 Evite editar `node_modules`. Atualizações apagariam essas mudanças.
 
-## 7. Confira antes de entregar
+## 8. Confira antes de entregar
 
 1. Navegue pela tela usando somente `Tab`, `Enter`, `Space` e `Esc`.
 2. Veja se todo campo tem um `<label>` ou `aria-label`.
 3. Abra [index.html](../index.html) para exemplos completos.
 4. Use [playground.html](../playground.html) para experimentar componentes sem mexer na aplicação.
+
+## Acessibilidade obrigatória
+
+O runtime valida automaticamente o conteúdo quando ele é carregado. Se encontrar um erro, destaca o elemento em vermelho e mostra a correção no console do navegador.
+
+```html
+<!-- Imagem informativa: descreva o conteúdo -->
+<img src="grafico.png" alt="Matrículas cresceram 18% em junho" />
+
+<!-- Imagem decorativa: declare alt vazio -->
+<img src="enfeite.svg" alt="" />
+
+<!-- Campo: associe um label ou use aria-label -->
+<label for="email">Seu e-mail</label>
+<input id="email" type="email" />
+
+<!-- Botão só com ícone: dê um nome -->
+<button type="button" aria-label="Fechar modal">×</button>
+```
+
+Você também pode validar um trecho criado depois:
+
+```js
+const erros = window.GerminaStackUI.validateAccessibility(document.querySelector("#conteudo-novo"));
+console.log(erros); // elementos que ainda precisam de correção
+```
 
 ## Para quem mantém esta biblioteca
 

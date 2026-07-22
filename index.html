@@ -333,11 +333,11 @@ playground.html</code></pre>
                 <span id="erro-conteudo" class="gs-form-error">Exemplo de estado invalido com mensagem associada.</span>
               </label>
               <div class="gs-inline-form">
-                <input class="gs-input" type="email" placeholder="Email para atualização" />
+                <input class="gs-input" type="email" placeholder="Email para atualização" aria-label="Email para atualização" />
                 <button class="gs-btn gs-btn-primary" type="button">Assinar</button>
               </div>
               <div class="gs-input-shell">
-                <input type="text" placeholder="Adicionar comentário rápido" />
+                <input type="text" placeholder="Adicionar comentário rápido" aria-label="Adicionar comentário rápido" />
                 <button class="gs-btn gs-btn-ghost" type="button">Enviar</button>
               </div>
             </div>
@@ -639,8 +639,8 @@ playground.html</code></pre>
                   <button class="gs-btn gs-btn-secondary" type="button" data-gs-tooltip data-gs-tooltip-content="Dica à esquerda do elemento" data-gs-tooltip-placement="left">Tooltip esquerda</button>
                 </div>
                 <div class="gs-cluster" style="margin-top:12px">
-                  <button class="gs-btn gs-btn-primary" type="button" data-gs-popover data-gs-popover-trigger="click" data-gs-popover-title="Ações rápidas" data-gs-popover-content="&lt;button class='gs-btn gs-btn-secondary gs-btn-sm' type='button'&gt;Editar&lt;/button&gt;&lt;button class='gs-btn gs-btn-danger gs-btn-sm' type='button'&gt;Excluir&lt;/button&gt;">Popover clique</button>
-                  <button class="gs-btn gs-btn-ghost" type="button" data-gs-popover data-gs-popover-trigger="hover" data-gs-popover-title="Info" data-gs-popover-content="Conteúdo rico com <strong>HTML</strong> suportado">Popover hover</button>
+                  <button class="gs-btn gs-btn-primary" type="button" data-gs-popover data-gs-popover-trigger="click" data-gs-popover-title="Ações rápidas" data-gs-popover-content="Edite ou exclua este item pelo menu contextual.">Popover clique</button>
+                  <button class="gs-btn gs-btn-ghost" type="button" data-gs-popover data-gs-popover-trigger="hover" data-gs-popover-title="Info" data-gs-popover-content="Use popovers para contexto curto e texto simples.">Popover hover</button>
                 </div>
                 <div class="gs-doc-meta">
                   Tooltip: hover/foco · Popover: clique ou hover · <kbd>Esc</kbd> fecha · Posicionamento automático
@@ -735,7 +735,7 @@ playground.html</code></pre>
                         <p class="gs-post-copy">Acabei de fechar um fluxo de classificação de imagens e documentei o pipeline para a turma.</p>
                       </div>
                       <div class="gs-menu" data-gs-menu>
-                        <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false">...</button>
+                        <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false" aria-label="Abrir ações do post">...</button>
                         <div class="gs-menu-panel" data-gs-menu-panel hidden>
                           <button class="gs-menu-item" type="button">Copiar texto</button>
                           <button class="gs-menu-item" type="button">Salvar</button>
@@ -751,7 +751,7 @@ playground.html</code></pre>
                   </div>
                   <div class="gs-post-comments gs-hidden">
                     <div class="gs-input-shell" data-gs-comment-form>
-                      <input type="text" placeholder="Responder post" />
+                      <input type="text" placeholder="Responder post" aria-label="Responder post" />
                       <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
                     </div>
                     <div>
@@ -809,6 +809,11 @@ playground.html</code></pre>
                     <td><code>GerminaStackUI.showToast({ title, message, tone, duration })</code></td>
                     <td>Cria toast programaticamente com anúncio para leitor de tela</td>
                     <td>v1.0</td>
+                  </tr>
+                  <tr>
+                    <td><code>GerminaStackUI.request(url, options)</code></td>
+                    <td>Faz requisições JSON, serializa body simples e lança erros HTTP com status e resposta</td>
+                    <td>v1.3</td>
                   </tr>
                   <tr>
                     <td><code>GerminaStackUI.closeMenus()</code></td>

@@ -41,6 +41,58 @@
     }, 1000);
   }
 
+  async function request(url, options = {}) {
+    const { body, headers, ...init } = options;
+    const isJson = body && typeof body === "object" && !(body instanceof FormData) && !(body instanceof URLSearchParams) && !(body instanceof Blob);
+    const requestHeaders = new Headers(headers);
+    if (!requestHeaders.has("Accept")) requestHeaders.set("Accept", "application/json");
+    if (isJson && !requestHeaders.has("Content-Type")) requestHeaders.set("Content-Type", "application/json");
+
+    const response = await fetch(url, { ...init, headers: requestHeaders, body: isJson ? JSON.stringify(body) : body });
+    const text = await response.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+    if (response.ok) return data;
+
+    const error = new Error(data?.message || `Falha na requisição (${response.status})`);
+    error.status = response.status;
+    error.data = data;
+    throw error;
+  }
+
+  function hasAccessibleName(element) {
+    if (element.getAttribute("aria-label")?.trim()) return true;
+    const labelledBy = element.getAttribute("aria-labelledby");
+    if (labelledBy && labelledBy.split(/\s+/).some((id) => document.getElementById(id)?.textContent.trim())) return true;
+    if ("labels" in element && element.labels?.length) return true;
+    if (element.closest("label")) return true;
+    return /[A-Za-zÀ-ÿ0-9]/.test(element.textContent || "");
+  }
+
+  function validateAccessibility(root) {
+    const scope = root || document.body;
+    const elements = (selector) => qsa(scope, selector);
+    const report = (element, message) => {
+      if (!element.hasAttribute("data-gs-a11y-error")) console.error(`[GerminaStackUI] ${message}`, element);
+      element.setAttribute("data-gs-a11y-error", message);
+    };
+    const clear = (element) => element.removeAttribute("data-gs-a11y-error");
+
+    elements("img").forEach((image) => {
+      if (image.hasAttribute("alt")) clear(image);
+      else report(image, "Imagens precisam de alt. Use alt=\"\" apenas se forem decorativas.");
+    });
+    elements('input:not([type="hidden"]), textarea, select').forEach((control) => {
+      if (hasAccessibleName(control)) clear(control);
+      else report(control, "Campos precisam de <label>, aria-label ou aria-labelledby.");
+    });
+    elements("button, a[href]").forEach((control) => {
+      if (hasAccessibleName(control)) clear(control);
+      else report(control, "Botões e links precisam de texto ou aria-label.");
+    });
+    return elements("[data-gs-a11y-error]");
+  }
+
   function icon(name) {
     const paths = {
       close: '<path d="M18 6 6 18"></path><path d="m6 6 12 12"></path>',
@@ -574,11 +626,27 @@
         layer = document.createElement("div");
         layer.className = isPopover ? "gs-popover" : "gs-tooltip";
         layer.setAttribute("data-placement", placement);
+        layer.setAttribute("role", isPopover ? "dialog" : "tooltip");
         layer.hidden = true;
         if (isPopover) {
-          layer.innerHTML = `${title ? `<div class="gs-popover-header"><h4>${escapeHtml(title)}</h4><button type="button" class="gs-popover-close" aria-label="Fechar">${icon("close")}</button></div>` : ""}<div class="gs-popover-body">${content}</div>`;
-          const closeBtn = qs(layer, ".gs-popover-close");
-          if (closeBtn) closeBtn.addEventListener("click", hideLayer);
+          if (title) {
+            const header = document.createElement("div");
+            const heading = document.createElement("h4");
+            const closeBtn = document.createElement("button");
+            header.className = "gs-popover-header";
+            heading.textContent = title;
+            closeBtn.className = "gs-popover-close";
+            closeBtn.type = "button";
+            closeBtn.setAttribute("aria-label", "Fechar");
+            closeBtn.textContent = "×";
+            closeBtn.addEventListener("click", hideLayer);
+            header.append(heading, closeBtn);
+            layer.appendChild(header);
+          }
+          const body = document.createElement("div");
+          body.className = "gs-popover-body";
+          body.textContent = content;
+          layer.appendChild(body);
         } else {
           layer.textContent = content;
         }
@@ -788,12 +856,14 @@
     bindComposer(scope);
     bindFeed(scope);
     bindInteractions(scope);
+    validateAccessibility(scope);
     if (scope === document.body) scope.dataset.gsInit = "true";
   }
 
   window.GerminaStackUI = {
     init,
     showToast,
+    request,
     closeMenus,
     openModal,
     closeModal,
@@ -805,6 +875,7 @@
     initDatePickers,
     initDataTables,
     initTooltips,
+    validateAccessibility,
   };
 
   if (document.readyState === "loading") {

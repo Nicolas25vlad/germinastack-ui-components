@@ -3,6 +3,7 @@
 Kit de componentes em HTML, CSS e JavaScript vanilla. Sem framework ou dependências; a manutenção usa apenas um build nativo do Node para gerar `dist/`.
 
 Começando agora? Leia o [guia para iniciantes](./docs/guia-iniciante.md).
+Antes de produção, leia o [guia de segurança](./docs/seguranca.md).
 
 ## Instalação
 
@@ -123,8 +124,12 @@ Edite somente `src/`, rode `npm run build` e nunca altere `dist/` manualmente.
 
 - `window.GerminaStackUI.init(root)`
   Inicializa um escopo novo quando markup é inserido dinamicamente (tabs, menus, toasts, dismiss, accordion, selects, datepickers, datatables, tooltips).
+- `window.GerminaStackUI.validateAccessibility(root)`
+  Marca e informa imagens sem `alt`, campos sem label/nome e botões ou links sem nome acessível.
 - `window.GerminaStackUI.showToast({ title, message, tone, duration })`
   Dispara toast programaticamente.
+- `window.GerminaStackUI.request(url, options)`
+  Consome uma API JSON com serialização de body e erros HTTP normalizados.
 - `window.GerminaStackUI.closeMenus()`
   Fecha todos os menus contextuais abertos.
 - `window.GerminaStackUI.openModal(modalEl)`
@@ -300,14 +305,14 @@ Edite somente `src/`, rode `npm run build` e nunca altere `dist/` manualmente.
         data-gs-popover 
         data-gs-popover-trigger="click" 
         data-gs-popover-title="Ações" 
-        data-gs-popover-content="<button class='gs-btn gs-btn-sm'>Editar</button>">
+        data-gs-popover-content="Ações disponíveis para este item.">
   Clique para ver
 </button>
 ```
 
 **Tooltip atributos**: `data-gs-tooltip`, `data-gs-tooltip-content`, `data-gs-tooltip-placement` (`top|right|bottom|left`)
 
-**Popover atributos**: `data-gs-popover`, `data-gs-popover-trigger` (`hover|click`), `data-gs-popover-title`, `data-gs-popover-content` (suporta HTML)
+**Popover atributos**: `data-gs-popover`, `data-gs-popover-trigger` (`hover|click`), `data-gs-popover-title`, `data-gs-popover-content` (texto simples)
 
 **Teclado**: `Esc` fecha, foco move para popover ao abrir (trigger=click)
 

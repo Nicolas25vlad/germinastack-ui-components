@@ -479,9 +479,13 @@ select:focus-visible,
   display: none !important;
 }
 
+[data-gs-a11y-error] {
+  outline: 3px solid var(--gs-danger) !important;
+  outline-offset: 3px;
+}
+
 .gs-page {
   width: min(100%, 1320px);
   margin: 0 auto;
   padding: 92px 32px 64px;
 }
-
