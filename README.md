@@ -1,21 +1,82 @@
-# GerminaStack Componentes
+# GerminaStack UI Components
 
-Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-Prototype`.
+Kit de componentes em HTML, CSS e JavaScript vanilla. Sem framework ou dependências; a manutenção usa apenas um build nativo do Node para gerar `dist/`.
 
-## Estrutura real do repositório
+Começando agora? Leia o [guia para iniciantes](./docs/guia-iniciante.md).
 
-- `GerminaStack-Prototype/`
-  Referência visual e funcional original. Não é a base de consumo do time.
-- `assets/css/germinastack.css`
-  Tokens, layout, responsividade e componentes visuais.
-- `assets/js/germinastack.js`
-  Runtime do kit. Liga tabs, menu, dismiss, toast, modal, accordion e demos interativas.
-- `assets/js/docs.js`
-  Comportamento auxiliar da documentação.
-- `index.html`
-  Documentação viva com exemplos e contratos de uso.
-- `playground.html`
-  Composição completa com cenários mais próximos de tela real.
+## Instalação
+
+```bash
+npm install germinastack-ui-components
+```
+
+### Bundler
+
+```js
+import "germinastack-ui-components/styles.css";
+import "germinastack-ui-components";
+```
+
+O runtime é exposto como `window.GerminaStackUI`. Para markup inserido depois do carregamento, inicialize apenas o novo escopo:
+
+```js
+window.GerminaStackUI.init(document.querySelector("#nova-area"));
+```
+
+### HTML estático
+
+```html
+<link rel="stylesheet" href="./node_modules/germinastack-ui-components/dist/css/germinastack.css" />
+<script src="./node_modules/germinastack-ui-components/dist/js/germinastack.js" defer></script>
+```
+
+> Sirva `node_modules` pelo seu servidor local; o navegador não deve abrir esses arquivos diretamente via `file://`.
+
+## Uso mínimo
+
+```html
+<main class="gs-page">
+  <section class="gs-card">
+    <h1>Título</h1>
+    <button class="gs-btn gs-btn-primary" type="button">Continuar</button>
+  </section>
+</main>
+```
+
+O único stylesheet, `germinastack.css`, inclui contratos e aparência padrão. Para personalizar, sobrescreva os tokens `--gs-*` após o import.
+
+## Publicação
+
+```bash
+npm login
+npm run check
+npm publish
+```
+
+O nome `germinastack-ui-components` estava disponível no registry no momento da preparação. O `prepublishOnly` executa as validações antes do publish.
+
+## Estrutura do projeto
+
+```text
+src/                    # onde o time edita
+  css/
+    01-foundations.css  # tokens, reset e acessibilidade global
+    02-layout.css       # grid, página e navegação
+    03-actions-and-surfaces.css
+    04-content-and-forms.css
+    05-feedback-and-docs.css
+    06-advanced-components.css
+    07-theme.css        # aparência final e overrides
+  js/
+    germinastack.js     # runtime do kit
+    docs.js             # apenas para a página de documentação
+dist/                   # gerado; é o que aplicações e npm consomem
+scripts/build.mjs       # concatena CSS e copia os runtimes
+index.html              # documentação viva
+playground.html         # validação visual
+```
+
+Edite somente `src/`, rode `npm run build` e nunca altere `dist/` manualmente.
 
 ## O que o kit cobre hoje
 
@@ -34,8 +95,8 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 ## Bootstrap mínimo
 
 ```html
-<link rel="stylesheet" href="./assets/css/germinastack.css" />
-<script src="./assets/js/germinastack.js" defer></script>
+<link rel="stylesheet" href="./dist/css/germinastack.css" />
+<script src="./dist/js/germinastack.js" defer></script>
 
 <main class="gs-page">
   <section class="gs-card">Conteúdo</section>
@@ -266,9 +327,11 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 
 O kit implementa recursos de acessibilidade nativos. Antes de entregar, valide:
 
+O runtime completa o estado de tabs (`role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-hidden`), mantém o painel ativo focável, fecha modais com `Escape` restaurando o foco e atualiza `aria-expanded` nos comentários. Para novos componentes, prefira HTML nativo e só adicione ARIA quando o comportamento não puder ser expresso pelo elemento nativo.
+
 ### Checklist de acessibilidade
 
-- [ ] **Navegação por teclado**: Toda funcionalidade acessível via `Tab`, `Shift+Tab`, setas`, setas, `Enter`, `Space`, `Esc`
+- [ ] **Navegação por teclado**: Toda funcionalidade acessível via `Tab`, `Shift+Tab`, setas, `Enter`, `Space` e `Esc`
 - [ ] **Foco visível**: Anel de foco (`--gs-focus-ring-width`, `--gs-focus-ring-color`) visível em todos os elementos interativos
 - [ ] **Armadilha de foco em modais**: `Tab`/`Shift+Tab` cicla dentro do modal; foco restaura ao fechar
 - [ ] **Regiões ao vivo**: Toasts, accordion e modal anunciam mudanças via `aria-live`

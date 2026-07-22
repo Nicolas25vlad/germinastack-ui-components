@@ -1,0 +1,53 @@
+/* Product theme: kept in the public bundle so consumers load one stylesheet. */
+:root {
+  --gs-page: #f6f7f9;
+  --gs-canvas: #fff;
+  --gs-surface: #f0f2f5;
+  --gs-surface-soft: #fafbfc;
+  --gs-surface-strong: #e7eaee;
+  --gs-hairline: #d9dee5;
+  --gs-hairline-soft: #e8ebef;
+  --gs-hairline-strong: #bcc5d0;
+  --gs-ink: #202733;
+  --gs-charcoal: #3d4754;
+  --gs-slate: #697585;
+  --gs-steel: #84909e;
+  --gs-muted: #9aa5b1;
+  --gs-navy: #243447;
+  --gs-navy-deep: #182536;
+  --gs-navy-soft: #40556c;
+  --gs-orange: #e59a37;
+  --gs-orange-pressed: #c97d1d;
+  --gs-primary: var(--gs-navy);
+  --gs-primary-strong: var(--gs-navy-deep);
+  --gs-border: var(--gs-hairline);
+  --gs-radius-xs: 4px;
+  --gs-radius-sm: 7px;
+  --gs-radius-md: 10px;
+  --gs-radius-lg: 14px;
+  --gs-shadow-subtle: 0 1px 2px rgba(32, 39, 51, .04);
+  --gs-shadow-card: 0 8px 20px rgba(32, 39, 51, .08);
+  --gs-shadow-float: 0 18px 40px rgba(32, 39, 51, .16);
+}
+
+body { background: var(--gs-page); }
+.gs-topbar { padding: 12px 24px; border-bottom-color: #334457; background: var(--gs-navy-deep); backdrop-filter: none; }
+.gs-hero { padding: 40px; border-radius: var(--gs-radius-lg); background: var(--gs-navy); box-shadow: var(--gs-shadow-float); }
+.gs-hero::before, .gs-hero::after { display: none; }
+.gs-hero-mockup { border-radius: var(--gs-radius-md); box-shadow: none; }
+.gs-brand-mark { border-radius: var(--gs-radius-sm); background: var(--gs-orange); box-shadow: none; }
+.gs-nav-link:hover, .gs-nav-link.is-active, .gs-tool-button:hover, .gs-icon-button:hover { transform: none; }
+.gs-btn, .gs-card, .gs-feature-card, .gs-post, .gs-side-card, .gs-showcase-card { border-radius: var(--gs-radius-sm); }
+.gs-btn:hover, .gs-card:hover, .gs-feature-card:hover, .gs-post:hover, .gs-side-card:hover, .gs-showcase-card:hover { transform: none; }
+.gs-btn-primary { background: var(--gs-navy); box-shadow: none; }
+.gs-btn-primary:hover { background: var(--gs-navy-soft); }
+.gs-card, .gs-side-card, .gs-post, .gs-code-block, .gs-doc-panel, .gs-showcase-card, .gs-metric-card, .gs-stat-card, .gs-pricing-card, .gs-empty-state { background: var(--gs-canvas); box-shadow: var(--gs-shadow-subtle); backdrop-filter: none; }
+.gs-card:hover, .gs-side-card:hover, .gs-post:hover, .gs-feature-card:hover, .gs-showcase-card:hover, .gs-metric-card:hover, .gs-pricing-card:hover { box-shadow: var(--gs-shadow-card); }
+.gs-chip { border-radius: var(--gs-radius-sm); }
+.gs-btn:focus-visible, .gs-input:focus-visible, .gs-textarea:focus-visible, .gs-select-trigger:focus-visible, .gs-tab:focus-visible, .gs-nav-link:focus-visible { box-shadow: 0 0 0 3px rgba(229, 154, 55, .28); }
+
+@media (max-width: 760px) {
+  .gs-topbar { padding-inline: 16px; }
+  .gs-page { padding-inline: 16px; }
+  .gs-hero { padding: 24px; }
+}

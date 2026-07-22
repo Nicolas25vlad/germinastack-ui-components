@@ -8,9 +8,9 @@
       name="description"
       content="Kit de componentes vanilla derivado do prototipo GerminaStack, com documentacao forte, exemplos vivos e padroes de integracao."
     />
-    <link rel="stylesheet" href="./assets/css/germinastack.css" />
-    <script src="./assets/js/germinastack.js" defer></script>
-    <script src="./assets/js/docs.js" defer></script>
+    <link rel="stylesheet" href="./dist/css/germinastack.css" />
+    <script src="./dist/js/germinastack.js" defer></script>
+    <script src="./dist/js/docs.js" defer></script>
   </head>
   <body>
     <a class="gs-skip-link" href="#conteudo-principal">Pular para o conteudo principal</a>
@@ -72,7 +72,7 @@
           <span class="gs-metric-label">Consumo</span>
           <strong>Direto</strong>
           <p class="gs-card-subtitle">Tudo roda só abrindo os arquivos no navegador.</p>
-          <span class="gs-metric-foot">Sem plugin, sem build e sem framework</span>
+          <span class="gs-metric-foot">Sem plugin ou framework no consumo</span>
         </article>
         <article class="gs-metric-card gs-stack">
           <span class="gs-metric-label">Cobertura</span>
@@ -105,8 +105,8 @@
           </section>
           <section class="gs-doc-panel">
             <strong>Entradas do kit</strong>
-            <p><span class="gs-doc-inline-code">assets/css/germinastack.css</span></p>
-            <p><span class="gs-doc-inline-code">assets/js/germinastack.js</span></p>
+            <p><span class="gs-doc-inline-code">dist/css/germinastack.css</span></p>
+            <p><span class="gs-doc-inline-code">dist/js/germinastack.js</span></p>
             <div class="gs-doc-chip-row">
               <span class="gs-chip is-blue"><span class="gs-chip-dot"></span>layout</span>
               <span class="gs-chip is-mint"><span class="gs-chip-dot"></span>product UI</span>
@@ -148,8 +148,8 @@
                 <strong>Bootstrap mínimo</strong>
                 <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-install">Copiar</button>
               </div>
-              <pre><code id="code-install">&lt;link rel="stylesheet" href="./assets/css/germinastack.css" /&gt;
-&lt;script src="./assets/js/germinastack.js" defer&gt;&lt;/script&gt;
+              <pre><code id="code-install">&lt;link rel="stylesheet" href="./dist/css/germinastack.css" /&gt;
+&lt;script src="./dist/js/germinastack.js" defer&gt;&lt;/script&gt;
 
 &lt;main class="gs-page"&gt;
   &lt;section class="gs-card"&gt;Seu conteúdo&lt;/section&gt;
@@ -160,7 +160,7 @@
           <section id="estrutura" class="gs-doc-panel">
             <div class="gs-section-head">
               <h2>Estrutura</h2>
-              <p>A raiz do repositório concentra tudo que o time consome. A pasta do protótipo ficou isolada só como referência.</p>
+              <p>Edite fontes agrupadas em <span class="gs-doc-inline-code">src/</span>. O build gera <span class="gs-doc-inline-code">dist/</span>, que é a única pasta consumida pela aplicação e pelo pacote npm.</p>
             </div>
             <div class="gs-grid-2">
               <div class="gs-code-block">
@@ -168,28 +168,37 @@
                   <strong>Mapa de arquivos</strong>
                   <button class="gs-btn gs-btn-secondary" type="button" data-gs-copy="#code-structure">Copiar</button>
                 </div>
-                <pre><code id="code-structure">assets/
+                <pre><code id="code-structure">src/
   css/
-    germinastack.css
+    01-foundations.css
+    02-layout.css
+    03-actions-and-surfaces.css
+    04-content-and-forms.css
+    05-feedback-and-docs.css
+    06-advanced-components.css
+    07-theme.css
   js/
     germinastack.js
     docs.js
+dist/
+  css/germinastack.css
+  js/germinastack.js
+scripts/build.mjs
 index.html
-playground.html
-GerminaStack-Prototype/</code></pre>
+playground.html</code></pre>
               </div>
               <div class="gs-stack">
                 <div class="gs-card">
-                  <strong>index.html</strong>
-                  <p>Documentação viva com exemplos, contratos e snippets prontos para copiar.</p>
+                  <strong>src/</strong>
+                  <p>Único lugar para editar. Cada arquivo CSS tem uma responsabilidade clara e é concatenado na ordem numérica.</p>
                 </div>
                 <div class="gs-card">
-                  <strong>playground.html</strong>
-                  <p>Área de validação visual e funcional para encaixe de componentes antes de levar para tela real.</p>
+                  <strong>dist/</strong>
+                  <p>Resultado gerado do build. É o conteúdo importado pelo app e publicado no npm.</p>
                 </div>
                 <div class="gs-card">
-                  <strong>GerminaStack-Prototype</strong>
-                  <p>Fonte da linguagem visual e funcional. Não deve ser usado como base reutilizável do time.</p>
+                  <strong>scripts/build.mjs</strong>
+                  <p>Build nativo sem dependências. Rode <span class="gs-doc-inline-code">npm run build</span> após alterar <span class="gs-doc-inline-code">src/</span>.</p>
                 </div>
               </div>
             </div>
@@ -1027,7 +1036,7 @@ GerminaStackUI.closeModal(modal);  // restaura foco + anúncio</code></pre>
                 <strong>Modal</strong>
                 <ul class="gs-list">
                   <li><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd> — Ciclar dentro do modal</li>
-                  <li><kbd>Esc</kbd> — Fechar modal (via botão)</li>
+                  <li><kbd>Esc</kbd> — Fechar modal e devolver o foco ao gatilho</li>
                   <li>Foco automático no primeiro elemento interativo</li>
                 </ul>
               </div>
@@ -1142,6 +1151,11 @@ GerminaStackUI.announceToScreenReader('Erro ao salvar. Tente novamente.', 'asser
               <li><strong>Redução de movimento:</strong> No DevTools → Rendering → Emule <code>prefers-reduced-motion: reduce</code>. Animações e transições devem ser eliminadas.</li>
               <li><strong>Zoom:</strong> Amplie a página até 200% — o layout deve permanecer funcional sem scroll horizontal.</li>
             </ul>
+
+            <div class="gs-callout is-info">
+              <strong>Contrato mínimo para novos componentes</strong>
+              <p>Use elemento nativo primeiro, dê nome acessível a todo controle, exponha estado com ARIA somente quando o HTML nativo não cobrir o caso e garanta foco visível. O bundle principal já inclui os ajustes de foco e redução de movimento.</p>
+            </div>
 
             <h3>Checklist de acessibilidade por componente</h3>
             <ul class="gs-list">

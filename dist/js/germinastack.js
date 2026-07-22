@@ -152,6 +152,9 @@
     qsa(root, "[data-gs-panel]").forEach((panel) => {
       const active = panel.getAttribute("data-gs-panel") === id;
       panel.hidden = !active;
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-hidden", String(!active));
+      if (!panel.hasAttribute("tabindex")) panel.tabIndex = -1;
       if (active && focusPanel) panel.focus();
     });
   }
@@ -170,6 +173,7 @@
   function initTabs(root) {
     qsa(root, "[data-gs-tabs]").forEach((tabs) => {
       const active = qs(tabs, "[data-gs-tab].is-active") || qs(tabs, "[data-gs-tab]");
+      qsa(tabs, "[data-gs-tab]").forEach((tab) => tab.setAttribute("role", "tab"));
       if (active) activateTab(active, false);
     });
   }
@@ -650,7 +654,7 @@
         if (!text) return;
         const card = document.createElement("article");
         card.className = "gs-post";
-        card.innerHTML = `<div class="gs-post-body"><div class="gs-post-head"><span class="gs-avatar" style="background:#ffb347">N</span><div class="gs-post-user"><div class="gs-meta"><strong>Novo Post</strong><span>2a Tec E</span><span>agora</span></div><div class="gs-post-copy">${escapeHtml(text)}</div></div></div></div><div class="gs-post-foot"><button class="gs-action" type="button" data-gs-like>${icon("like")} <span data-gs-count>0</span></button><button class="gs-action" type="button" data-gs-comment-toggle>${icon("comment")} <span data-gs-count>0</span></button><button class="gs-action" type="button" data-gs-save>${icon("bookmark")} <span data-gs-save-label>Salvar</span></button></div><div class="gs-post-comments gs-hidden"><div class="gs-input-shell" data-gs-comment-form><input type="text" placeholder="Responder post" /><button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button></div><div></div></div>`;
+        card.innerHTML = `<div class="gs-post-body"><div class="gs-post-head"><span class="gs-avatar" style="background:#ffb347">N</span><div class="gs-post-user"><div class="gs-meta"><strong>Novo Post</strong><span>2a Tec E</span><span>agora</span></div><div class="gs-post-copy">${escapeHtml(text)}</div></div></div></div><div class="gs-post-foot"><button class="gs-action" type="button" data-gs-like>${icon("like")} <span data-gs-count>0</span></button><button class="gs-action" type="button" data-gs-comment-toggle aria-expanded="false">${icon("comment")} <span data-gs-count>0</span></button><button class="gs-action" type="button" data-gs-save>${icon("bookmark")} <span data-gs-save-label>Salvar</span></button></div><div class="gs-post-comments gs-hidden"><div class="gs-input-shell" data-gs-comment-form><input type="text" placeholder="Responder post" aria-label="Responder post" /><button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button></div><div></div></div>`;
         list.prepend(card);
         input.value = "";
       });
@@ -714,7 +718,11 @@
       }
       if (button.hasAttribute("data-gs-comment-toggle")) {
         const comments = button.closest(".gs-post")?.querySelector(".gs-post-comments");
-        if (comments) comments.classList.toggle("gs-hidden");
+        if (comments) {
+          const expanded = !comments.classList.contains("gs-hidden");
+          comments.classList.toggle("gs-hidden", expanded);
+          button.setAttribute("aria-expanded", String(!expanded));
+        }
         return;
       }
       if (button.hasAttribute("data-gs-tab")) {
@@ -738,8 +746,7 @@
       const target = event.target;
       if (event.key === "Escape") {
         closeMenus();
-        qsa(document, "[data-gs-modal]").forEach((modal) => { modal.hidden = true; });
-        document.body.style.overflow = "";
+        qsa(document, "[data-gs-modal]").filter((modal) => !modal.hidden).forEach(closeModal);
         return;
       }
       if (target.hasAttribute("data-gs-tab")) {

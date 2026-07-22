@@ -1,0 +1,34 @@
+{
+  "name": "germinastack-ui-components",
+  "version": "1.0.0",
+  "description": "Componentes HTML, CSS e JavaScript vanilla para interfaces GerminaStack.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./dist/js/germinastack.js",
+  "browser": "./dist/js/germinastack.js",
+  "style": "./dist/css/germinastack.css",
+  "exports": {
+    ".": "./dist/js/germinastack.js",
+    "./styles.css": "./dist/css/germinastack.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/css/germinastack.css",
+    "dist/js/germinastack.js",
+    "docs/guia-iniciante.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "design-system",
+    "ui-components",
+    "vanilla-js",
+    "css",
+    "germinastack"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "npm run build && node --check src/js/germinastack.js && node --check src/js/docs.js && npm pack --dry-run",
+    "prepublishOnly": "npm run check"
+  }
+}
