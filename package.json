@@ -1,6 +1,6 @@
 {
   "name": "germinastack-ui-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Componentes HTML, CSS e JavaScript vanilla para interfaces GerminaStack.",
   "license": "MIT",
   "type": "commonjs",
@@ -14,11 +14,13 @@
   },
   "files": [
     "dist/css/germinastack.css",
+    "dist/fonts/OpenDyslexic-Regular.woff2",
     "dist/js/germinastack.js",
     "docs/guia-iniciante.md",
     "docs/seguranca.md",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "licenses/OpenDyslexic-LICENSE.txt"
   ],
   "keywords": [
     "design-system",

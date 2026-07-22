@@ -157,7 +157,26 @@ Coloque seus ajustes depois do stylesheet do kit:
 
 Evite editar `node_modules`. Atualizações apagariam essas mudanças.
 
-## 8. Confira antes de entregar
+## 8. Facilite a leitura
+
+Para textos longos, use o modo de leitura. Ele inclui a fonte OpenDyslexic no próprio pacote e aumenta o espaçamento entre letras, palavras e linhas:
+
+```html
+<article class="gs-readable">
+  <h2>Texto mais confortável de ler</h2>
+  <p>O conteúdo continua com a semântica normal da sua página.</p>
+</article>
+```
+
+Escolha o espaçamento por bloco quando necessário:
+
+```html
+<article class="gs-readable" data-gs-letter-spacing="wide">...</article>
+```
+
+Use `normal` para remover somente o espaçamento extra de um elemento. Esses recursos são opcionais: deixe a escolha com quem está lendo.
+
+## 9. Confira antes de entregar
 
 1. Navegue pela tela usando somente `Tab`, `Enter`, `Space` e `Esc`.
 2. Veja se todo campo tem um `<label>` ou `aria-label`.

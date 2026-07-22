@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../fonts/OpenDyslexic-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
 :root {
   --gs-navy: #0b1f3a;
   --gs-navy-deep: #071427;
@@ -72,9 +80,32 @@
   --gs-skip-link-color: #fff;
   --gs-skip-link-focus-bg: var(--gs-orange);
   --gs-skip-link-focus-color: var(--gs-navy);
+  --gs-readable-font: "OpenDyslexic", Arial, sans-serif;
+  --gs-readable-letter-spacing: 0.03em;
+  --gs-readable-word-spacing: 0.08em;
+  --gs-readable-line-height: 1.65;
   color-scheme: light;
   font-family: "Segoe UI", Inter, Arial, sans-serif;
 }
+
+/* Opt-in reading mode for longer content. */
+.gs-readable,
+[data-gs-readable] {
+  font-family: var(--gs-readable-font);
+  letter-spacing: var(--gs-readable-letter-spacing);
+  word-spacing: var(--gs-readable-word-spacing);
+  line-height: var(--gs-readable-line-height);
+}
+
+.gs-readable :is(h1, h2, h3, h4, h5, h6, p, li, a, button, input, textarea, select),
+[data-gs-readable] :is(h1, h2, h3, h4, h5, h6, p, li, a, button, input, textarea, select) {
+  font-family: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+[data-gs-letter-spacing="normal"] { letter-spacing: normal; }
+[data-gs-letter-spacing="wide"] { letter-spacing: 0.06em; }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {

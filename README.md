@@ -46,6 +46,19 @@ window.GerminaStackUI.init(document.querySelector("#nova-area"));
 
 O único stylesheet, `germinastack.css`, inclui contratos e aparência padrão. Para personalizar, sobrescreva os tokens `--gs-*` após o import.
 
+### Leitura confortável
+
+O modo opt-in `gs-readable` usa a fonte local OpenDyslexic e espaçamento maior para conteúdos longos:
+
+```html
+<article class="gs-readable" data-gs-letter-spacing="wide">
+  <h2>Conteúdo para leitura</h2>
+  <p>O espaçamento pode ser normal ou wide.</p>
+</article>
+```
+
+A fonte e sua licença acompanham o pacote; não há requisição a CDN.
+
 ## Publicação
 
 ```bash

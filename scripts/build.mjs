@@ -12,6 +12,8 @@ const cssFiles = [
 
 await mkdir("dist/css", { recursive: true });
 await mkdir("dist/js", { recursive: true });
+await mkdir("dist/fonts", { recursive: true });
 await writeFile("dist/css/germinastack.css", (await Promise.all(cssFiles.map((file) => readFile(`src/css/${file}`, "utf8")))).join(""));
 await copyFile("src/js/germinastack.js", "dist/js/germinastack.js");
 await copyFile("src/js/docs.js", "dist/js/docs.js");
+await copyFile("src/fonts/OpenDyslexic-Regular.woff2", "dist/fonts/OpenDyslexic-Regular.woff2");
