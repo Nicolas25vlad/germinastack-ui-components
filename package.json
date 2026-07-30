@@ -3,6 +3,14 @@
   "version": "1.0.3",
   "description": "Componentes HTML, CSS e JavaScript vanilla para interfaces GerminaStack.",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Nicolas25vlad/germinastack-ui-components"
+  },
+  "bugs": {
+    "url": "https://github.com/Nicolas25vlad/germinastack-ui-components/issues"
+  },
+  "homepage": "https://github.com/Nicolas25vlad/germinastack-ui-components#readme",
   "type": "commonjs",
   "main": "./dist/js/germinastack.js",
   "module": "./dist/js/germinastack.mjs",
