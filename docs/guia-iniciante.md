@@ -189,7 +189,21 @@ Escolha o espaçamento por bloco quando necessário:
 
 Use `normal` para remover somente o espaçamento extra de um elemento. Esses recursos são opcionais: deixe a escolha com quem está lendo.
 
-## 9. Confira antes de entregar
+## 9. Use um tema de produto opcional
+
+O pacote também oferece temas de contraste que ficam separados do visual base. Importe `themes.css` depois de `styles.css` e aplique os atributos na raiz:
+
+```js
+import "germinastack-ui-components/styles.css";
+import "germinastack-ui-components/themes.css";
+
+document.documentElement.dataset.tema = "high_contrast";
+document.documentElement.dataset.fonte = "atkinson_hyperlegible";
+```
+
+Os valores de tema são `normal`, `dark`, `high_contrast`, `black_yellow` e `yellow_black`.
+
+## 10. Confira antes de entregar
 
 1. Navegue pela tela usando somente `Tab`, `Enter`, `Space` e `Esc`.
 2. Veja se todo campo tem um `<label>` ou `aria-label`.

@@ -1,4 +1,4 @@
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { copyFile, cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 
 const cssFiles = [
   "01-foundations.css",
@@ -17,6 +17,7 @@ const assets = {
     await Promise.all([mkdir("dist/css", { recursive: true }), mkdir("dist/fonts", { recursive: true })]);
     await writeFile("dist/css/germinastack.css", (await Promise.all(cssFiles.map((file) => readFile(`src/css/${file}`, "utf8")))).join("\n"));
     await cp("src/fonts", "dist/fonts", { recursive: true });
+    await copyFile("src/themes/product-themes.css", "dist/themes.css");
   },
 };
 
