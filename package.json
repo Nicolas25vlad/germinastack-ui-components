@@ -1,0 +1,45 @@
+{
+  "name": "germinastack-ui-components",
+  "version": "1.0.2",
+  "description": "Componentes HTML, CSS e JavaScript vanilla para interfaces GerminaStack.",
+  "license": "MIT",
+  "type": "commonjs",
+  "main": "./dist/js/germinastack.js",
+  "module": "./dist/js/germinastack.mjs",
+  "browser": "./dist/js/germinastack.js",
+  "style": "./dist/css/germinastack.css",
+  "exports": {
+    ".": {
+      "import": "./dist/js/germinastack.mjs",
+      "require": "./dist/js/germinastack.js"
+    },
+    "./styles.css": "./dist/css/germinastack.css",
+    "./copy-to-static": "./scripts/copy-to-static.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "scripts/copy-to-static.mjs",
+    "docs/guia-iniciante.md",
+    "docs/seguranca.md",
+    "README.md",
+    "LICENSE",
+    "licenses/OpenDyslexic-LICENSE.txt"
+  ],
+  "keywords": [
+    "design-system",
+    "ui-components",
+    "vanilla-js",
+    "css",
+    "germinastack"
+  ],
+  "scripts": {
+    "build": "rollup --config",
+    "watch": "rollup --config --watch",
+    "check": "npm run build && node --check rollup.config.mjs && node --check src/js/germinastack.js && npm pack --dry-run",
+    "prepublishOnly": "npm run check"
+  },
+  "devDependencies": {
+    "rollup": "^4.62.3"
+  }
+}

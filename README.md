@@ -1,21 +1,132 @@
-# GerminaStack Componentes
+# GerminaStack UI Components
 
-Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-Prototype`.
+Kit de componentes em HTML, CSS e JavaScript vanilla. Sem framework; o Rollup gera os arquivos públicos em `dist/`.
 
-## Estrutura real do repositório
+Começando agora? Leia o [guia para iniciantes](./docs/guia-iniciante.md).
+Antes de produção, leia o [guia de segurança](./docs/seguranca.md).
 
-- `GerminaStack-Prototype/`
-  Referência visual e funcional original. Não é a base de consumo do time.
-- `assets/css/germinastack.css`
-  Tokens, layout, responsividade e componentes visuais.
-- `assets/js/germinastack.js`
-  Runtime do kit. Liga tabs, menu, dismiss, toast, modal, accordion e demos interativas.
-- `assets/js/docs.js`
-  Comportamento auxiliar da documentação.
-- `index.html`
-  Documentação viva com exemplos e contratos de uso.
-- `playground.html`
-  Composição completa com cenários mais próximos de tela real.
+## Instalação
+
+```bash
+npm install germinastack-ui-components
+```
+
+### Bundler
+
+```js
+import "germinastack-ui-components/styles.css";
+import { Button, Card, ui } from "germinastack-ui-components";
+
+document.body.append(Card("Conteúdo"), Button({ label: "Continuar" }));
+ui.showToast({ title: "Pronto", message: "Kit carregado." });
+```
+
+O runtime é exposto como `window.GerminaStackUI`. Para markup inserido depois do carregamento, inicialize apenas o novo escopo:
+
+```js
+window.GerminaStackUI.init(document.querySelector("#nova-area"));
+```
+
+### HTML sem bundler
+
+Depois de copiar os arquivos para uma pasta pública, use os caminhos públicos — nunca `node_modules` diretamente:
+
+```html
+<link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
+<script src="/static/vendor/germinastack/js/germinastack.js" defer></script>
+```
+
+O runtime fica em `window.GerminaStackUI`; os exemplos `Button` e `Card` ficam em `window.GerminaStack`.
+
+### Projeto estático com postinstall
+
+Instale o pacote e coloque este script no `package.json` do projeto consumidor:
+
+```json
+{
+  "scripts": {
+    "postinstall": "node ./node_modules/germinastack-ui-components/scripts/copy-to-static.mjs ./static/vendor/germinastack"
+  }
+}
+```
+
+Depois de `npm install` ou `npm update`, os arquivos vão para `static/vendor/germinastack`. O CSS já encontra a fonte em `fonts/` nessa mesma pasta.
+
+## Uso mínimo
+
+```html
+<main class="gs-page">
+  <section class="gs-card">
+    <h1>Título</h1>
+    <button class="gs-btn gs-btn-primary" type="button">Continuar</button>
+  </section>
+</main>
+```
+
+O único stylesheet, `germinastack.css`, inclui contratos e aparência padrão. Para personalizar, sobrescreva os tokens `--gs-*` após o import.
+
+### Leitura confortável
+
+O modo opt-in `gs-readable` usa a fonte local OpenDyslexic e espaçamento maior para conteúdos longos:
+
+```html
+<article class="gs-readable" data-gs-letter-spacing="wide">
+  <h2>Conteúdo para leitura</h2>
+  <p>O espaçamento pode ser normal ou wide.</p>
+</article>
+```
+
+A fonte e sua licença acompanham o pacote; não há requisição a CDN.
+
+## Publicação
+
+```bash
+npm login
+npm run check
+npm publish
+```
+
+O nome `germinastack-ui-components` estava disponível no registry no momento da preparação. O `prepublishOnly` executa as validações antes do publish.
+
+### Publicação automática pelo GitHub Actions
+
+O workflow [publish.yml](./.github/workflows/publish.yml) roda após merge na `main`. Ele valida o pacote e publica somente quando a versão de `package.json` ainda não existe no npm.
+
+Antes do primeiro merge, configure o Trusted Publisher no npm para o pacote:
+
+1. npmjs.com → pacote → **Settings** → **Trusted Publisher** → GitHub Actions.
+2. Owner: `Nicolas25vlad`; Repository: `germinastack-ui-components`; Workflow: `publish.yml`.
+3. Autorize a ação `npm publish`.
+
+Isso usa OIDC e não exige salvar token npm no GitHub. Para lançar uma versão, altere `version` em uma PR e faça o merge depois do CI e da aprovação.
+
+## Estrutura do projeto
+
+```text
+src/                    # onde o time edita
+  css/
+    01-foundations.css  # tokens, reset e acessibilidade global
+    02-layout.css       # grid, página e navegação
+    03-actions-and-surfaces.css
+    04-content-and-forms.css
+    05-feedback-and-docs.css
+    06-advanced-components.css
+    07-theme.css        # aparência final e overrides
+  js/
+    germinastack.js     # runtime do kit
+    docs.js             # apenas para a página de documentação
+  components/
+    Button.js
+    Card.js
+  index.js              # entrada ESM
+dist/                   # gerado; é o que aplicações e npm consomem
+rollup.config.mjs       # gera UMD, ESM, CSS e fontes
+scripts/copy-to-static.mjs
+index.html              # documentação viva
+playground.html         # validação visual
+```
+
+Edite somente `src/`, rode `npm run build` e nunca altere `dist/` manualmente.
 
 ## O que o kit cobre hoje
 
@@ -34,8 +145,8 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 ## Bootstrap mínimo
 
 ```html
-<link rel="stylesheet" href="./assets/css/germinastack.css" />
-<script src="./assets/js/germinastack.js" defer></script>
+<link rel="stylesheet" href="./dist/css/germinastack.css" />
+<script src="./dist/js/germinastack.js" defer></script>
 
 <main class="gs-page">
   <section class="gs-card">Conteúdo</section>
@@ -62,8 +173,12 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 
 - `window.GerminaStackUI.init(root)`
   Inicializa um escopo novo quando markup é inserido dinamicamente (tabs, menus, toasts, dismiss, accordion, selects, datepickers, datatables, tooltips).
+- `window.GerminaStackUI.validateAccessibility(root)`
+  Marca e informa imagens sem `alt`, campos sem label/nome e botões ou links sem nome acessível.
 - `window.GerminaStackUI.showToast({ title, message, tone, duration })`
   Dispara toast programaticamente.
+- `window.GerminaStackUI.request(url, options)`
+  Consome uma API JSON com serialização de body e erros HTTP normalizados.
 - `window.GerminaStackUI.closeMenus()`
   Fecha todos os menus contextuais abertos.
 - `window.GerminaStackUI.openModal(modalEl)`
@@ -239,14 +354,14 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
         data-gs-popover 
         data-gs-popover-trigger="click" 
         data-gs-popover-title="Ações" 
-        data-gs-popover-content="<button class='gs-btn gs-btn-sm'>Editar</button>">
+        data-gs-popover-content="Ações disponíveis para este item.">
   Clique para ver
 </button>
 ```
 
 **Tooltip atributos**: `data-gs-tooltip`, `data-gs-tooltip-content`, `data-gs-tooltip-placement` (`top|right|bottom|left`)
 
-**Popover atributos**: `data-gs-popover`, `data-gs-popover-trigger` (`hover|click`), `data-gs-popover-title`, `data-gs-popover-content` (suporta HTML)
+**Popover atributos**: `data-gs-popover`, `data-gs-popover-trigger` (`hover|click`), `data-gs-popover-title`, `data-gs-popover-content` (texto simples)
 
 **Teclado**: `Esc` fecha, foco move para popover ao abrir (trigger=click)
 
@@ -266,9 +381,11 @@ Kit de componentes em HTML, CSS e JavaScript vanilla derivado do `GerminaStack-P
 
 O kit implementa recursos de acessibilidade nativos. Antes de entregar, valide:
 
+O runtime completa o estado de tabs (`role="tab"`, `role="tabpanel"`, `aria-selected`, `aria-hidden`), mantém o painel ativo focável, fecha modais com `Escape` restaurando o foco e atualiza `aria-expanded` nos comentários. Para novos componentes, prefira HTML nativo e só adicione ARIA quando o comportamento não puder ser expresso pelo elemento nativo.
+
 ### Checklist de acessibilidade
 
-- [ ] **Navegação por teclado**: Toda funcionalidade acessível via `Tab`, `Shift+Tab`, setas`, setas, `Enter`, `Space`, `Esc`
+- [ ] **Navegação por teclado**: Toda funcionalidade acessível via `Tab`, `Shift+Tab`, setas, `Enter`, `Space` e `Esc`
 - [ ] **Foco visível**: Anel de foco (`--gs-focus-ring-width`, `--gs-focus-ring-color`) visível em todos os elementos interativos
 - [ ] **Armadilha de foco em modais**: `Tab`/`Shift+Tab` cicla dentro do modal; foco restaura ao fechar
 - [ ] **Regiões ao vivo**: Toasts, accordion e modal anunciam mudanças via `aria-live`

@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GerminaStack UI Kit Playground</title>
-    <link rel="stylesheet" href="./assets/css/germinastack.css" />
-    <script src="./assets/js/germinastack.js" defer></script>
+    <link rel="stylesheet" href="./dist/css/germinastack.css" />
+    <script src="./dist/js/germinastack.js" defer></script>
   </head>
   <body>
     <div class="gs-splash" data-gs-splash data-gs-splash-delay="2200">
@@ -172,7 +172,7 @@
             <div class="gs-post-head">
               <span class="gs-avatar" style="background:#ffb347">N</span>
               <div class="gs-post-user">
-                <textarea placeholder="Compartilhe uma atualização com a turma..."></textarea>
+                <textarea placeholder="Compartilhe uma atualização com a turma..." aria-label="Compartilhe uma atualização com a turma"></textarea>
               </div>
             </div>
             <div class="gs-compose-foot">
@@ -205,7 +205,7 @@
                     </p>
                   </div>
                   <div class="gs-menu" data-gs-menu>
-                    <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false">...</button>
+                    <button class="gs-icon-button" type="button" data-gs-menu-trigger aria-expanded="false" aria-label="Abrir ações do post">...</button>
                     <div class="gs-menu-panel" data-gs-menu-panel hidden>
                       <button class="gs-menu-item" type="button" data-gs-toast data-gs-toast-title="Texto copiado" data-gs-toast-message="O conteúdo foi preparado para cópia." data-gs-toast-tone="success">Copiar texto</button>
                       <button class="gs-menu-item" type="button" data-gs-save><span data-gs-save-label>Salvar</span></button>
@@ -221,7 +221,7 @@
               </div>
               <div class="gs-post-comments gs-hidden">
                 <div class="gs-input-shell" data-gs-comment-form>
-                  <input type="text" placeholder="Responder post" />
+                  <input type="text" placeholder="Responder post" aria-label="Responder post" />
                   <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
                 </div>
                 <div>
@@ -280,7 +280,7 @@
               </div>
               <div class="gs-post-comments gs-hidden">
                 <div class="gs-input-shell" data-gs-comment-form>
-                  <input type="text" placeholder="Responder post" />
+                  <input type="text" placeholder="Responder post" aria-label="Responder post" />
                   <button class="gs-btn gs-btn-ghost" type="button" data-gs-comment-submit>Enviar</button>
                 </div>
                 <div></div>

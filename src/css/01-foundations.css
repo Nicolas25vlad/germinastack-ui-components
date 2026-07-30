@@ -1,0 +1,522 @@
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("../fonts/OpenDyslexic-Regular.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --gs-navy: #0b1f3a;
+  --gs-navy-deep: #071427;
+  --gs-navy-soft: #16345c;
+  --gs-orange: #ffb347;
+  --gs-orange-pressed: #ef9828;
+  --gs-orange-soft: #ffe1b5;
+  --gs-page: #eef3f8;
+  --gs-canvas: #ffffff;
+  --gs-surface: #f5f7fa;
+  --gs-surface-soft: #fbfcfe;
+  --gs-surface-strong: #e8eef6;
+  --gs-hairline: #dde5ef;
+  --gs-hairline-soft: #e8edf4;
+  --gs-hairline-strong: #c4d0de;
+  --gs-ink: #122033;
+  --gs-charcoal: #314255;
+  --gs-slate: #5c6f82;
+  --gs-steel: #7a8da2;
+  --gs-muted: #9fb0c2;
+  --gs-danger: #d63838;
+  --gs-success: #0f7b57;
+  --gs-info: #2063d4;
+  --gs-blue-bg: #eaf2ff;
+  --gs-blue-text: #1855c1;
+  --gs-amber-bg: #fff1cc;
+  --gs-amber-text: #875900;
+  --gs-rose-bg: #ffe3ef;
+  --gs-rose-text: #a41f58;
+  --gs-mint-bg: #dbf6e8;
+  --gs-mint-text: #0c6d4d;
+  --gs-sky-bg: #dff2ff;
+  --gs-sky-text: #0b5a8c;
+  --gs-lavender-bg: #ece7ff;
+  --gs-lavender-text: #5f48a7;
+  --gs-shadow-subtle: 0 1px 2px rgba(11, 31, 58, 0.05);
+  --gs-shadow-card: 0 10px 24px rgba(11, 31, 58, 0.08);
+  --gs-shadow-float: 0 32px 56px -24px rgba(11, 31, 58, 0.32);
+  --gs-shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 36px rgba(11, 31, 58, 0.24);
+  --gs-radius-xs: 8px;
+  --gs-radius-sm: 12px;
+  --gs-radius-md: 18px;
+  --gs-radius-lg: 28px;
+  --gs-radius-pill: 999px;
+  --gs-space-1: 4px;
+  --gs-space-2: 8px;
+  --gs-space-3: 12px;
+  --gs-space-4: 16px;
+  --gs-space-5: 20px;
+  --gs-space-6: 24px;
+  --gs-space-8: 32px;
+  --gs-space-10: 40px;
+  --gs-space-12: 48px;
+  --gs-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --gs-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --gs-duration-fast: 140ms;
+  --gs-duration-base: 220ms;
+  --gs-duration-slow: 420ms;
+  --gs-primary: var(--gs-orange);
+  --gs-primary-strong: var(--gs-orange-pressed);
+  --gs-border: var(--gs-hairline-strong);
+  --gs-white: #ffffff;
+  --gs-fast: var(--gs-duration-fast);
+  --gs-focus-ring-color: rgba(255, 179, 71, 0.24);
+  --gs-focus-ring-width: 3px;
+  /* Accessibility tokens */
+  --gs-focus-ring: 3px solid var(--gs-orange);
+  --gs-focus-ring-offset: 3px;
+  --gs-focus-ring-high-contrast: 3px solid #000;
+  --gs-focus-ring-offset-high-contrast: 3px;
+  --gs-skip-link-bg: var(--gs-navy);
+  --gs-skip-link-color: #fff;
+  --gs-skip-link-focus-bg: var(--gs-orange);
+  --gs-skip-link-focus-color: var(--gs-navy);
+  --gs-readable-font: "OpenDyslexic", Arial, sans-serif;
+  --gs-readable-letter-spacing: 0.03em;
+  --gs-readable-word-spacing: 0.08em;
+  --gs-readable-line-height: 1.65;
+  color-scheme: light;
+  font-family: "Segoe UI", Inter, Arial, sans-serif;
+}
+
+/* Opt-in reading mode for longer content. */
+.gs-readable,
+[data-gs-readable] {
+  font-family: var(--gs-readable-font);
+  letter-spacing: var(--gs-readable-letter-spacing);
+  word-spacing: var(--gs-readable-word-spacing);
+  line-height: var(--gs-readable-line-height);
+}
+
+.gs-readable :is(h1, h2, h3, h4, h5, h6, p, li, a, button, input, textarea, select),
+[data-gs-readable] :is(h1, h2, h3, h4, h5, h6, p, li, a, button, input, textarea, select) {
+  font-family: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+[data-gs-letter-spacing="normal"] { letter-spacing: normal; }
+[data-gs-letter-spacing="wide"] { letter-spacing: 0.06em; }
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --gs-orange: #cc8400;
+    --gs-orange-pressed: #996300;
+    --gs-orange-soft: #ffd9a3;
+    --gs-ink: #000;
+    --gs-charcoal: #1a1a1a;
+    --gs-slate: #333;
+    --gs-steel: #444;
+    --gs-muted: #555;
+    --gs-hairline: #000;
+    --gs-hairline-soft: #333;
+    --gs-hairline-strong: #000;
+    --gs-danger: #b00000;
+    --gs-success: #006000;
+    --gs-info: #0033cc;
+    --gs-page: #fff;
+    --gs-canvas: #fff;
+    --gs-surface: #f0f0f0;
+    --gs-surface-soft: #f5f5f5;
+    --gs-surface-strong: #e0e0e0;
+    --gs-blue-bg: #d0e0ff;
+    --gs-blue-text: #0033cc;
+    --gs-amber-bg: #fff0c0;
+    --gs-amber-text: #805000;
+    --gs-rose-bg: #ffe0ec;
+    --gs-rose-text: #800030;
+    --gs-mint-bg: #d0f0e0;
+    --gs-mint-text: #005030;
+    --gs-sky-bg: #d0e8ff;
+    --gs-sky-text: #004060;
+    --gs-lavender-bg: #e0d8ff;
+    --gs-lavender-text: #403080;
+  }
+}
+
+/* Forced colors mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  :root {
+    --gs-orange: ButtonText;
+    --gs-orange-pressed: ButtonText;
+    --gs-orange-soft: ButtonFace;
+    --gs-ink: ButtonText;
+    --gs-charcoal: ButtonText;
+    --gs-slate: GrayText;
+    --gs-steel: GrayText;
+    --gs-muted: GrayText;
+    --gs-hairline: ButtonBorder;
+    --gs-hairline-soft: ButtonBorder;
+    --gs-hairline-strong: ButtonBorder;
+    --gs-danger: #ff0000;
+    --gs-success: #008000;
+    --gs-info: #0000ff;
+    --gs-page: Canvas;
+    --gs-canvas: Canvas;
+    --gs-surface: Canvas;
+    --gs-surface-soft: Canvas;
+    --gs-surface-strong: Canvas;
+    --gs-blue-bg: Canvas;
+    --gs-blue-text: LinkText;
+    --gs-amber-bg: Canvas;
+    --gs-amber-text: ButtonText;
+    --gs-rose-bg: Canvas;
+    --gs-rose-text: ButtonText;
+    --gs-mint-bg: Canvas;
+    --gs-mint-text: ButtonText;
+    --gs-sky-bg: Canvas;
+    --gs-sky-text: ButtonText;
+    --gs-lavender-bg: Canvas;
+    --gs-lavender-text: ButtonText;
+    --gs-shadow-subtle: none;
+    --gs-shadow-card: none;
+    --gs-shadow-float: none;
+    --gs-shadow-glow: none;
+  }
+  
+  .gs-btn,
+  .gs-btn-primary,
+  .gs-btn-secondary,
+  .gs-btn-ghost,
+  .gs-btn-danger,
+  .gs-icon-button,
+  .gs-nav-link,
+  .gs-tab,
+  .gs-accordion-trigger,
+  .gs-menu-trigger,
+  .gs-chip {
+    forced-color-adjust: none;
+    border-color: currentColor;
+  }
+  
+  .gs-btn-primary {
+    background: ButtonFace;
+    color: ButtonText;
+  }
+  
+  .gs-btn-primary:hover,
+  .gs-btn-primary:focus {
+    background: Highlight;
+    color: HighlightText;
+  }
+  
+  .gs-card,
+  .gs-post,
+  .gs-side-card,
+  .gs-feature-card,
+  .gs-showcase-card {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+  }
+  
+  .gs-input,
+  .gs-textarea,
+  .gs-select {
+    border-color: ButtonBorder;
+    background: Canvas;
+    color: ButtonText;
+  }
+  
+  .gs-input:focus,
+  .gs-textarea:focus,
+  .gs-select:focus {
+    border-color: Highlight;
+    box-shadow: 0 0 0 2px Highlight;
+  }
+  
+  .gs-modal {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+  }
+  
+  .gs-toast {
+    border: 1px solid ButtonBorder;
+    background: Canvas;
+    color: ButtonText;
+  }
+  
+  .gs-badge {
+    border: 1px solid currentColor;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top right, rgba(255, 179, 71, 0.16), transparent 28%),
+    radial-gradient(circle at top left, rgba(32, 99, 212, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(11, 31, 58, 0.08), transparent 320px),
+    var(--gs-page);
+  color: var(--gs-ink);
+  font-family: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+.gs-card,
+.gs-feature-card,
+.gs-post,
+.gs-side-card,
+.gs-showcase-card {
+  transition:
+    background-color var(--gs-duration-fast) var(--gs-ease-standard),
+    border-color var(--gs-duration-fast) var(--gs-ease-standard),
+    color var(--gs-duration-fast) var(--gs-ease-standard),
+    box-shadow var(--gs-duration-fast) var(--gs-ease-standard),
+    opacity var(--gs-duration-fast) var(--gs-ease-standard),
+    transform var(--gs-duration-fast) var(--gs-ease-standard);
+}
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
+}
+
+/* Enhanced focus styles for specific interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+[role="menuitem"]:focus-visible,
+[role="option"]:focus-visible,
+.gs-btn:focus-visible,
+.gs-icon-button:focus-visible,
+.gs-nav-link:focus-visible,
+.gs-tab:focus-visible,
+.gs-accordion-trigger:focus-visible,
+.gs-menu-trigger:focus-visible,
+.gs-chip:focus-visible,
+.gs-input:focus-visible,
+.gs-textarea:focus-visible,
+.gs-select:focus-visible,
+.gs-card:focus-visible,
+.gs-post:focus-visible,
+.gs-side-card:focus-visible,
+.gs-feature-card:focus-visible,
+.gs-showcase-card:focus-visible {
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
+}
+
+/* Focus styles for high contrast mode */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline: var(--gs-focus-ring-high-contrast);
+    outline-offset: var(--gs-focus-ring-offset-high-contrast);
+  }
+}
+
+/* Skip link for keyboard navigation */
+.gs-skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  padding: var(--gs-space-3) var(--gs-space-6);
+  background: var(--gs-skip-link-bg);
+  color: var(--gs-skip-link-color);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: var(--gs-radius-pill);
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--gs-shadow-card);
+  transition: top var(--gs-duration-fast) var(--gs-ease-out);
+}
+
+.gs-skip-link:focus {
+  top: var(--gs-space-4);
+  outline: none;
+}
+
+.gs-skip-link:focus-visible {
+  top: var(--gs-space-4);
+  background: var(--gs-skip-link-focus-bg);
+  color: var(--gs-skip-link-focus-color);
+  outline: var(--gs-focus-ring);
+  outline-offset: var(--gs-focus-ring-offset);
+}
+
+/* Screen reader only utility */
+.gs-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ARIA state styles for accessibility */
+[aria-expanded="true"] {
+  /* Expanded state for accordions, menus, dropdowns */
+}
+
+[aria-expanded="false"] {
+  /* Collapsed state */
+}
+
+[aria-selected="true"] {
+  /* Selected state for tabs, options */
+}
+
+[aria-pressed="true"] {
+  /* Pressed state for toggle buttons */
+}
+
+[aria-disabled="true"],
+[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+[aria-current="page"],
+[aria-current="step"],
+[aria-current="location"],
+[aria-current="date"],
+[aria-current="time"] {
+  /* Current item in navigation, breadcrumbs, pagination */
+  font-weight: 700;
+}
+
+[aria-live="polite"],
+[aria-live="assertive"] {
+  /* Live regions for announcements */
+}
+
+[aria-hidden="true"] {
+  /* Hidden from screen readers but visible */
+}
+
+[aria-invalid="true"] {
+  /* Invalid form field */
+  border-color: var(--gs-danger) !important;
+  box-shadow: 0 0 0 3px rgba(214, 56, 56, 0.2) !important;
+}
+
+[aria-required="true"] {
+  /* Required field indicator */
+}
+
+[aria-busy="true"] {
+  /* Loading state */
+  cursor: progress;
+}
+
+/* Focus trap indicator for modals */
+.gs-modal:focus-within {
+  /* Modal has focus - focus trap active */
+}
+
+/* Keyboard navigation indicators */
+.gs-nav-link[aria-current="page"] {
+  color: var(--gs-navy);
+  font-weight: 700;
+}
+
+.gs-tab[aria-selected="true"] {
+  color: var(--gs-navy);
+  border-bottom-color: var(--gs-navy);
+}
+
+.gs-accordion-trigger[aria-expanded="true"] {
+  color: var(--gs-navy);
+}
+
+.gs-accordion-trigger[aria-expanded="true"] span:last-child {
+  transform: rotate(180deg);
+  transition: transform var(--gs-duration-fast) var(--gs-ease-standard);
+}
+
+.gs-menu-trigger[aria-expanded="true"] {
+  color: var(--gs-navy);
+}
+
+.gs-chip[aria-pressed="true"] {
+  background: var(--gs-navy);
+  color: #fff;
+  border-color: var(--gs-navy);
+}
+
+.gs-btn[aria-pressed="true"] {
+  background: var(--gs-navy);
+  color: #fff;
+  border-color: var(--gs-navy);
+}
+
+/* Toast live region */
+.gs-toast[role="alert"],
+.gs-toast[role="status"] {
+  /* Toast announcements handled by JS */
+}
+
+/* Modal focus trap */
+.gs-modal-backdrop:not([hidden]) .gs-modal {
+  /* Modal is open - focus should be trapped */
+}
+
+.gs-hidden {
+  display: none !important;
+}
+
+[data-gs-a11y-error] {
+  outline: 3px solid var(--gs-danger) !important;
+  outline-offset: 3px;
+}
+
+.gs-page {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  padding: 92px 32px 64px;
+}
