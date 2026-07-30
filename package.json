@@ -1,6 +1,6 @@
 {
   "name": "germinastack-ui-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Componentes HTML, CSS e JavaScript vanilla para interfaces GerminaStack.",
   "license": "MIT",
   "type": "commonjs",
@@ -14,6 +14,7 @@
       "require": "./dist/js/germinastack.js"
     },
     "./styles.css": "./dist/css/germinastack.css",
+    "./themes.css": "./dist/themes.css",
     "./copy-to-static": "./scripts/copy-to-static.mjs",
     "./package.json": "./package.json"
   },

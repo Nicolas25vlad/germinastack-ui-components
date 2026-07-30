@@ -78,6 +78,30 @@ O modo opt-in `gs-readable` usa a fonte local OpenDyslexic e espaçamento maior 
 
 A fonte e sua licença acompanham o pacote; não há requisição a CDN.
 
+### Temas de produto opcionais
+
+Importe o tema depois do stylesheet base e escolha os atributos no elemento `<html>`:
+
+```js
+import "germinastack-ui-components/styles.css";
+import "germinastack-ui-components/themes.css";
+
+document.documentElement.dataset.tema = "dark";
+document.documentElement.dataset.fonte = "open_dyslexic";
+```
+
+Temas disponíveis: `normal`, `dark`, `high_contrast`, `black_yellow` e `yellow_black`. Fontes: `normal`, `arial`, `verdana`, `lexend`, `atkinson_hyperlegible` e `open_dyslexic`.
+
+Em HTML estático, inclua `themes.css` depois de `germinastack.css`:
+
+```html
+<html data-tema="dark" data-fonte="open_dyslexic">
+  <head>
+    <link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
+    <link rel="stylesheet" href="/static/vendor/germinastack/themes.css" />
+  </head>
+```
+
 ## Publicação
 
 ```bash
