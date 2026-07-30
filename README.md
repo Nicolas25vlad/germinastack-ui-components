@@ -88,6 +88,18 @@ npm publish
 
 O nome `germinastack-ui-components` estava disponível no registry no momento da preparação. O `prepublishOnly` executa as validações antes do publish.
 
+### Publicação automática pelo GitHub Actions
+
+O workflow [publish.yml](./.github/workflows/publish.yml) roda após merge na `main`. Ele valida o pacote e publica somente quando a versão de `package.json` ainda não existe no npm.
+
+Antes do primeiro merge, configure o Trusted Publisher no npm para o pacote:
+
+1. npmjs.com → pacote → **Settings** → **Trusted Publisher** → GitHub Actions.
+2. Owner: `Nicolas25vlad`; Repository: `germinastack-ui-components`; Workflow: `publish.yml`.
+3. Autorize a ação `npm publish`.
+
+Isso usa OIDC e não exige salvar token npm no GitHub. Para lançar uma versão, altere `version` em uma PR e faça o merge depois do CI e da aprovação.
+
 ## Estrutura do projeto
 
 ```text
