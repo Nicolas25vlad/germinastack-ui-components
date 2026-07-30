@@ -1,6 +1,6 @@
 # GerminaStack UI Components
 
-Kit de componentes em HTML, CSS e JavaScript vanilla. Sem framework ou dependências; a manutenção usa apenas um build nativo do Node para gerar `dist/`.
+Kit de componentes em HTML, CSS e JavaScript vanilla. Sem framework; o Rollup gera os arquivos públicos em `dist/`.
 
 Começando agora? Leia o [guia para iniciantes](./docs/guia-iniciante.md).
 Antes de produção, leia o [guia de segurança](./docs/seguranca.md).
@@ -15,7 +15,10 @@ npm install germinastack-ui-components
 
 ```js
 import "germinastack-ui-components/styles.css";
-import "germinastack-ui-components";
+import { Button, Card, ui } from "germinastack-ui-components";
+
+document.body.append(Card("Conteúdo"), Button({ label: "Continuar" }));
+ui.showToast({ title: "Pronto", message: "Kit carregado." });
 ```
 
 O runtime é exposto como `window.GerminaStackUI`. Para markup inserido depois do carregamento, inicialize apenas o novo escopo:
@@ -24,14 +27,30 @@ O runtime é exposto como `window.GerminaStackUI`. Para markup inserido depois d
 window.GerminaStackUI.init(document.querySelector("#nova-area"));
 ```
 
-### HTML estático
+### HTML sem bundler
+
+Depois de copiar os arquivos para uma pasta pública, use os caminhos públicos — nunca `node_modules` diretamente:
 
 ```html
-<link rel="stylesheet" href="./node_modules/germinastack-ui-components/dist/css/germinastack.css" />
-<script src="./node_modules/germinastack-ui-components/dist/js/germinastack.js" defer></script>
+<link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
+<script src="/static/vendor/germinastack/js/germinastack.js" defer></script>
 ```
 
-> Sirva `node_modules` pelo seu servidor local; o navegador não deve abrir esses arquivos diretamente via `file://`.
+O runtime fica em `window.GerminaStackUI`; os exemplos `Button` e `Card` ficam em `window.GerminaStack`.
+
+### Projeto estático com postinstall
+
+Instale o pacote e coloque este script no `package.json` do projeto consumidor:
+
+```json
+{
+  "scripts": {
+    "postinstall": "node ./node_modules/germinastack-ui-components/scripts/copy-to-static.mjs ./static/vendor/germinastack"
+  }
+}
+```
+
+Depois de `npm install` ou `npm update`, os arquivos vão para `static/vendor/germinastack`. O CSS já encontra a fonte em `fonts/` nessa mesma pasta.
 
 ## Uso mínimo
 
@@ -84,8 +103,13 @@ src/                    # onde o time edita
   js/
     germinastack.js     # runtime do kit
     docs.js             # apenas para a página de documentação
+  components/
+    Button.js
+    Card.js
+  index.js              # entrada ESM
 dist/                   # gerado; é o que aplicações e npm consomem
-scripts/build.mjs       # concatena CSS e copia os runtimes
+rollup.config.mjs       # gera UMD, ESM, CSS e fontes
+scripts/copy-to-static.mjs
 index.html              # documentação viva
 playground.html         # validação visual
 ```

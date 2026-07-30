@@ -520,6 +520,7 @@ select:focus-visible,
   margin: 0 auto;
   padding: 92px 32px 64px;
 }
+
 .gs-stack {
   display: flex;
   flex-direction: column;
@@ -668,6 +669,7 @@ select:focus-visible,
   background: rgba(255, 255, 255, 0.14);
   color: #fff;
 }
+
 
 .gs-btn {
   display: inline-flex;
@@ -819,6 +821,7 @@ select:focus-visible,
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
 
 .gs-hero {
   position: relative;
@@ -1427,6 +1430,7 @@ select:focus-visible,
 .gs-menu-item.is-danger {
   color: var(--gs-danger);
 }
+
 
 .gs-toast-rail {
   position: fixed;
@@ -2147,6 +2151,7 @@ kbd {
   margin: 0;
   padding-left: 18px;
 }
+
 
 /* ==========================================================================
    SELECT / COMBOBOX
@@ -3229,6 +3234,7 @@ kbd {
     border: 1px solid #ccc;
   }
 }
+
 
 /* Product theme: restrained, editorial and intentionally low-decoration. */
 :root {

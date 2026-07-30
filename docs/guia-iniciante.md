@@ -18,14 +18,27 @@ Se o seu projeto usa Vite, React, Vue ou outro bundler, coloque isto no arquivo 
 
 ```js
 import "germinastack-ui-components/styles.css";
-import "germinastack-ui-components";
+import { Button, Card, ui } from "germinastack-ui-components";
+
+document.body.append(Card("Conteúdo"), Button({ label: "Continuar" }));
+ui.showToast({ title: "Pronto", message: "Kit carregado." });
 ```
 
-Se você escreve HTML direto, carregue os dois arquivos na página:
+Se você escreve HTML direto, copie os arquivos para uma pasta pública e carregue os dois arquivos na página:
 
 ```html
-<link rel="stylesheet" href="./node_modules/germinastack-ui-components/dist/css/germinastack.css" />
-<script src="./node_modules/germinastack-ui-components/dist/js/germinastack.js" defer></script>
+<link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
+<script src="/static/vendor/germinastack/js/germinastack.js" defer></script>
+```
+
+No `package.json` do projeto consumidor, automatize a cópia após instalar:
+
+```json
+{
+  "scripts": {
+    "postinstall": "node ./node_modules/germinastack-ui-components/scripts/copy-to-static.mjs ./static/vendor/germinastack"
+  }
+}
 ```
 
 Use um servidor local para abrir a página. Abrir o HTML com dois cliques (`file://`) pode impedir o navegador de acessar arquivos instalados.
