@@ -18,6 +18,7 @@ const assets = {
     await writeFile("dist/css/germinastack.css", (await Promise.all(cssFiles.map((file) => readFile(`src/css/${file}`, "utf8")))).join("\n"));
     await cp("src/fonts", "dist/fonts", { recursive: true });
     await copyFile("src/themes/product-themes.css", "dist/themes.css");
+    await copyFile("src/themes/product-notifications.css", "dist/notifications.css");
   },
 };
 
