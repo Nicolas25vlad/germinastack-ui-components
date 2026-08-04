@@ -507,7 +507,27 @@ body {
     word-spacing: 0.08em;
 }
 
+/**
+ * O pacote só embute o peso Regular (400) de OpenDyslexic
+ * (dist/fonts/OpenDyslexic-Regular.woff2, @font-face em src/css/01-foundations.css).
+ * Texto em <strong>/<b> pede peso 700, que não existe nessa fonte — o
+ * navegador sintetiza um "falso negrito" esticando o traçado, o que numa
+ * fonte já desenhada com traços grossos produz letras visivelmente
+ * espaçadas e distorcidas. Forçar peso normal evita a síntese; é também a
+ * recomendação de uso da própria OpenDyslexic, que não tem corte em negrito
+ * por design.
+ */
+[data-fonte="open_dyslexic"] strong,
+[data-fonte="open_dyslexic"] b {
+    font-weight: 400;
+}
+
 /*
+Lexend e Atkinson Hyperlegible não vêm embutidas no pacote (ao contrário de
+OpenDyslexic) e caem na pilha de fallback acima até serem adicionadas. Para
+embutir de verdade, adicione o arquivo em src/fonts/, o @font-face abaixo e
+inclua o arquivo na cópia de fontes do rollup.config.mjs.
+
 @font-face {
     font-family: "Lexend";
     src: url("../fonts/lexend.woff2") format("woff2");
@@ -517,12 +537,6 @@ body {
 @font-face {
     font-family: "Atkinson Hyperlegible";
     src: url("../fonts/atkinson-hyperlegible.woff2") format("woff2");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "OpenDyslexic";
-    src: url("../fonts/open-dyslexic.woff2") format("woff2");
     font-display: swap;
 }
 */

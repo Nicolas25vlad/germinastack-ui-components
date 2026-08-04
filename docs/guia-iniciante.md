@@ -203,7 +203,23 @@ document.documentElement.dataset.fonte = "atkinson_hyperlegible";
 
 Os valores de tema são `normal`, `dark`, `high_contrast`, `black_yellow` e `yellow_black`.
 
-## 10. Confira antes de entregar
+## 10. Use o popover de notificações opcional (GerminaStack)
+
+Assim como `themes.css`, `notifications.css` é um extra do produto GerminaStack, fora do
+kit — só quem monta o popover de notificações do cabeçalho (classes `.gs-notif-*`)
+precisa importar:
+
+```js
+import "germinastack-ui-components/styles.css";
+import "germinastack-ui-components/notifications.css";
+```
+
+Ele reaproveita o menu contextual do kit (`.gs-menu` / `.gs-menu-trigger` /
+`.gs-menu-panel`, o mesmo mecanismo usado por um botão de ações "⋮") e só ajusta largura
+e rolagem do painel para caber frases inteiras em vez de itens de uma linha. Sem ele, o
+popover ainda funciona, só que com o tamanho padrão do kit (240px, sem teto de altura).
+
+## 11. Confira antes de entregar
 
 1. Navegue pela tela usando somente `Tab`, `Enter`, `Space` e `Esc`.
 2. Veja se todo campo tem um `<label>` ou `aria-label`.

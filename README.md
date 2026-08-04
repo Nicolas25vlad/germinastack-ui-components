@@ -102,6 +102,26 @@ Em HTML estático, inclua `themes.css` depois de `germinastack.css`:
   </head>
 ```
 
+### Popover de notificações (opcional)
+
+Mesmo princípio de `themes.css`: um extra específico do produto GerminaStack, fora do
+kit, importado só por quem usa o popover de notificações do cabeçalho (classes
+`.gs-notif-*`). Reaproveita o menu contextual do kit (`.gs-menu` / `.gs-menu-panel`) só
+para dar mais largura e rolagem ao painel — sem isso, o popover funciona com o tamanho
+padrão do kit (240px, sem teto de altura).
+
+```js
+import "germinastack-ui-components/styles.css";
+import "germinastack-ui-components/notifications.css";
+```
+
+Em HTML estático:
+
+```html
+<link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
+<link rel="stylesheet" href="/static/vendor/germinastack/notifications.css" />
+```
+
 ## Publicação
 
 ```bash
@@ -142,6 +162,11 @@ src/                    # onde o time edita
   components/
     Button.js
     Card.js
+  themes/               # extras opcionais do produto, fora do kit
+    product-themes.css        # -> dist/themes.css
+    product-notifications.css # -> dist/notifications.css
+  fonts/
+    OpenDyslexic-Regular.woff2
   index.js              # entrada ESM
 dist/                   # gerado; é o que aplicações e npm consomem
 rollup.config.mjs       # gera UMD, ESM, CSS e fontes
