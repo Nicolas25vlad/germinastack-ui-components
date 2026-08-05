@@ -260,6 +260,10 @@ html {
 
 body {
   margin: 0;
+  /* Numa tela curta (login, cadastro, estado de erro) o body fica menor que a
+     janela e as camadas do fundo terminam antes da borda de baixo. */
+  min-height: 100vh;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at top right, rgba(255, 179, 71, 0.16), transparent 28%),
     radial-gradient(circle at top left, rgba(32, 99, 212, 0.12), transparent 34%),
@@ -285,6 +289,23 @@ select {
 button {
   border: 0;
   cursor: pointer;
+}
+
+/* Link de conteudo. O kit nao tinha nenhuma regra base para <a>, entao um link
+   escrito no corpo do texto caia no azul padrao do navegador (#0000ee), que
+   nao pertence a nenhuma paleta daqui e nao acompanha tema nenhum.
+   O seletor exclui os que ja tem classe: .gs-btn, .gs-nav-link, .gs-chip,
+   .gs-action e afins trazem a propria aparencia e nao devem ser tocados.
+   O sublinhado nao e enfeite: e o indicador nao-cromatico que o link precisa
+   ter para nao se distinguir do texto so pela cor (WCAG 1.4.1). */
+a:not([class]) {
+  color: var(--gs-navy);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a:not([class]):hover {
+  color: var(--gs-orange-pressed);
 }
 
 a,

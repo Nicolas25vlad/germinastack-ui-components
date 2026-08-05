@@ -130,6 +130,22 @@
   padding: 20px;
 }
 
+/* <fieldset class="gs-card"> e um uso legitimo: um grupo de radios (escolha de
+   tema, por exemplo) precisa de <fieldset>/<legend> para o leitor de tela
+   anunciar o nome do grupo. Mas a <legend> e posicionada na borda de cima do
+   fieldset e ignora o padding do card, entao o titulo encosta na borda e
+   parece transbordar. O float devolve a legend ao fluxo normal, ja dentro do
+   padding, sem custo nenhum de acessibilidade. */
+fieldset.gs-card > legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+}
+
+fieldset.gs-card > legend + * {
+  clear: both;
+}
+
 .gs-card:hover,
 .gs-side-card:hover,
 .gs-post:hover,
