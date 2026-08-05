@@ -639,17 +639,19 @@ inclua o arquivo na cópia de fontes do rollup.config.mjs.
  * As duas variáveis "-fonte" (contribuição da fonte, ver open_dyslexic acima)
  * e "-usuario" (esta seção) somam em vez de se substituir: quem usa
  * OpenDyslexic e pede espaçamento "grande" ganha os dois ajustes juntos.
+ *
+ * O valor padrão de cada uma vai no fallback do `var()`, e não num bloco
+ * `:root` — `:root` e `[data-fonte="..."]` têm a mesma especificidade (0,1,0),
+ * então um `:root` declarado aqui embaixo venceria por ordem de arquivo e
+ * zeraria a contribuição da fonte declarada na seção anterior.
  */
-:root {
-    --gsk-letter-spacing-fonte: 0em;
-    --gsk-word-spacing-fonte: 0em;
-    --gsk-letter-spacing-usuario: 0em;
-    --gsk-word-spacing-usuario: 0em;
-}
-
 body {
-    letter-spacing: calc(var(--gsk-letter-spacing-fonte) + var(--gsk-letter-spacing-usuario));
-    word-spacing: calc(var(--gsk-word-spacing-fonte) + var(--gsk-word-spacing-usuario));
+    letter-spacing: calc(
+        var(--gsk-letter-spacing-fonte, 0em) + var(--gsk-letter-spacing-usuario, 0em)
+    );
+    word-spacing: calc(
+        var(--gsk-word-spacing-fonte, 0em) + var(--gsk-word-spacing-usuario, 0em)
+    );
 }
 
 [data-espacamento="pequeno"] {
