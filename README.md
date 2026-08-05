@@ -88,14 +88,16 @@ import "germinastack-ui-components/themes.css";
 
 document.documentElement.dataset.tema = "dark";
 document.documentElement.dataset.fonte = "open_dyslexic";
+document.documentElement.dataset.espacamento = "grande";
+document.documentElement.dataset.tamanho = "grande";
 ```
 
-Temas disponíveis: `normal`, `dark`, `high_contrast`, `black_yellow` e `yellow_black`. Fontes: `normal`, `arial`, `verdana`, `lexend`, `atkinson_hyperlegible` e `open_dyslexic`.
+Temas disponíveis: `normal`, `dark`, `high_contrast`, `black_yellow` e `yellow_black`. Fontes: `normal`, `arial`, `verdana`, `lexend`, `atkinson_hyperlegible` e `open_dyslexic`. Espaçamento (`data-espacamento`): `normal`, `pequeno` e `grande` — ajusta letter-spacing/word-spacing do texto corrido. Tamanho (`data-tamanho`): `normal`, `pequeno` e `grande` — escala a página inteira via `zoom` (ver comentário em `src/themes/product-themes.css` sobre por que não é baseado em rem).
 
 Em HTML estático, inclua `themes.css` depois de `germinastack.css`:
 
 ```html
-<html data-tema="dark" data-fonte="open_dyslexic">
+<html data-tema="dark" data-fonte="open_dyslexic" data-espacamento="grande" data-tamanho="grande">
   <head>
     <link rel="stylesheet" href="/static/vendor/germinastack/css/germinastack.css" />
     <link rel="stylesheet" href="/static/vendor/germinastack/themes.css" />
