@@ -283,6 +283,16 @@ kbd {
   gap: 24px;
 }
 
+/* A coluna principal quase sempre comeca por algo curto (um rotulo de campo,
+   um titulo de secao) e a lateral por um card inteiro. Alinhados no topo exato
+   da grade, o card lateral parece subir demais em relacao ao conteudo. O
+   respiro vale so no layout de duas colunas: empilhado, quem separa e o gap. */
+@media (min-width: 1101px) {
+  .gs-layout-demo > aside {
+    margin-top: 26px;
+  }
+}
+
 .gs-showcase-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
